@@ -74,9 +74,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <span class="eta-strip-day">${esc(longDate(a.startsAt))}</span>
                 <span class="eta-strip-time">${time(a.startsAt)}–${time(a.endsAt)}</span>
               </div>
-              <div class="board-eta${c.live ? " is-live" : ""}">
-                <span class="eta-big">${esc(c.full || c.big)}${c.unit ? `<span class="eta-unit">${c.unit}</span>` : ""}</span>
-                ${c.unit || c.full ? "" : `<span class="eta-small">${esc(c.small)}</span>`}
+              <div class="board-eta">
+                <span class="eta-big">${esc(c.big)}${c.unit ? `<span class="eta-unit">${c.unit}</span>` : ""}</span>
+                ${c.unit ? "" : `<span class="eta-small">${esc(c.small)}</span>`}
               </div>
             </div>
 
