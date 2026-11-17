@@ -28,7 +28,7 @@ One place that follows a student across four areas of growth, from finding an ac
 ## Operating Context
 
 - **Four areas:** Service Learning, Outdoor Appreciation, Healthy Living, Community Leadership. Every activity belongs to one area.
-- **Core features (all students):** browse activities by area and date; contact the organiser (a drafted message opened in email, WhatsApp or Telegram; the student presses send); find a buddy; activity journal with photos and optional start and end times; summary of hours and activities per area; reminders (sent by the bot); compile a reflection and a LinkedIn post.
+- **Core features (all students):** browse activities by area and date (public, no sign-in needed to look); join an activity in the app, which counts spots and closes at the sign-up deadline; contact the organiser (a drafted message opened in email, WhatsApp or Telegram; the student presses send); find a buddy; activity journal with photos and optional start and end times; summary of hours and activities per area; reminders (sent by the bot); compile a reflection and a LinkedIn post.
 - **Optional award tracker (off by default):** hour targets per area and progress, a goal per area with verifier and approver, a Community Leadership project write-up, and a log book export. Targets are settings. Example set: 60 hours Service Learning over 12 months, 36 hours Outdoor Appreciation, 48 hours Healthy Living over 18 months.
 - **Admin:** add activities through a form or import a CSV copied from the school's activity portal (a Microsoft Power Apps app).
 - **Sign-in:** two ways. The Telegram bot sends the student a personal link that signs them in, or the student signs in with their email. How email sign-in works (one-time code or password) is undecided.

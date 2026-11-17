@@ -31,13 +31,14 @@ Every activity belongs to one area.
 | # | Feature | Notes |
 |---|---|---|
 | 1 | **Browse activities by area** | Filter by area and date. |
-| 2 | **Contact the organiser** | A message is drafted for the student, with a link that opens email, WhatsApp or Telegram with it filled in. The student presses send. Nothing is sent automatically. |
-| 3 | **Find a buddy** | Shows other students interested in the same activity. Only students who opted in are visible, and Telegram usernames are shared only after both accept. |
-| 4 | **Activity journal with photos** | An entry has a date, text and photos, plus an optional start and end time so hours add up on their own. |
-| 5 | **Summary** | Hours and number of activities per area. No targets or deadlines. |
-| 6 | **Reminders** | A message the day before an activity the student saved, and a prompt afterwards to log it. |
-| 7 | **Compile** | Turns journal entries into a reflection and a LinkedIn post the student can copy. Uses templates, with an optional "polish with AI" step. |
-| 8 | **Admin** | Add activities through a form, or import a CSV. |
+| 2 | **Join in the app** | One tap to join. The app counts spots, closes sign-up at the deadline or when full, and lets the student leave again. Anyone can browse without signing in; joining needs sign-in. |
+| 3 | **Contact the organiser** | A message is drafted for the student, with a link that opens email, WhatsApp or Telegram with it filled in. The student presses send. Nothing is sent automatically. |
+| 4 | **Find a buddy** | Shows other students interested in the same activity. Only students who opted in are visible, and Telegram usernames are shared only after both accept. |
+| 5 | **Activity journal with photos** | An entry has a date, text and photos, plus an optional start and end time so hours add up on their own. |
+| 6 | **Summary** | Hours and number of activities per area. No targets or deadlines. |
+| 7 | **Reminders** | A message the day before an activity the student saved, and a prompt afterwards to log it. |
+| 8 | **Compile** | Turns journal entries into a reflection and a LinkedIn post the student can copy. Uses templates, with an optional "polish with AI" step. |
+| 9 | **Admin** | Add activities through a form, or import a CSV. |
 
 ### 4.2 Optional add-on: award tracker (expansion)
 
@@ -111,8 +112,8 @@ The workflows only read our own database, so the import method can change withou
 | Table | Main fields |
 |---|---|
 | Students | Telegram ID and username, name, course, areas of interest, buddy-matching consent, award tracker on or off |
-| Activities | Source ID, title, organiser, area, date, start and end time, location, contact type and contact detail, description |
-| Interests | Student, activity, date saved, contacted, attended |
+| Activities | Source ID, title, organiser, area, date, start and end time, location, total spots, sign-up deadline, contact type and contact detail, description, photo (optional) |
+| Sign-ups | Student, activity, date joined, left (if they left), attended |
 | Buddy requests | From, to, activity, status (pending, accepted, declined) |
 | Journal entries | Student, activity (optional), area, date, start and end time, hours, text |
 | Photos | Journal entry, Telegram file ID or storage link, caption |
@@ -173,3 +174,12 @@ If time runs short, phase 5 is described in the report as a future expansion and
 4. **Which award levels the tracker supports.** Our reference log sheet is for one level only.
 5. **Web sign-in:** how a student opens their own pages safely, for example a personal link sent by the bot.
 6. **Reply from IT** on portal access.
+
+## 12. Front end: how to run
+
+The website is plain HTML, CSS and JavaScript with no build step.
+
+1. From the repo folder, start any static server, for example `python -m http.server 8000`.
+2. Open http://localhost:8000.
+
+It uses sample data until the n8n API is ready. Sample sign-in: any email, code `123456`. The endpoints the front end expects are in [`docs/api.md`](docs/api.md). Switch to the real API in `js/config.js`.

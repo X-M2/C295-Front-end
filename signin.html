@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en-SG">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101820">
+  <title>Sign in</title>
+  <link rel="preload" href="assets/fonts/archivo-variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/app.css">
+  <script src="js/config.js" defer></script>
+  <script src="js/sample-data.js" defer></script>
+  <script src="js/api.js" defer></script>
+  <script src="js/ui.js" defer></script>
+  <script src="js/signin.js" defer></script>
+</head>
+<body>
+  <header class="top" data-header></header>
+
+  <main class="page page-narrow">
+    <h1>Sign in</h1>
+    <p class="lede">Join activities and see which friends are going.</p>
+
+    <div class="signin">
+      <section class="signin-option" aria-labelledby="bot-h">
+        <h2 id="bot-h">From Telegram</h2>
+        <p>Send <strong>/web</strong> to the bot. It replies with a personal link that signs you straight in.</p>
+        <a class="btn btn-block" href="#" data-bot-link target="_blank" rel="noopener">Open the bot in Telegram</a>
+        <p class="small muted" data-bot-handle></p>
+      </section>
+
+      <section class="signin-option" aria-labelledby="email-h">
+        <h2 id="email-h">With your email</h2>
+        <form class="stack" data-email-form novalidate>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="email" inputmode="email" required placeholder="you@myrp.edu.sg">
+          </div>
+          <p class="field-error" data-email-error role="alert"></p>
+          <button class="btn btn-primary btn-block" type="submit">Email me a sign-in code</button>
+        </form>
+
+        <form class="stack" data-code-form hidden novalidate>
+          <p data-code-sent></p>
+          <div class="field">
+            <label for="code">6-digit code</label>
+            <input id="code" name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" required>
+          </div>
+          <p class="field-error" data-code-error role="alert"></p>
+          <button class="btn btn-primary btn-block" type="submit">Sign in</button>
+          <button class="btn btn-quiet btn-block" type="button" data-change-email>Use a different email</button>
+        </form>
+      </section>
+    </div>
+    <p class="hint" data-sample-hint hidden>Sample mode: any email works, and the code is <strong>123456</strong>.</p>
+  </main>
+
+  <footer class="foot">
+    <p>C295 project by Zhen Kang, Jun Hao and Xingmeng, Republic Polytechnic.</p>
+  </footer>
+</body>
+</html>
