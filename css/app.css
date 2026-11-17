@@ -323,7 +323,6 @@ select {
 .row-date { display: grid; justify-items: center; line-height: 1; }
 .row-wd { font-size: var(--t-xs); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); }
 .row-dn { font-size: var(--t-2xl); font-weight: 750; font-stretch: 75%; margin: 3px 0 2px; }
-.row-meta > span:not(.code):not(.visually-hidden) + span::before { content: "·"; margin-right: 10px; color: var(--ink-3); }
 .row-mo { font-size: var(--t-xs); color: var(--ink-2); }
 
 .row-main { display: grid; gap: 6px; min-width: 0; }
@@ -507,8 +506,6 @@ select {
   .row > .row-going { grid-column: 3 / span 2; grid-row: 2; }
   .row > .row-spots { grid-column: 3; grid-row: 3; }
   .row > .row-act { grid-column: 4; grid-row: 3; align-self: end; }
-  .row-meta > span:last-child { flex-basis: 100%; }
-  .row-meta > span:last-child::before { content: none; }
   .row-act .btn { min-width: 92px; }
   .act-joined { justify-items: end; }
 

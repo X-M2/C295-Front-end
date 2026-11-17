@@ -198,8 +198,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           <p class="row-meta">
             ${pill(a.area, "code-sm")}
             <span class="visually-hidden">${window.ui.longDate(a.startsAt)},</span>
-            <span>${window.ui.time(a.startsAt)}–${window.ui.time(a.endsAt)}</span>
-            <span>${esc(a.location)}</span>
+            <span class="row-where">${window.ui.time(a.startsAt)}–${window.ui.time(a.endsAt)}&nbsp;· ${esc(a.location)}</span>
           </p>
         </div>
         <div class="row-going">${going(a)}</div>
@@ -228,7 +227,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       return { h: `You haven't joined any ${areaName}activities yet`, p: "Join something from Browse and it shows up here, with a countdown to the day." };
     }
     if (state.q) return { h: `No ${areaName}activities match “${esc(state.q)}”${when}`, p: "Check the spelling, or search for a place or organiser instead." };
-    if (!upcoming().length) return { h: "No activities are listed yet", p: "New activities are added every week. Check back soon, or ask the Telegram bot to tell you when one is added." };
+    if (!upcoming().length) return { h: "No activities are listed yet", p: "New activities are added every week. Check back soon." };
     if (listSkipsBoard() && boardItems().length) return { h: `That's everything ${areaName ? `in ${areaName.trim()} ` : ""}for now`, p: "The board above has all the upcoming activities. More are added every week." };
     return { h: `No ${areaName}activities${when}`, p: "New activities are added every week. Try a wider date range or another area." };
   }
