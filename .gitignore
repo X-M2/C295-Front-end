@@ -1,0 +1,12 @@
+# Personal Impeccable settings (each teammate has their own)
+.impeccable/config.local.json
+.impeccable/hook.cache.json
+
+# Editor and OS files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local secrets (API URLs with keys, etc.)
+.env
