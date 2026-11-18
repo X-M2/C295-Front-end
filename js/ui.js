@@ -22,6 +22,7 @@
     flag: '<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>',
     mail: '<rect x="3" y="5.5" width="18" height="13" rx="1.5"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/>',
     retry: '<path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3M4.5 4.5v4h4"/>',
+    logout: '<path d="M14.5 4.5h4a1.5 1.5 0 0 1 1.5 1.5v12a1.5 1.5 0 0 1-1.5 1.5h-4M10 16.5 5.5 12 10 7.5M5.5 12H15"/>',
     user: '<circle cx="12" cy="8.5" r="3.6"/><path d="M5 20c.8-3.8 3.6-5.8 7-5.8s6.2 2 7 5.8"/>',
   };
   const icon = (name, cls = "") =>
@@ -112,7 +113,7 @@
         <div class="who">
           ${s
             ? `<span class="who-name">${icon("user")}<span>${esc(s.name)}</span></span>
-               <button class="btn btn-quiet btn-sm" type="button" data-signout>Sign out</button>`
+               <button class="btn btn-quiet btn-sm btn-signout" type="button" data-signout aria-label="Sign out">${icon("logout")}<span class="signout-text">Sign out</span></button>`
             : `<a class="btn btn-sm" href="signin.html?next=${back}">Sign in</a>`}
         </div>
       </div>`;

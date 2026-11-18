@@ -291,10 +291,10 @@ select {
   border-top: 2px solid var(--on-ink);
 }
 .poster > .poster-where { margin-bottom: 18px; }
-.poster-facts { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; font-size: var(--t-md); font-weight: 600; line-height: 1.35; min-width: 0; }
+.poster-facts { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; font-size: var(--t-base); font-weight: 600; line-height: 1.35; min-width: 0; }
 .poster-facts b { font-weight: 850; }
-.fact-spots { font-size: var(--t-base); }
-.fact-soon { font-weight: 800; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.fact-spots { font-size: var(--t-lg); }
+.fact-soon { justify-self: start; padding: 0 6px; font-weight: 800; background: var(--on-ink); color: var(--ink); }
 .fact-area { font-size: var(--t-sm); font-weight: 700; }
 .poster-act { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex: none; }
 .going-tag { display: inline-flex; align-items: center; gap: 6px; font-weight: 850; font-size: var(--t-base); }
@@ -336,12 +336,12 @@ select {
 /* ---------------------------------------------------------------- toast */
 
 .toast {
-  position: fixed; left: 50%; bottom: 20px; z-index: 30;
+  position: fixed; left: 50%; top: 76px; z-index: 30;
   display: flex; align-items: center; gap: 14px; width: max-content; max-width: calc(100% - 32px);
   padding: 12px 14px 12px 20px; border-radius: var(--radius-pill);
   background: var(--paper); color: var(--on-ink); font-weight: 700; font-size: var(--t-md);
-  box-shadow: 0 10px 28px -10px rgb(0 0 0 / 0.7);
-  transform: translate(-50%, 140%); opacity: 0;
+  border: 2px solid var(--on-ink);
+  transform: translate(-50%, -12px); opacity: 0;
   transition: transform 220ms var(--ease-out), opacity 220ms var(--ease-out);
 }
 .toast.is-on { transform: translate(-50%, 0); opacity: 1; }
@@ -442,18 +442,26 @@ select {
 @media (max-width: 760px) {
   .top-inner { padding: 0 16px; gap: 14px; min-height: 56px; }
   .brand-name { font-size: 1.25rem; }
-  .who .btn-quiet { padding: 0 8px; }
-  .who-name span { display: none; }
+  .who-name { display: none; }
+  .signout-text { display: none; }
+  .btn-signout { min-width: 40px; padding: 0 8px; }
+  .toast { top: 64px; }
   .nav a { padding: 0 8px; }
   .page { padding: 28px 16px 56px; }
   .display { font-size: 4rem; }
   .lede { font-size: var(--t-base); margin-top: 10px; }
-  .intro { margin-bottom: 22px; }
+  .intro { margin-bottom: 16px; }
+  .display { font-size: 3.5rem; }
 
-  .tabs { gap: 6px; }
-  .tab { min-height: 38px; padding: 0 12px; font-size: var(--t-sm); }
+  /* One scrolling row of areas; the cut-off last pill shows there's more */
+  .tabs { flex-wrap: nowrap; overflow-x: auto; margin: 0 -16px; padding: 0 16px 2px; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { flex: none; min-height: 38px; padding: 0 12px; font-size: var(--t-sm); }
+  .filter-bar { flex-wrap: nowrap; }
+  .field-search { flex: 1 1 0; min-width: 0; }
+  .field-select { flex: none; width: 128px; }
   select { min-width: 0; }
-  .field-select { flex: 1 1 100%; }
+  .result-line { margin-top: 16px; }
 
   .groups { gap: 32px; }
   .group-h { font-size: 1.875rem; margin-bottom: 12px; }
@@ -469,8 +477,8 @@ select {
   .poster-where { margin-top: 2px; font-size: var(--t-sm); }
   .poster > .poster-where { margin-bottom: 12px; }
   .poster-foot { padding-top: 10px; }
-  .poster-facts { font-size: var(--t-sm); }
-  .fact-spots { font-size: var(--t-md); }
+  .poster-facts { font-size: var(--t-base); }
+  .fact-spots { font-size: var(--t-lg); }
   .fact-area { display: none; }
   .stamp { top: 14px; right: 12px; font-size: 1.25rem; }
   .btn-on-ink { min-width: 92px; min-height: 42px; }

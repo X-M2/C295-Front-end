@@ -18,6 +18,8 @@
       ["Marcus", "Priya"], "Casual doubles on six courts. Rackets and shuttles provided; bring non-marking shoes. All levels, and you'll be rotated so you play with new people."],
     ["a02", "OA", "Chek Jawa intertidal walk", "Ubin Shore Guides", "Pulau Ubin", 1, "08:00", "11:00", 20, 14, [0, "23:59"],
       ["Aisyah", "Wei Ling", "Daniel"], "A guided low-tide walk along the Chek Jawa boardwalk and shore, looking for sea stars, crabs and seagrass. Meet at Changi Point Ferry Terminal at 07:30. Wear shoes that can get wet."],
+    ["a17", "HL", "Futsal night", "RP Futsal Club", "RP Sports Hall", 2, "19:00", "21:00", 20, 12, [0, "00:01"],
+      ["Daniel"], "Five-a-side games with rotating teams. Sign-up has closed because teams are drawn the day before."],
     ["a03", "SL", "Harvest morning at a community farm", "Kampong Grow Collective", "Lim Chu Kang", 2, "09:00", "12:00", 15, 9, null,
       ["Hui Min"], "Help harvest and wash greens, then pack them for a weekly delivery to families in Choa Chu Kang. Gloves provided. Transport from Kranji MRT at 08:30."],
     ["a04", "SL", "Food pack night", "Northside Food Share", "Woodlands Community Club", 3, "18:30", "21:00", 30, 30, null,
