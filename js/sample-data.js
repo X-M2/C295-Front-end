@@ -50,6 +50,14 @@
       [], "Sort and price donated clothes for a charity thrift sale. Proceeds go to a youth mentoring programme."],
   ];
 
+  // Openly licensed stand-in photos (see assets/photos/CREDITS.md).
+  const photos = {
+    a02: { url: "assets/photos/shore-rocks.webp", by: "Eric Kilby", licence: "CC BY-SA 2.0", page: "https://commons.wikimedia.org/wiki/File:East_Coastal_Cliffs_-_Iceland.jpg" },
+    a03: { url: "assets/photos/trimming-foliage.webp", by: "direct2Florist", licence: "CC BY 2.0", page: "https://commons.wikimedia.org/wiki/File:Florist_cutting_flower_stems.jpg" },
+    a04: { url: "assets/photos/bread-oven.webp", by: "Johann Jaritz", licence: "CC BY-SA 3.0 AT", page: "https://commons.wikimedia.org/wiki/File:Stabentheiner_Hof_Brotbackstube_Brotbacken_12062014_221.JPG" },
+    a15: { url: "assets/photos/bike-bell.webp", by: "Jules Verne Times Two", licence: "CC BY-SA 4.0", page: "https://commons.wikimedia.org/wiki/File:Detail_of_a_bicycle_handlebar_and_pink_bell_amidst_hundreds_of_parked_bicycles,_Central_Station,_Amsterdam,_Netherlands_julesvernex2.jpg" },
+  };
+
   const activities = rows.map((r) => {
     const [id, area, title, organiser, location, off, start, end, spotsTotal, spotsTaken, deadline, friends, description] = r;
     const startsAt = day(off, start);
@@ -58,7 +66,8 @@
     return {
       id, area, title, organiser, location, startsAt, endsAt,
       spotsTotal, spotsTaken, signupClosesAt, description,
-      photoUrl: null,
+      photoUrl: photos[id]?.url || null,
+      photoCredit: photos[id] ? { by: photos[id].by, licence: photos[id].licence, page: photos[id].page, standIn: true } : null,
       contact: { type: "email", value: "hello@example.org" },
       friendsGoing: friends,
       isSample: true,

@@ -132,8 +132,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     const [wd, dm] = window.ui.posterDate(s);
     const stamp = st.joined ? "Going" : st.full ? "Full" : st.closed ? "Closed" : "";
     return `
-      <li class="poster ink-${a.area}${lead ? " poster-lead" : ""}" style="--i:${i}">
+      <li class="poster ink-${a.area}${lead ? " poster-lead" : ""}${a.photoUrl ? " has-photo" : ""}" style="--i:${i}">
         ${stamp ? `<span class="stamp" aria-hidden="true">${stamp}</span>` : ""}
+        ${a.photoUrl ? `<div class="poster-photo" aria-hidden="true"><img src="${esc(a.photoUrl)}" alt="" loading="lazy" decoding="async"></div>` : ""}
         <p class="poster-date" aria-hidden="true"><span>${wd}</span> <span>${dm}</span></p>
         <p class="poster-when"><span class="visually-hidden">${window.ui.longDate(s)}. </span>${window.ui.whenLine(a)}</p>
         <h4 class="poster-title"><a href="activity.html?id=${encodeURIComponent(a.id)}">${esc(a.title)}</a></h4>

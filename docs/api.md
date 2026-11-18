@@ -59,6 +59,8 @@ The Telegram bot's `/web` command replies with a link to `https://<site>/index.h
 - `spotsTaken` counts everyone who joined, including the signed-in student.
 - `joined` and `friendsGoing` are for the signed-in student only. For signed-out visitors, send `joined: false` and `friendsGoing: []`.
 - **Privacy (PDPA):** `friendsGoing` lists first names only, and only of students who turned on buddy matching.
+- `photoUrl` is optional: a link to a landscape photo of the activity (the organiser's own, used with permission), or `null`. Posters show it as a band printed in the area colour; the activity page shows it in natural colour.
+- `photoCredit` is optional: `{ "by": "...", "licence": "...", "page": "https://..." }`, shown under the photo on the activity page. Required when the photo is openly licensed (for example CC BY).
 - `contact.type` is `email`, `whatsapp`, `telegram` or `website`. For `website`, `contact.value` is the organiser's sign-up page URL.
 
 ## Errors

@@ -99,7 +99,11 @@ document.addEventListener("DOMContentLoaded", async () => {
               <div><dt>${icon("flag")}Organiser</dt><dd>${esc(a.organiser)}${a.isSample ? `<span class="badge-sample" title="Made-up demo data">Sample</span>` : ""}</dd></div>
             </dl>
 
-            ${a.photoUrl ? `<img class="detail-photo" src="${esc(a.photoUrl)}" alt="" loading="lazy">` : ""}
+            ${a.photoUrl ? `
+            <figure class="detail-photo ink-${a.area}">
+              <div class="duotone"><img src="${esc(a.photoUrl)}" alt="" loading="lazy" decoding="async"></div>
+              ${a.photoCredit ? `<figcaption>${a.photoCredit.standIn ? "Sample photo, not of this activity. " : ""}Photo: <a href="${esc(a.photoCredit.page)}" target="_blank" rel="noopener">${esc(a.photoCredit.by)}</a>, ${esc(a.photoCredit.licence)}</figcaption>` : ""}
+            </figure>` : ""}
 
             <section class="detail-section" aria-labelledby="about-h">
               <h2 id="about-h">About</h2>
