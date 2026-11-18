@@ -59,7 +59,7 @@ The Telegram bot's `/web` command replies with a link to `https://<site>/index.h
 - `spotsTaken` counts everyone who joined, including the signed-in student.
 - `joined` and `friendsGoing` are for the signed-in student only. For signed-out visitors, send `joined: false` and `friendsGoing: []`.
 - **Privacy (PDPA):** `friendsGoing` lists first names only, and only of students who turned on buddy matching.
-- `contact.type` is `email`, `whatsapp` or `telegram`.
+- `contact.type` is `email`, `whatsapp`, `telegram` or `website`. For `website`, `contact.value` is the organiser's sign-up page URL.
 
 ## Errors
 

@@ -52,7 +52,7 @@ CREATE TABLE activities (
   signup_closes_at DATETIME2 NOT NULL,
   description      NVARCHAR(MAX) NULL,
   photo_url        NVARCHAR(500) NULL,
-  contact_type     NVARCHAR(16) NOT NULL CHECK (contact_type IN ('email','whatsapp','telegram')),
+  contact_type     NVARCHAR(16) NOT NULL CHECK (contact_type IN ('email','whatsapp','telegram','website')),  -- website = the organiser's sign-up page
   contact_value    NVARCHAR(200) NOT NULL,
   is_sample        BIT NOT NULL DEFAULT 0,
   created_at       DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
@@ -164,7 +164,7 @@ The request and response shapes are in [`api.md`](api.md). The rules behind them
 | `GET /me/journal`, `POST /me/journal`, `PUT/DELETE /me/journal/:id` | Should | Journal entries, with hours worked out from start and end time. |
 | `POST /me/journal/:id/photos` | Should | Photo upload from the website to cloud storage. |
 | `GET/PUT /me/settings` | Should | Name, course, interests, buddy matching, award tracker on or off. |
-| `POST /admin/activities`, `POST /admin/import` | Should | Add one activity, or import a CSV. Re-importing updates rows with the same `source_id` instead of duplicating them. |
+| `POST /admin/activities`, `POST /admin/import` | Should | Add one activity, or import a CSV. Re-importing updates rows with the same `source_id` instead of duplicating them. Some real listings don't state `spots_total`; when it is empty, store a default such as 999 (no stated limit) instead of skipping the row. |
 | Award tracker endpoints | Later | Goals, targets and log book data. |
 
 ## 4. Telegram bot

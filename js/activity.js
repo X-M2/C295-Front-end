@@ -22,6 +22,28 @@ document.addEventListener("DOMContentLoaded", async () => {
     ].join("\n");
   }
 
+  // The organiser contact link, by contact type. Returns "" if the value is unusable.
+  function contactLink(a) {
+    const type = a.contact?.type;
+    const value = String(a.contact?.value || "").trim();
+    if (!value) return "";
+    const link = (href, iconName, label) =>
+      `<a class="side-link" href="${esc(href)}"${href.startsWith("mailto:") ? "" : ' target="_blank" rel="noopener"'}>${icon(iconName)}${label}</a>`;
+    if (type === "website") {
+      return /^https?:\/\//i.test(value) ? link(value, "link", "Organiser's sign-up page") : "";
+    }
+    if (type === "whatsapp") {
+      const digits = value.replace(/\D/g, "");
+      return digits ? link(`https://wa.me/${digits}?text=${encodeURIComponent(draftMessage(a))}`, "chat", "WhatsApp the organiser") : "";
+    }
+    if (type === "telegram") {
+      const user = value.replace(/^@/, "").replace(/^https?:\/\/t\.me\//i, "");
+      return /^\w{4,}$/.test(user) ? link(`https://t.me/${user}`, "chat", "Message the organiser on Telegram") : "";
+    }
+    const subject = `${a.title} (${longDate(a.startsAt)})`;
+    return link(`mailto:${encodeURIComponent(value)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(draftMessage(a))}`, "mail", "Email the organiser");
+  }
+
   function going(a) {
     const s = api.session.get();
     const n = a.spotsTaken;
@@ -57,7 +79,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     const [wd, dm] = window.ui.posterDate(new Date(a.startsAt));
     const stamp = st.joined ? "Going" : st.full ? "Full" : st.closed ? "Closed" : st.ended ? "Ended" : "";
     const pct = Math.min(100, Math.round((a.spotsTaken / a.spotsTotal) * 100));
-    const mail = `mailto:${encodeURIComponent(a.contact?.value || "")}?subject=${encodeURIComponent(`${a.title} (${longDate(a.startsAt)})`)}&body=${encodeURIComponent(draftMessage(a))}`;
     document.title = `${a.title} · ${window.APP_CONFIG.appName}`;
 
     content.innerHTML = `
@@ -99,7 +120,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <span class="closes${st.closingSoon ? " is-soon" : ""}">${st.closed ? "Sign-up closed" : esc(st.closesText)}</span>
               </div>
               <div class="side-action">${action(a, st)}</div>
-              <a class="side-link" href="${mail}">${icon("mail")}Email the organiser</a>
+              ${contactLink(a)}
             </div>
           </aside>
         </div>
