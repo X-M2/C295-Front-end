@@ -1,0 +1,18 @@
+{
+  "userAgent": "C295-RP-student-project (+https://x-m2.github.io/C295-Front-end/)",
+  "monthsAhead": 2,
+  "requestDelayMs": 3000,
+  "sources": [
+    {
+      "key": "nss",
+      "name": "Nature Society (Singapore)",
+      "feedUrl": "https://www.nss.org.sg/events/month/{month}/?ical=1",
+      "defaultArea": "OA",
+      "areaRules": [
+        { "pattern": "volunteer|survey|planting|clean ?up|restoration|maintenance|rewilding", "area": "SL" }
+      ],
+      "defaultSpots": 30,
+      "fallbackEmail": ""
+    }
+  ]
+}
