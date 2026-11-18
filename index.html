@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#050708">
+  <meta name="theme-color" content="#121110">
   <title>What's on</title>
   <link rel="preload" href="assets/fonts/archivo-variable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/app.css">
@@ -14,52 +14,44 @@
   <script src="js/browse.js" defer></script>
 </head>
 <body>
-  <a class="skip" href="#list">Skip to all activities</a>
+  <a class="skip" href="#list">Skip to the activities</a>
   <header class="top" data-header></header>
 
   <main class="page">
     <div class="intro">
-      <h1>What's on</h1>
-      <p class="lede" data-lede>Activities across four areas, open to every RP student. Sign in to join.</p>
+      <h1 class="display" data-title>What's on</h1>
+      <p class="lede" data-lede>Activities across four areas, open to every RP student. Soonest first.</p>
     </div>
 
-    <section class="board" aria-labelledby="board-h" data-board>
-      <div class="board-head">
-        <h2 id="board-h">Next up</h2>
-        <span class="board-clock" data-clock aria-hidden="true"></span>
+    <form class="filters" data-filters role="search" aria-label="Filter activities">
+      <div class="tabs" role="tablist" aria-label="Area" data-tabs></div>
+      <div class="filter-bar">
+        <label class="field-search">
+          <span class="visually-hidden">Search</span>
+          <span class="field-icon" data-icon="search"></span>
+          <input type="search" name="q" placeholder="Search activity, place or organiser" autocomplete="off">
+        </label>
+        <label class="field-select">
+          <span class="visually-hidden">When</span>
+          <select name="when">
+            <option value="all">Any date</option>
+            <option value="week">This week</option>
+            <option value="month">Next 31 days</option>
+          </select>
+        </label>
       </div>
-      <ol class="board-rows" data-board-rows aria-live="polite"></ol>
-      <p class="board-slow">Waking up the server. This can take up to a minute the first time.</p>
-    </section>
+    </form>
 
-    <section class="browse" aria-labelledby="list-h" id="list">
-      <h2 id="list-h" class="visually-hidden">All activities</h2>
-      <form class="filters" data-filters role="search" aria-label="Filter activities">
-        <div class="tabs" role="tablist" aria-label="Area" data-tabs></div>
-        <div class="filter-bar">
-          <label class="field-search">
-            <span class="visually-hidden">Search</span>
-            <span class="field-icon" data-icon="search"></span>
-            <input type="search" name="q" placeholder="Search activity, place or organiser" autocomplete="off">
-          </label>
-          <label class="field-select">
-            <span class="visually-hidden">When</span>
-            <select name="when">
-              <option value="all">Any date</option>
-              <option value="week">This week</option>
-              <option value="month">Next 31 days</option>
-            </select>
-          </label>
-        </div>
-      </form>
-
+    <section class="wall-wrap" id="list" aria-labelledby="list-h" data-wall>
+      <h2 id="list-h" class="visually-hidden">Activities</h2>
       <p class="result-line" data-result-line aria-live="polite"></p>
       <div class="groups" data-groups></div>
+      <p class="slow-note">Waking up the server. This can take up to a minute the first time.</p>
     </section>
   </main>
 
   <footer class="foot">
-    <p data-foot>C295 project by Zhen Kang, Jun Hao and Xingmeng, Republic Polytechnic.</p>
+    <p>C295 project by Zhen Kang, Jun Hao and Xingmeng, Republic Polytechnic.</p>
   </footer>
 </body>
 </html>

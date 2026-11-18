@@ -17,6 +17,7 @@
     people: '<circle cx="9" cy="8.5" r="3.2"/><path d="M3 19.5c.6-3.3 3-5 6-5s5.4 1.7 6 5"/><path d="M15.5 5.6a3.2 3.2 0 0 1 0 5.9M17.5 14.8c1.9.6 3.1 2.2 3.5 4.7"/>',
     check: '<path d="m5 12.5 4.5 4.5L19 7.5"/>',
     back: '<path d="M19.5 12h-15M10.5 6l-6 6 6 6"/>',
+    calendar: '<rect x="3.5" y="5" width="17" height="15.5" rx="1.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',
     search: '<circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.4-4.4"/>',
     flag: '<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>',
     mail: '<rect x="3" y="5.5" width="18" height="13" rx="1.5"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/>',
@@ -76,6 +77,21 @@
     };
   }
 
+  // "Tomorrow · 08:00–11:00"
+  function whenLine(a, now = new Date()) {
+    const start = new Date(a.startsAt), end = new Date(a.endsAt);
+    const range = `${time(start)}–${time(end)}`;
+    if (now >= start && now < end) return `On now · until ${time(end)}`;
+    if (now >= end) return `Ended · ${range}`;
+    const days = dayDiff(start, now);
+    if (days === 0) return `Today · ${range}`;
+    if (days === 1) return `Tomorrow · ${range}`;
+    return `In ${days} days · ${range}`;
+  }
+
+  // Poster date line: ["MON", "23 NOV"]
+  const posterDate = (d) => [weekday(d).toUpperCase(), `${dayNum(d)} ${month(d).toUpperCase()}`];
+
   const spotsText = (st, a) =>
     st.full ? "Full" : `${st.left} of ${a.spotsTotal} ${st.left === 1 ? "spot" : "spots"} left`;
 
@@ -88,16 +104,7 @@
     const back = encodeURIComponent(location.pathname.split("/").pop() + location.search);
     el.innerHTML = `
       <div class="top-inner">
-        <a class="brand" href="index.html">
-          <svg class="brand-mark" viewBox="0 0 28 28" width="28" height="28" aria-hidden="true">
-            <rect x="1" y="1" width="26" height="26" rx="7" fill="var(--board)"/>
-            <rect x="6" y="8" width="7" height="3" rx="1.5" fill="var(--sl)"/>
-            <rect x="15" y="8" width="7" height="3" rx="1.5" fill="var(--oa)"/>
-            <rect x="6" y="17" width="7" height="3" rx="1.5" fill="var(--hl)"/>
-            <rect x="15" y="17" width="7" height="3" rx="1.5" fill="var(--cl)"/>
-          </svg>
-          <span class="brand-name">${name}</span>
-        </a>
+        <a class="brand" href="index.html"><span class="brand-name">${name}</span></a>
         <nav class="nav" aria-label="Main">
           <a href="index.html" ${page === "browse" ? 'aria-current="page"' : ""}>Browse</a>
           <a href="${s ? "index.html?mine=1" : `signin.html?next=${encodeURIComponent("index.html?mine=1")}`}" ${page === "mine" ? 'aria-current="page"' : ""}>Going${s && going ? `<span class="nav-count">${going}</span>` : ""}</a>
@@ -155,7 +162,7 @@
   }
 
   window.ui = {
-    AREAS, esc, icon, pill, countdown, status, spotsText,
+    AREAS, esc, icon, pill, countdown, status, spotsText, whenLine, posterDate,
     time, weekday, dayNum, month, longDate, dayDiff, startOfDay,
     renderHeader, toast, slowNotice, consumeLinkToken,
   };

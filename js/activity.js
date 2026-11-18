@@ -53,36 +53,29 @@ document.addEventListener("DOMContentLoaded", async () => {
   function render() {
     const a = activity;
     const st = status(a);
-    const c = countdown(a);
     const area = AREAS[a.area];
+    const [wd, dm] = window.ui.posterDate(new Date(a.startsAt));
+    const stamp = st.joined ? "Going" : st.full ? "Full" : st.closed ? "Closed" : st.ended ? "Ended" : "";
     const pct = Math.min(100, Math.round((a.spotsTaken / a.spotsTotal) * 100));
     const mail = `mailto:${encodeURIComponent(a.contact?.value || "")}?subject=${encodeURIComponent(`${a.title} (${longDate(a.startsAt)})`)}&body=${encodeURIComponent(draftMessage(a))}`;
     document.title = `${a.title} · ${window.APP_CONFIG.appName}`;
 
     content.innerHTML = `
       <article class="detail">
-        <header class="detail-head">
-          <h1>${esc(a.title)}</h1>
-          <p class="lede">${esc(a.organiser)}${a.isSample ? `<span class="badge-sample" title="Made-up demo data">Sample</span>` : ""}</p>
+        <header class="detail-poster ink-${a.area}">
+          ${stamp ? `<span class="stamp" aria-hidden="true">${stamp}</span>` : ""}
+          <p class="poster-date" aria-hidden="true"><span>${wd}</span> <span>${dm}</span></p>
+          <p class="poster-when"><span class="visually-hidden">${esc(longDate(a.startsAt))}. </span>${esc(window.ui.whenLine(a))}</p>
+          <h1 class="poster-title">${esc(a.title)}</h1>
+          <p class="poster-where">${esc(a.location)} · ${esc(area.name)}</p>
         </header>
 
         <div class="detail-grid">
           <div class="detail-main">
-            <div class="eta-strip">
-              <div class="eta-strip-when">
-                <span class="eta-strip-area">${pill(a.area)}<span>${esc(area.name)}</span></span>
-                <span class="eta-strip-day">${esc(longDate(a.startsAt))}</span>
-                <span class="eta-strip-time">${time(a.startsAt)}–${time(a.endsAt)}</span>
-              </div>
-              <div class="board-eta">
-                <span class="eta-big">${esc(c.big)}${c.unit ? `<span class="eta-unit">${c.unit}</span>` : ""}</span>
-                ${c.unit ? "" : `<span class="eta-small">${esc(c.small)}</span>`}
-              </div>
-            </div>
-
             <dl class="facts">
+              <div><dt>${icon("calendar")}When</dt><dd>${esc(longDate(a.startsAt))}, ${time(a.startsAt)}–${time(a.endsAt)}</dd></div>
               <div><dt>${icon("pin")}Where</dt><dd>${esc(a.location)}</dd></div>
-              <div><dt>${icon("flag")}Organiser</dt><dd>${esc(a.organiser)}</dd></div>
+              <div><dt>${icon("flag")}Organiser</dt><dd>${esc(a.organiser)}${a.isSample ? `<span class="badge-sample" title="Made-up demo data">Sample</span>` : ""}</dd></div>
             </dl>
 
             ${a.photoUrl ? `<img class="detail-photo" src="${esc(a.photoUrl)}" alt="" loading="lazy">` : ""}

@@ -1,12 +1,11 @@
-// Browse page: Next up board, area tabs, filters and the activity list.
+// Browse page: a wall of activity posters, soonest first.
 // ?mine=1 shows only the activities the signed-in student is going to.
 document.addEventListener("DOMContentLoaded", async () => {
-  const { esc, icon, pill, countdown, status, spotsText, AREAS } = window.ui;
+  const { esc, icon, status, spotsText, AREAS } = window.ui;
   const api = window.api;
 
   const $ = (s) => document.querySelector(s);
-  const board = $("[data-board]");
-  const boardRows = $("[data-board-rows]");
+  const wall = $("[data-wall]");
   const groupsEl = $("[data-groups]");
   const resultLine = $("[data-result-line]");
   const form = $("[data-filters]");
@@ -27,10 +26,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   form.when.value = state.when;
   form.q.value = state.q;
   document.title = `${state.mine ? "Going" : "What's on"} · ${window.APP_CONFIG.appName}`;
-  if (state.mine) {
-    $("h1").textContent = "Going";
-    board.hidden = true;
-  }
+  if (state.mine) $("[data-title]").textContent = "Going";
 
   function syncUrl() {
     const p = new URLSearchParams(location.search);
@@ -47,7 +43,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     tabsEl.innerHTML = tabs
       .map(([code, name]) => `
         <button type="button" role="tab" class="tab" data-area="${code}" aria-selected="${state.area === code}">
-          ${code === "all" ? "" : pill(code, "code-sm")}<span>${esc(name)}</span>
+          ${code === "all" ? "" : `<i class="ink-dot ink-${code}" aria-hidden="true"></i>`}<span>${esc(name)}</span>
         </button>`)
       .join("");
   }
@@ -71,11 +67,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   form.addEventListener("input", (e) => {
     if (e.target.name === "q") {
       clearTimeout(searchTimer);
-      searchTimer = setTimeout(() => { state.q = form.q.value.trim(); render(false); }, 200);
+      searchTimer = setTimeout(() => { state.q = form.q.value.trim(); render(true); }, 200);
     }
   });
   form.addEventListener("change", (e) => {
-    if (e.target.name === "when") { state.when = form.when.value; render(false); }
+    if (e.target.name === "when") { state.when = form.when.value; render(true); }
   });
   form.addEventListener("submit", (e) => e.preventDefault());
 
@@ -93,21 +89,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       .sort((a, b) => new Date(a.startsAt) - new Date(b.startsAt));
   }
 
-  const inArea = (a) => state.area === "all" || a.area === state.area;
-  const boardItems = () => (state.mine ? [] : upcoming().filter(inArea).slice(0, 4));
-  // The board already lists the soonest few, so the list starts after them,
-  // unless the student is searching or narrowing the dates.
-  const listSkipsBoard = () => !state.mine && !state.q && state.when === "all";
-
   function filtered() {
     const q = state.q.toLowerCase();
     const weekEnd = endOfWeek(now());
     const monthEnd = new Date(now().getTime() + 31 * 86400000);
-    const skip = listSkipsBoard() ? new Set(boardItems().map((a) => a.id)) : new Set();
     return upcoming().filter((a) => {
-      if (skip.has(a.id)) return false;
       if (state.mine && !a.joined) return false;
-      if (!inArea(a)) return false;
+      if (state.area !== "all" && a.area !== state.area) return false;
       const s = new Date(a.startsAt);
       if (state.when === "week" && s >= weekEnd) return false;
       if (state.when === "month" && s >= monthEnd) return false;
@@ -116,106 +104,57 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // ---- board ------------------------------------------------------------------
-  function boardFlags(a) {
-    const st = status(a);
-    const flags = [];
-    if (st.joined) flags.push(`<span class="flag flag-joined">${icon("check")}You're going</span>`);
-    if (st.full) flags.push(`<span class="flag">Full</span>`);
-    else if (st.closed) flags.push(`<span class="flag">Sign-up closed</span>`);
-    else if (st.closingSoon) flags.push(`<span class="flag flag-warn">${esc(st.closesText)}</span>`);
-    if (st.fewLeft && !st.closed) flags.push(`<span class="flag flag-warn">${st.left} ${st.left === 1 ? "spot" : "spots"} left</span>`);
-    return flags.join("");
-  }
-
-  function renderBoard(animate) {
-    if (state.mine) return;
-    const list = boardItems();
-    board.hidden = !upcoming().length;
-    if (!list.length) {
-      boardRows.innerHTML = `<li class="board-empty">No ${esc(AREAS[state.area]?.name || "")} activities coming up yet.</li>`;
-      return;
-    }
-    boardRows.innerHTML = list
-      .map((a, i) => {
-        const c = countdown(a);
-        return `
-        <li class="board-row${animate ? " tick" : ""}" style="--i:${i}">
-          ${pill(a.area)}
-          <div class="board-main">
-            <a class="board-title" href="activity.html?id=${encodeURIComponent(a.id)}">${esc(a.title)}</a>
-            <span class="board-meta">${esc(a.location)}<span class="flags">${boardFlags(a)}</span></span>
-          </div>
-          <div class="board-eta" aria-label="${esc(c.big)}${c.unit ? " " + c.unit : ""}, ${esc(c.small)}">
-            <span class="eta-big">${esc(c.big)}${c.unit ? `<span class="eta-unit">${c.unit}</span>` : ""}</span>
-            <span class="eta-small">${esc(c.small)}</span>
-          </div>
-        </li>`;
-      })
-      .join("");
-  }
-
-  function tickClock() {
-    $("[data-clock]").textContent = window.ui.time(new Date());
-  }
-
-  // ---- list ---------------------------------------------------------------------
+  // ---- posters ------------------------------------------------------------------
   function going(a) {
     const n = a.spotsTaken;
-    if (!n) return `<span class="going muted">Be the first to join</span>`;
+    if (!n) return "Be the first to join";
     const friends = (a.friendsGoing || []).slice(0, 2);
     if (friends.length) {
       const more = n - friends.length;
-      return `<span class="going">${icon("people")}<span><strong>${friends.map(esc).join(", ")}</strong>${more > 0 ? ` +${more}` : ""}</span></span>`;
+      return `<b>${friends.map(esc).join(", ")}</b>${more > 0 ? ` +${more}` : ""} going`;
     }
-    return `<span class="going">${icon("people")}<span>${n} going</span></span>`;
+    return `${n} going`;
   }
 
-  function actionButton(a) {
-    const st = status(a);
+  function action(a, st) {
     if (st.joined) {
-      return `<div class="act-joined"><span class="joined-tag">${icon("check")}Going</span>
-        <button type="button" class="btn btn-quiet btn-sm" data-leave="${esc(a.id)}">Leave</button></div>`;
+      return `<span class="going-tag">${icon("check")}Going</span>
+        <button type="button" class="btn btn-sm btn-on-ink-quiet" data-leave="${esc(a.id)}">Leave</button>`;
     }
-    if (st.full) return `<button type="button" class="btn btn-block" disabled>Full</button>`;
-    if (st.closed) return `<button type="button" class="btn btn-block" disabled>Closed</button>`;
-    return `<button type="button" class="btn btn-primary btn-block" data-join="${esc(a.id)}">Join</button>`;
+    if (st.full) return `<button type="button" class="btn btn-on-ink" disabled>Full</button>`;
+    if (st.closed) return `<button type="button" class="btn btn-on-ink" disabled>Closed</button>`;
+    return `<button type="button" class="btn btn-on-ink" data-join="${esc(a.id)}">Join</button>`;
   }
 
-  function row(a) {
+  function poster(a, i, lead) {
     const st = status(a);
-    const pct = Math.min(100, Math.round((a.spotsTaken / a.spotsTotal) * 100));
+    const s = new Date(a.startsAt);
+    const [wd, dm] = window.ui.posterDate(s);
+    const stamp = st.joined ? "Going" : st.full ? "Full" : st.closed ? "Closed" : "";
     return `
-      <li class="row" data-id="${esc(a.id)}" style="--stop: var(--${a.area.toLowerCase()})">
-        <div class="row-date" aria-hidden="true">
-          <span class="row-wd">${window.ui.weekday(a.startsAt)}</span>
-          <span class="row-dn">${window.ui.dayNum(a.startsAt)}</span>
-          <span class="row-mo">${window.ui.month(a.startsAt)}</span>
+      <li class="poster ink-${a.area}${lead ? " poster-lead" : ""}${st.full || st.closed ? " is-over" : ""}" style="--i:${i}">
+        ${stamp ? `<span class="stamp" aria-hidden="true">${stamp}</span>` : ""}
+        <p class="poster-date" aria-hidden="true"><span>${wd}</span> <span>${dm}</span></p>
+        <p class="poster-when"><span class="visually-hidden">${window.ui.longDate(s)}. </span>${window.ui.whenLine(a)}</p>
+        <h4 class="poster-title"><a href="activity.html?id=${encodeURIComponent(a.id)}">${esc(a.title)}</a></h4>
+        <p class="poster-where">${esc(a.location)}</p>
+        <div class="poster-foot">
+          <ul class="poster-facts">
+            <li class="fact-spots">${st.full ? "<b>Full</b>" : `<b>${st.left} of ${a.spotsTotal}</b> ${st.left === 1 ? "spot" : "spots"} left`}</li>
+            <li${st.closingSoon ? ' class="fact-soon"' : ""}>${st.closed ? "Sign-up closed" : esc(st.closesText)}</li>
+            <li>${going(a)}</li>
+            <li class="fact-area">${esc(AREAS[a.area].name)}</li>
+          </ul>
+          <div class="poster-act">${action(a, st)}</div>
         </div>
-        <span class="stop" aria-hidden="true"></span>
-        <div class="row-main">
-          <h4 class="row-title"><a href="activity.html?id=${encodeURIComponent(a.id)}">${esc(a.title)}</a></h4>
-          <p class="row-meta">
-            ${pill(a.area, "code-sm")}
-            <span class="visually-hidden">${window.ui.longDate(a.startsAt)},</span>
-            <span class="row-where">${window.ui.time(a.startsAt)}–${window.ui.time(a.endsAt)}&nbsp;· ${esc(a.location)}</span>
-          </p>
-        </div>
-        <div class="row-going">${going(a)}</div>
-        <div class="row-spots${st.full ? " is-full" : ""}${st.fewLeft ? " is-few" : ""}">
-          <span class="spots-text">${spotsText(st, a)}</span>
-          <span class="meter" aria-hidden="true"><span style="width:${pct}%"></span></span>
-          <span class="closes${st.closingSoon ? " is-soon" : ""}">${st.closed ? "Sign-up closed" : esc(st.closesText)}</span>
-        </div>
-        <div class="row-act">${actionButton(a)}</div>
       </li>`;
   }
 
-  function groupName(a, skipped) {
+  function groupName(a) {
     const s = new Date(a.startsAt);
     const weekEnd = endOfWeek(now());
     const nextWeekEnd = new Date(weekEnd.getTime() + 7 * 86400000);
-    if (s < weekEnd) return skipped ? "Later this week" : "This week";
+    if (s < weekEnd) return "This week";
     if (s < nextWeekEnd) return "Next week";
     return "Later";
   }
@@ -223,22 +162,18 @@ document.addEventListener("DOMContentLoaded", async () => {
   function emptyMessage() {
     const areaName = state.area === "all" ? "" : `${AREAS[state.area].name} `;
     const when = state.when === "week" ? " this week" : state.when === "month" ? " in the next 31 days" : "";
-    if (state.mine) {
-      return { h: `You haven't joined any ${areaName}activities yet`, p: "Join something from Browse and it shows up here, with a countdown to the day." };
-    }
+    if (state.mine) return { h: `You haven't joined any ${areaName}activities yet`, p: "Join something from Browse and it shows up here." };
     if (state.q) return { h: `No ${areaName}activities match “${esc(state.q)}”${when}`, p: "Check the spelling, or search for a place or organiser instead." };
     if (!upcoming().length) return { h: "No activities are listed yet", p: "New activities are added every week. Check back soon." };
-    if (listSkipsBoard() && boardItems().length) return { h: `That's everything ${areaName ? `in ${areaName.trim()} ` : ""}for now`, p: "The board above has all the upcoming activities. More are added every week." };
     return { h: `No ${areaName}activities${when}`, p: "New activities are added every week. Try a wider date range or another area." };
   }
 
-  function renderList() {
+  function renderList(animate) {
     const list = filtered();
     const areaName = state.area === "all" ? null : AREAS[state.area].name;
     const n = list.length;
-    const skipped = listSkipsBoard() && boardItems().length > 0;
     resultLine.innerHTML = n
-      ? `${skipped ? `${n} more` : n} ${n === 1 ? "activity" : "activities"}${areaName ? ` in ${esc(areaName)}` : ""}${state.mine ? " you're going to" : ""}${api.isSample ? ` <span class="badge-sample" title="Made-up demo data">Sample data</span>` : ""}`
+      ? `${n} ${n === 1 ? "activity" : "activities"}${areaName ? ` in ${esc(areaName)}` : ""}${state.mine ? " you're going to" : ""}${api.isSample ? ` <span class="badge-sample" title="Made-up demo data">Sample data</span>` : ""}`
       : "";
     if (!n) {
       const m = emptyMessage();
@@ -247,7 +182,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           <h3>${m.h}</h3>
           <p>${m.p}</p>
           <div class="empty-actions">
-            ${state.mine ? `<a class="btn btn-primary" href="index.html">Browse activities</a>` : ""}
+            ${state.mine ? `<a class="btn btn-solid" href="index.html">Browse activities</a>` : ""}
             ${state.when !== "all" ? `<button type="button" class="btn" data-reset="when">Show any date</button>` : ""}
             ${state.area !== "all" ? `<button type="button" class="btn" data-reset="area">Show all areas</button>` : ""}
             ${state.q ? `<button type="button" class="btn" data-reset="q">Clear search</button>` : ""}
@@ -257,17 +192,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     const groups = new Map();
     list.forEach((a) => {
-      const g = groupName(a, skipped);
+      const g = groupName(a);
       if (!groups.has(g)) groups.set(g, []);
       groups.get(g).push(a);
     });
+    let i = 0;
     groupsEl.innerHTML = [...groups]
-      .map(([name, items]) => {
+      .map(([name, items], gi) => {
         const gid = `g-${name.replace(/\s/g, "")}`;
         return `
         <section class="group" aria-labelledby="${gid}">
           <h3 class="group-h" id="${gid}">${name}<span class="group-n">${items.length}</span></h3>
-          <ol class="rows">${items.map(row).join("")}</ol>
+          <ol class="wall${animate ? " paste" : ""}">${items.map((a, j) => poster(a, i++, gi === 0 && j === 0)).join("")}</ol>
         </section>`;
       })
       .join("");
@@ -280,7 +216,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (k === "when") { state.when = "all"; form.when.value = "all"; }
       if (k === "area") { state.area = "all"; renderTabs(); }
       if (k === "q") { state.q = ""; form.q.value = ""; }
-      render(k === "area");
+      render(true);
       return;
     }
     const joinBtn = e.target.closest("[data-join]");
@@ -323,10 +259,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // ---- render / load ------------------------------------------------------------
-  function render(animateBoard) {
+  function render(animate) {
     syncUrl();
-    renderBoard(animateBoard);
-    renderList();
+    renderList(animate);
     renderLede();
     window.ui.renderHeader({ page: state.mine ? "mine" : "browse", going: upcoming().filter((a) => a.joined).length });
   }
@@ -347,26 +282,25 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   function showSkeleton() {
-    boardRows.innerHTML = Array.from({ length: 3 }, () => `<li class="board-row skeleton"><span></span><span></span><span></span></li>`).join("");
-    groupsEl.innerHTML = `<ol class="rows">${Array.from({ length: 4 }, () => `<li class="row skeleton"><span></span><span></span><span></span></li>`).join("")}</ol>`;
     resultLine.textContent = "Loading activities…";
+    groupsEl.innerHTML = `<ol class="wall">${Array.from({ length: 4 }, (_, i) =>
+      `<li class="poster poster-skeleton${i === 0 ? " poster-lead" : ""}"><span></span><span></span><span></span></li>`).join("")}</ol>`;
   }
 
   function showError(err) {
-    board.hidden = true;
     resultLine.textContent = "";
     groupsEl.innerHTML = `
       <div class="empty empty-error" role="alert">
         <h3>Couldn't load activities</h3>
         <p>${esc(err.message)} The list will come back as soon as the server answers.</p>
-        <div class="empty-actions"><button type="button" class="btn btn-primary" data-retry>${icon("retry")}Try again</button></div>
+        <div class="empty-actions"><button type="button" class="btn btn-solid" data-retry>${icon("retry")}Try again</button></div>
       </div>`;
-    groupsEl.querySelector("[data-retry]").addEventListener("click", () => { board.hidden = state.mine; load(); });
+    groupsEl.querySelector("[data-retry]").addEventListener("click", load);
   }
 
   async function load() {
     showSkeleton();
-    const stopSlow = window.ui.slowNotice(board);
+    const stopSlow = window.ui.slowNotice(wall);
     try {
       activities = await api.listActivities();
       stopSlow();
@@ -388,7 +322,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   await window.ui.consumeLinkToken();
   window.ui.renderHeader({ page: state.mine ? "mine" : "browse" });
   renderTabs();
-  tickClock();
-  setInterval(() => { tickClock(); if (activities.length) renderBoard(false); }, 30000);
+  setInterval(() => { if (activities.length) renderList(false); }, 60000);
   load();
 });
