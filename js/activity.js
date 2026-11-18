@@ -1,6 +1,6 @@
 // Activity detail page: activity.html?id=...
 document.addEventListener("DOMContentLoaded", async () => {
-  const { esc, icon, pill, countdown, status, spotsText, AREAS, longDate, time } = window.ui;
+  const { esc, icon, status, spotsText, AREAS, longDate, time } = window.ui;
   const api = window.api;
   const content = document.querySelector("[data-content]");
   const id = new URLSearchParams(location.search).get("id");
@@ -151,7 +151,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           <h1 class="h3">${err.status === 404 || err.status === 400 ? "We couldn't find that activity" : "Couldn't load this activity"}</h1>
           <p>${esc(err.message)}</p>
           <div class="empty-actions">
-            ${err.status === 404 || err.status === 400 ? "" : `<button type="button" class="btn btn-primary" data-retry>${icon("retry")}Try again</button>`}
+            ${err.status === 404 || err.status === 400 ? "" : `<button type="button" class="btn btn-solid" data-retry>${icon("retry")}Try again</button>`}
             <a class="btn" href="index.html">See all activities</a>
           </div>
         </div>`;

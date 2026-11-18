@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const [wd, dm] = window.ui.posterDate(s);
     const stamp = st.joined ? "Going" : st.full ? "Full" : st.closed ? "Closed" : "";
     return `
-      <li class="poster ink-${a.area}${lead ? " poster-lead" : ""}${st.full || st.closed ? " is-over" : ""}" style="--i:${i}">
+      <li class="poster ink-${a.area}${lead ? " poster-lead" : ""}" style="--i:${i}">
         ${stamp ? `<span class="stamp" aria-hidden="true">${stamp}</span>` : ""}
         <p class="poster-date" aria-hidden="true"><span>${wd}</span> <span>${dm}</span></p>
         <p class="poster-when"><span class="visually-hidden">${window.ui.longDate(s)}. </span>${window.ui.whenLine(a)}</p>

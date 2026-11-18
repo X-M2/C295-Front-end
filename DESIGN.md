@@ -1,308 +1,304 @@
 ---
 name: Student activities companion (working title)
-description: Activities as arrivals, read like a Singapore MRT platform board.
+description: The week's activities as a wall of gig posters, where the date is the headline.
 colors:
-  ground: "#eef1f3"
-  ground-2: "#e2e7eb"
-  surface: "#ffffff"
-  line: "#d6dde3"
-  line-strong: "#b4c0ca"
-  ink: "#0f1a24"
-  ink-2: "#4b5a68"
-  ink-3: "#5f6e7c"
-  board: "#050708"
-  board-2: "#161b20"
-  board-line: "#262d34"
-  board-ink: "#f2f5f7"
-  board-ink-2: "#a3b3c1"
-  board-live: "#ffc845"
-  line-sl: "#d42e12"
-  line-oa: "#00843d"
-  line-hl: "#f99d1c"
-  line-cl: "#9b26b6"
-  warn: "#9a5200"
-  warn-bg: "#fff3d6"
-  ok: "#007a39"
-  error: "#b42318"
-  error-bg: "#fdecea"
-  focus: "#1663d6"
+  ground: "#121110"
+  ground-2: "#1d1b19"
+  ground-3: "#2b2825"
+  rule: "#3d3934"
+  paper: "#f3eee6"
+  paper-2: "#c4bcb0"
+  paper-3: "#a39b90"
+  ink-sl: "#ff5a2e"
+  ink-oa: "#3ad374"
+  ink-hl: "#ffd23a"
+  ink-cl: "#c09bff"
+  on-ink: "#121110"
+  soon: "#ffb85c"
+  going: "#7be3a3"
+  error: "#ff9b8a"
+  error-ground: "#2c1a17"
 typography:
   display:
     fontFamily: "Archivo, system-ui, -apple-system, Segoe UI, sans-serif"
-    fontSize: "2.375rem"
-    fontWeight: 750
-    lineHeight: 1.15
-    letterSpacing: "-0.02em"
-    fontVariation: "'wdth' 84"
+    fontSize: "6rem"
+    fontWeight: 900
+    lineHeight: 0.86
+    letterSpacing: "-0.005em"
+    fontVariation: "'wdth' 62"
+  date-line:
+    fontFamily: "Archivo, system-ui, -apple-system, Segoe UI, sans-serif"
+    fontSize: "4.5rem"
+    fontWeight: 900
+    lineHeight: 0.84
+    letterSpacing: "-0.01em"
+    fontVariation: "'wdth' 62"
   headline:
-    fontFamily: "Archivo, system-ui, sans-serif"
-    fontSize: "1.375rem"
-    fontWeight: 700
-    lineHeight: 1.15
-    letterSpacing: "-0.01em"
-    fontVariation: "'wdth' 84"
-  title:
-    fontFamily: "Archivo, system-ui, sans-serif"
-    fontSize: "1.125rem"
-    fontWeight: 700
-    lineHeight: 1.15
-    fontVariation: "'wdth' 84"
-  countdown:
-    fontFamily: "Archivo, system-ui, sans-serif"
-    fontSize: "1.75rem"
-    fontWeight: 750
+    fontFamily: "Archivo, system-ui, -apple-system, Segoe UI, sans-serif"
+    fontSize: "2.25rem"
+    fontWeight: 900
     lineHeight: 1
-    letterSpacing: "-0.01em"
-    fontFeature: "'tnum'"
-    fontVariation: "'wdth' 75"
+    fontVariation: "'wdth' 62"
+  title:
+    fontFamily: "Archivo, system-ui, -apple-system, Segoe UI, sans-serif"
+    fontSize: "1.625rem"
+    fontWeight: 850
+    lineHeight: 1.02
+    fontVariation: "'wdth' 76"
   body:
-    fontFamily: "Archivo, system-ui, sans-serif"
+    fontFamily: "Archivo, system-ui, -apple-system, Segoe UI, sans-serif"
     fontSize: "1rem"
     fontWeight: 400
     lineHeight: 1.5
-    fontFeature: "'tnum'"
-  meta:
-    fontFamily: "Archivo, system-ui, sans-serif"
-    fontSize: "0.9375rem"
-    fontWeight: 400
-    lineHeight: 1.5
+    fontFeature: "'tnum' 1"
+  fact:
+    fontFamily: "Archivo, system-ui, -apple-system, Segoe UI, sans-serif"
+    fontSize: "1rem"
+    fontWeight: 600
+    lineHeight: 1.35
+    fontFeature: "'tnum' 1"
   label:
-    fontFamily: "Archivo, system-ui, sans-serif"
+    fontFamily: "Archivo, system-ui, -apple-system, Segoe UI, sans-serif"
     fontSize: "0.8125rem"
-    fontWeight: 650
-    lineHeight: 1.4
-  code:
-    fontFamily: "Archivo, system-ui, sans-serif"
-    fontSize: "0.8125rem"
-    fontWeight: 750
-    lineHeight: 1
-    letterSpacing: "0.04em"
-    fontVariation: "'wdth' 84"
+    fontWeight: 700
+    lineHeight: 1.35
 rounded:
   none: "0px"
-  xs: "4px"
-  sm: "6px"
-  md: "10px"
+  field: "6px"
   pill: "999px"
 spacing:
-  xs: "4px"
-  sm: "8px"
+  xs: "8px"
+  sm: "12px"
   md: "16px"
-  lg: "24px"
-  xl: "36px"
-  gutter-mobile: "16px"
-  container: "1160px"
+  lg: "22px"
+  xl: "32px"
+  2xl: "48px"
 components:
-  button-primary:
-    backgroundColor: "{colors.ink}"
-    textColor: "{colors.surface}"
+  button-outline:
+    backgroundColor: "transparent"
+    textColor: "{colors.paper}"
     rounded: "{rounded.pill}"
-    padding: "0 16px"
-    height: "42px"
-  button-primary-hover:
-    backgroundColor: "#24384b"
-  button-secondary:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.ink}"
+    padding: "0 20px"
+    height: "44px"
+  button-outline-hover:
+    backgroundColor: "{colors.ground-3}"
+  button-solid:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.on-ink}"
     rounded: "{rounded.pill}"
-    padding: "0 16px"
-    height: "42px"
+    padding: "0 20px"
+    height: "44px"
   button-quiet:
     backgroundColor: "transparent"
-    textColor: "{colors.ink-2}"
+    textColor: "{colors.paper-2}"
     rounded: "{rounded.pill}"
-    padding: "0 12px"
-    height: "34px"
-  area-code-pill:
-    textColor: "{colors.surface}"
-    typography: "{typography.code}"
+    padding: "0 14px"
+    height: "36px"
+  button-on-ink:
+    backgroundColor: "{colors.on-ink}"
+    textColor: "{colors.paper}"
     rounded: "{rounded.pill}"
-    padding: "0 0.5em"
-    height: "1.65em"
-  area-tab:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.pill}"
-    padding: "0 14px 0 8px"
-    height: "40px"
-  area-tab-selected:
-    backgroundColor: "{colors.ink}"
-    textColor: "{colors.surface}"
-  input:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.sm}"
-    padding: "10px 14px"
+    padding: "0 20px"
     height: "44px"
-  arrival-board:
-    backgroundColor: "{colors.board}"
-    textColor: "{colors.board-ink}"
-    rounded: "{rounded.none}"
-    padding: "18px 22px 10px"
-  board-flag:
-    backgroundColor: "{colors.board-2}"
-    textColor: "{colors.board-ink}"
+    width: "104px"
+  area-tab:
+    backgroundColor: "transparent"
+    textColor: "{colors.paper}"
     rounded: "{rounded.pill}"
-    padding: "1px 8px"
-  panel:
-    backgroundColor: "{colors.surface}"
-    rounded: "{rounded.md}"
-    padding: "22px"
+    padding: "0 16px"
+    height: "42px"
+  area-tab-selected:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.on-ink}"
+  input:
+    backgroundColor: "{colors.ground-2}"
+    textColor: "{colors.paper}"
+    rounded: "{rounded.field}"
+    padding: "10px 14px"
+    height: "46px"
+  poster:
+    backgroundColor: "{colors.ink-sl}"
+    textColor: "{colors.on-ink}"
+    rounded: "{rounded.none}"
+    padding: "22px 22px 20px"
+  side-panel:
+    backgroundColor: "{colors.ground-2}"
+    textColor: "{colors.paper}"
+    rounded: "{rounded.none}"
+    padding: "24px"
+  toast:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.on-ink}"
+    rounded: "{rounded.pill}"
+    padding: "12px 14px 12px 20px"
 ---
 
 # Design System: Student activities companion (working title)
 
 ## Overview
 
-**Creative North Star: "The Platform Board"**
+**Creative North Star: "The Gig Poster Wall"**
 
-Activities are arrivals. The system borrows Singapore MRT platform signage: a cool, light station ground, near-black ink, and one dark arrival board where the soonest things count down in amber. The four areas of growth are treated as train lines, each with its own line colour and a two-letter station code (SL, OA, HL, CL), so a student can read area, time and room left the way a commuter reads a platform display: at a glance, without a legend.
+The week's activities are pasted up as gig posters on a dark wall, the kind outside *SCAPE or the Esplanade. The date is the headline: set in Archivo at its narrowest and heaviest, so what is soon reads from across the room. Each of the four areas is one flat spot ink, and every poster is printed on its ink in near-black. Everything around the posters (header, filters, side panels, forms) stays on the wall: near-black ground, warm off-white paper type, thin warm rules.
 
-Density is operational, not promotional. Lists are ruled rows on the ground, not cards; photographs are optional and never lead. The one dark surface carries the live information (countdowns, closing-soon, few-spots), and every other surface stays light and quiet so the board reads first. Archivo runs everything, semi-condensed for headings, the board and numerals, normal width for running text, with tabular figures everywhere so times and counts align in columns.
+The system is flat and printed. Depth comes only from ink against wall; there are no gradients, textures or shadows. Type width is the main expressive lever: poster type runs condensed (wdth 62) and uppercase, titles slightly wider (wdth 76), and every fact a student must read to decide runs at normal width and body size or larger. The poster world never outranks usability: posters stay compact on phones, Join sits in the same corner of every poster, and full or closed activities say so twice, with a stamp and a disabled button.
 
-Motion is nearly absent. Board rows tick in once on load and on filter change; buttons and tabs fade their colours; the toast slides up. Nothing else moves, and reduced-motion collapses all of it.
+Motion is one gesture: posters paste up once on load and on filter change. Nothing else moves beyond state transitions.
+
+This system replaces the retired MRT arrival-board world (kept in git history). It must extend, without new worlds, to the planned surfaces: the activity journal with photos, the hours summary per area, the reflection compiler, the optional award tracker, and admin. No components exist for those yet; build them from the wall, paper type, spot inks and the components below.
 
 **Key Characteristics:**
-- One dark arrival-board surface per view, square-cornered, with a 6px slate top rail.
-- Area identity carried only by line colour plus two-letter code pill, never by colour alone.
-- Ruled rows on a cool ground instead of card grids.
-- Archivo variable: 84% width for headings and codes, 75% for big numerals, 100% for body.
-- Tabular numerals on the whole document.
-- Pill-shaped controls; 10px panels; 0px board.
+- Near-black wall, warm off-white paper ink, one flat spot ink per area.
+- The date line is the headline: Archivo 900, wdth 62, uppercase, tight leading.
+- Posters are square-cornered ink blocks; controls are pills; text fields are gently rounded.
+- Flat throughout: no gradients, textures or shadows.
+- Status is printed: angled FULL, CLOSED, GOING stamps.
+- Deciding facts at body size or larger, tabular numerals everywhere.
 
 ## Colors
 
-A cool grey-blue station ground with near-black ink, one black board with a single amber "live" signal, and four line colours reserved for area identity.
+A dark wall with warm paper type, and four loud flat spot inks reserved for the areas.
 
 ### Primary
-- **Station Ink** (`ink`): Text, the primary button, the selected area tab, the 2px rule above each list group, and the active-nav underline. It is the system's action colour; there is no separate brand hue.
-- **Arrival Board Black** (`board`): The Next up board, the detail page's when-strip, and the toast. Its family (`board-2` for flags and skeletons, `board-line` for row dividers and the 6px top rail, `board-ink` and `board-ink-2` for text) is used only on this surface.
-- **Countdown Amber** (`board-live`): Countdowns, warning flags on the board, the board's focus ring, the toast action, and text selection. It appears only on board black (or as a translucent selection tint), never as text on the light ground.
-
-### Secondary: Area line colours
-- **Service Learning Red** (`line-sl`), **Outdoor Appreciation Green** (`line-oa`), **Healthy Living Orange** (`line-hl`), **Community Leadership Purple** (`line-cl`): Fill for the area code pill, the strip-map line and stop ring in list rows, and the four bars of the brand mark. Healthy Living Orange takes ink text on its pill; the other three take white.
+- **Spot Red-Orange** (ink-sl): Service Learning posters, tab dots and detail headers.
+- **Spot Green** (ink-oa): Outdoor Appreciation.
+- **Spot Yellow** (ink-hl): Healthy Living; also the text-selection highlight.
+- **Spot Violet** (ink-cl): Community Leadership.
+- **Press Black** (on-ink): the ink printed on every spot ink: poster type, poster rule, on-poster buttons and stamp borders. Same value as the wall, so posters read as printed on the wall's own black.
 
 ### Neutral
-- **Station Ground** (`ground`): Page background.
-- **Ground Shade** (`ground-2`): Meter tracks, avatars, skeleton bars, disabled primary buttons, photo placeholder.
-- **White Surface** (`surface`): Header bar, inputs, tabs, secondary buttons, side panel, sign-in options, empty states.
-- **Hairline** (`line`) and **Rule** (`line-strong`): Panel and tab borders; row dividers, input and secondary-button borders.
-- **Secondary Ink** (`ink-2`) and **Muted Ink** (`ink-3`): Meta text and labels; placeholders and disabled text.
+- **Night Wall** (ground): page background and the base of everything off-poster.
+- **Wall Shadow** (ground-2): raised panels on the wall: side panel, sign-in options, inputs, skeletons.
+- **Wall Edge** (ground-3): hover fill for outline buttons, meter track, avatar fill.
+- **Warm Rule** (rule): 1px header, footer and section rules; 2px tab and input borders; dashed empty-state frame.
+- **Paper** (paper): primary text, solid buttons, selected tab, toast, focus ring, meter fill.
+- **Paper Dim** (paper-2): secondary text, inactive nav, ledes, field icons.
+- **Paper Faint** (paper-3): placeholders, counts, footer, the full-meter fill.
 
 ### States
-- **Closing Amber-Brown** (`warn`, on `warn-bg`): Few-spots and closes-soon text on the light ground, the Sample data badge.
-- **Going Green** (`ok`): "Going" / "You're going" confirmations.
-- **Error Red** (`error`, on `error-bg`): Field errors, invalid input border, the error state panel.
-- **Focus Blue** (`focus`): The 2px focus outline and input focus ring on light surfaces.
+- **Soon Amber** (soon): closing-soon and few-spots-left on the wall, and the slow-server note.
+- **Going Mint** (going): "You're going" on the detail side panel.
+- **Error Coral** (error) on **Error Ground** (error-ground): invalid fields, field errors, the error state frame.
 
 ### Named Rules
-**The Line Colour Rule.** The four line colours mean areas and nothing else. They never become button fills, headings, links or decoration, and they always travel with the two-letter code or area name.
+**The One Ink Per Area Rule.** Each spot ink belongs to exactly one area and is used only to identify it. Never use a spot ink for status, emphasis or decoration; states use the wall's own state colors.
 
-**The One Amber Rule.** Amber is the live signal and lives on board black. On the light ground, urgency uses Closing Amber-Brown (`warn`) instead.
+**The Printed In Black Rule.** Anything on a spot ink is Press Black (on-ink), never paper or another ink. The only reversal is the closing-soon fact, which knocks the poster's ink out of a black band.
 
 ## Typography
 
-**Display Font:** Archivo variable (wdth 62 to 125, wght 100 to 900), self-hosted, with system-ui fallback.
-**Body Font:** Archivo at normal width.
+**Display Font:** Archivo variable (wdth 62-125, wght 100-900), self-hosted, falling back to system-ui
+**Body Font:** Archivo at normal width (wdth 100)
 
-**Character:** One family doing signage work. Semi-condensed, heavy weights give headings and codes the compressed authority of station signs; normal width keeps body copy easy to read.
+**Character:** One family doing two jobs. Condensed and black, it is the poster's shout; at normal width it is a calm, legible fact sheet. Numerals are tabular everywhere so dates, times and spots line up.
 
 ### Hierarchy
-- **Display** (750, 2.375rem, 1.15, wdth 84, -0.02em): Page title only (h1). Drops to 1.75rem under 760px.
-- **Headline** (700, 1.375rem, 1.15, wdth 84): Section and group headings (h2, list-group headings), board row titles, the when-strip date.
-- **Title** (700, 1.125rem, wdth 84): Row titles in lists, panel headings, the board's "Next up" label.
-- **Countdown** (750, 1.75rem, line-height 1, wdth 75): Board countdowns and the day number in list rows. Unit words ("days") sit beside at 0.9375rem/600.
-- **Body** (400, 1rem, 1.5): Running text; lede at 1.125rem in `ink-2`, max 60ch; prose at 62ch with 1.65 line height.
-- **Meta** (400, 0.9375rem): Place, time, going counts, nav links (650).
-- **Label** (650, 0.8125rem): Fact labels, closing dates, field errors, footer.
-- **Code** (750, 0.8125rem, +0.04em, wdth 84): Area code pills; 0.75rem in the small size.
+- **Display** (900, wdth 62, uppercase, 6rem / 3.5rem on phones, 0.86): the page title ("What's on", "Sign in" at 4.5rem / 3.5rem).
+- **Date line** (900, wdth 62, uppercase, 4.5rem on posters, 6rem on the headliner and detail header; 3.25rem on phone posters, 3.75rem on the phone detail header; 0.84): weekday and date, two stacked lines on desktop posters, one line on headliner, detail and phones.
+- **Headline** (900, wdth 62, uppercase, 2.25rem / 1.875rem on phones, 1): week group headings (THIS WEEK, NEXT WEEK, LATER); also the large spots figure in the side panel and sign-in option headings at 1.5rem.
+- **Title** (850, wdth 76, uppercase, 1.625rem / 1.375rem on phones, 1.02): activity titles on posters; 2.25rem on the headliner, 3rem (2rem phones) on the detail header.
+- **Body** (400, 1rem, 1.5): running text; prose capped at 62ch with 1.65 leading.
+- **Fact** (600-850, 1rem, 1.35): poster facts; spots left is 1.125rem with the count in 850.
+- **Label** (700, 0.8125rem): fact-sheet labels, field errors, hints, the area name on desktop posters. Never used for a deciding fact.
 
 ### Named Rules
-**The Tabular Rule.** `font-variant-numeric: tabular-nums` is set on body. Every time, date and count aligns; never turn it off.
+**The Date Is The Headline Rule.** On every poster and poster header, the date line is the largest type. Titles come second.
 
-**The Two Widths Rule.** Headings, codes, the brand name and the board clock use the 84% width; big numerals use 75%; anything read as a sentence uses 100%.
+**The Deciding Facts Rule.** Spots left and the closing date are at body size (1rem) or larger on every viewport, never small print. Spots left leads at 1.125rem.
+
+**The Two Widths Rule.** Condensed width (wdth 62-76) is for dates, titles and headings in uppercase. Facts, controls and prose use normal width and sentence case.
 
 ## Layout
 
-A single centred column, max 1160px with 24px side padding (16px under 760px); narrow pages (sign-in) cap at 720px. Page padding is 36px top and 72px bottom (24/56 on phones). Spacing steps are 4, 8, 16, 24, 36px with a few 10/12/14/18/22px fits inside components.
+A centered page of 1240px max with 32px side padding (16px on phones), 48px top padding (28px on phones). Narrow pages (sign-in) cap at 760px. Spacing is a loose 8px rhythm: 8 and 12px inside controls and rows, 16px between posters, 22px poster padding, 32px between major blocks, 44px between week groups.
 
-Browse is a vertical sequence: title and lede, the full-width board, then area tabs, a search-and-when filter bar, and week-grouped lists. A list row is a six-column grid (date stack, strip-map stop, title and meta, going, spots, action) that folds to five columns under 1000px and to a four-column, three-line stack under 760px, with the date and stop spanning all lines and the Join button bottom-right.
+**The wall** is a grid of three equal columns with 16px gaps; two columns under 1000px; one column at 760px and below. The soonest activity is the headliner and spans two columns, with a larger date and title. Posters are grouped under This week, Next week and Later.
 
-The detail page is a main column plus a 320px sticky side panel; under 760px the panel moves above the content. Breakpoints: 1000px and 760px.
+**Detail** stacks a full-width poster header over a two-column grid (content plus a 340px sticky side panel, 300px under 1000px). On phones the header bleeds to the screen edges and the side panel moves above the content so Join comes first.
+
+**Filters** are a row of area pills over a search field and a date select.
+
+### Named Rules
+**The Three On A Phone Rule.** At 760px and below a poster is compact (16px padding, 3.25rem date on one line, 1.375rem title, area name hidden) so about three posters are visible per screen.
+
+**The One Row Of Areas Rule.** On phones the area pills sit in one horizontally scrolling row that bleeds to the screen edges, with no visible scrollbar; the cut-off last pill shows there is more. The search field and a 128px date select share one row below it.
 
 ## Elevation & Depth
 
-Mostly flat. Depth comes from tonal contrast (black board against light ground, white surfaces on grey ground) and rules, not shadow. One soft two-layer shadow lifts the panels that hold a decision (the detail side panel and sign-in options); the toast has its own darker drop.
-
-### Shadow Vocabulary
-- **Panel lift** (`box-shadow: 0 1px 2px rgb(15 26 36 / 0.06), 0 4px 14px -6px rgb(15 26 36 / 0.12)`): Decision panels only.
-- **Toast drop** (`box-shadow: 0 8px 24px -8px rgb(15 26 36 / 0.5)`): The floating toast.
-- **Input focus ring** (`box-shadow: 0 0 0 3px rgb(22 99 214 / 0.2)`): Inputs and selects on focus.
+Flat. There are no shadows anywhere. Depth is tonal: the wall (ground), panels one step lighter (ground-2), hover and tracks one step more (ground-3), and the spot-ink posters as the brightest surfaces. Hover on a poster is a 3px paper outline offset 4px, not a lift.
 
 ### Named Rules
-**The Flat List Rule.** Rows and the board never carry shadows. Only a panel the student acts in, or a toast, is lifted.
+**The Pasted Flat Rule.** No box-shadow, gradient or texture on any surface. A poster announces itself with ink, not elevation.
 
 ## Shapes
 
-Three silhouettes. Controls and tags are full pills (999px): buttons, tabs, code pills, flags, badges, the toast. Containers on the light ground take a gentle 10px corner (panels, empty states, photos) and inputs a tighter 6px. The board and the when-strip are square (0px) with a 6px top rail, like a hung display. The strip-map stop is a circle: an 18px white ring with a 4px line-colour border on a 6px vertical line (14px/3px and 4px on phones).
+Three shapes only. Posters, poster headers, panels, empty states and the meter are square-cornered (0px), like paper. Every control that is pressed or toggled, plus the toast and count badges, is a full pill (999px). Text inputs and selects are gently rounded (6px). Rules are 1px on the wall, 2px on posters and controls; the poster's facts sit under a 2px Press Black rule. The stamp is the one rotated shape: a 3px-bordered square tag, tilted 7 degrees.
 
 ## Components
 
 ### Buttons
-Rounded, confident, ink-led.
-- **Shape:** full pill (999px), 42px tall, 16px side padding, 650 weight at 0.9375rem.
-- **Primary:** ink fill, white text; hover darkens to #24384b. Used for Join and the one main action per view.
-- **Secondary:** white fill, `line-strong` border, ink text; hover turns the border ink.
-- **Quiet:** transparent, `ink-2` text; hover gets a ground fill. Used for Sign out and Leave.
-- **Sizes:** sm 34px, lg 50px (1.125rem), block full-width.
-- **States:** press nudges 1px down; disabled drops to ground fill and muted text with `not-allowed`. Colour transitions 150ms.
+Pill-shaped, bold (750) and plainly worded; 44px tall by default.
+- **Shape:** full pill (999px), 2px border.
+- **Outline (default):** transparent with a paper border and text; hover fills Wall Edge.
+- **Solid:** paper fill, Press Black text; hover goes to pure white. Used for the primary action on the wall (Join on the detail page, sign-in submits).
+- **Quiet:** borderless, Paper Dim text; hover brightens with a Wall Shadow fill. Sign out, secondary form actions.
+- **On-ink:** the poster's Join. Press Black fill, paper text, 104px min width (92px, 42px tall on phones). Disabled on-ink becomes a dashed Press Black outline with the reason as its label (Full, Closed). Leave on a poster is the on-ink quiet variant, a Press Black outline.
+- **Sizes:** small 36px, large 54px; block buttons fill their column.
+- **States:** colour transitions 150ms; active nudges down 1px; disabled is 0.55 opacity off-poster; busy shows "Joining..." with a progress cursor.
 
-### Area code pill (signature)
-Two-letter station code in a line-colour pill: 750 weight, 84% width, +0.04em, white text (ink on Healthy Living). Carries a title with the full area name. Appears on board rows, list rows, tabs and the when-strip.
+### Chips (area tabs)
+- **Style:** 42px pills (38px on phones), 2px Warm Rule border, paper text, 650 weight, an 11px spot-ink dot before each area name.
+- **State:** hover lifts the border to Paper Dim; selected fills paper with Press Black text.
 
-### Area tabs
-White pills with a hairline border, code pill inside on the left; selected tab inverts to ink with white text. 40px tall, wrap freely.
+### Cards / Containers
+- **Poster:** a square block in the area's spot ink, Press Black type. Order is fixed: date line, when line (countdown and time), title, place, a 2px rule, then facts on the left (spots left, closes, who's going, area) and the action on the right. The whole poster opens the activity; Join sits above that link and works in place.
+- **Side panel / sign-in option:** Wall Shadow fill, 1px Warm Rule border, 24px padding, square corners.
+- **Empty state:** 2px dashed Warm Rule frame, 30px padding, headline, a Paper Dim line and actions. The error variant is solid Error Coral on Error Ground.
+- **Skeleton:** Wall Shadow poster shapes with pulsing Wall Edge bars; a "Waking up the server" note in Soon Amber appears if loading is slow.
 
 ### Inputs / Fields
-- **Style:** white, 1px `line-strong` border, 6px radius, 44px tall, 1rem text. Search carries a leading stroke icon; select has a custom chevron.
-- **Focus:** border turns Focus Blue plus a 3px translucent blue ring.
-- **Error:** border turns Error Red; message below in 0.8125rem/600 Error Red.
+- **Style:** Wall Shadow fill, 2px Warm Rule border, 6px radius, 46px tall, 1rem text; search carries a leading icon, select a paper chevron.
+- **Focus:** border turns paper (no glow).
+- **Error:** Error Coral border and a bold 0.8125rem Error Coral message below.
 
 ### Navigation
-White header bar, 60px (56px on phones), hairline bottom border. Brand mark (black rounded square with four line-colour bars) plus name; links in `ink-2` 650 weight, current page in ink with a 3px ink underline sitting on the border. A small ink count pill shows how many activities the student is going to.
+- **Style:** 64px header (56px on phones) under a 1px rule. The product name is set in poster type (900, wdth 62, uppercase). Browse and Going links in 650 weight, Paper Dim at rest, paper on hover and when current, with a 3px paper bar on the header's bottom edge for the current page. Going carries a paper count pill.
+- **Mobile:** the student's name hides and Sign out collapses to its icon (with an accessible label).
 
-### Arrival board (signature)
-Black, square, 6px slate top rail. Head row: "Next up" title and a live clock. Each row: code pill, title (1.375rem, 84% width) with place and pill flags beneath, and a right-aligned amber countdown with a small time under it. Flags are `board-2` pills; warning flags are amber on a 14% amber tint. Rows tick in once (opacity and 4px rise, 160ms, `cubic-bezier(0.16, 1, 0.3, 1)`, staggered 30ms). On phones the countdown moves under the title, left-aligned. The detail page's when-strip is the same surface in miniature.
+### Stamp (signature)
+FULL, CLOSED and GOING printed at an angle like a sold-out sticker: poster type at 1.625rem (1.25rem on phones, 2rem on the detail header), 3px Press Black border, the poster's own ink as fill, rotated 7 degrees, top right. Decorative to assistive tech; the facts and the button carry the state in words.
 
-### Strip-map list row (signature)
-Ruled rows under a 2px ink group rule, each a stop on a coloured line: a date stack (uppercase weekday, 75%-width day number, month), the stop, title with code pill and time and place, going count with a people icon, spots text over a 4px meter with the closing date, and the action. Few spots and closing soon switch to `warn`; full greys the meter. Hover tints the row with translucent white.
-
-### Panels and states
-- **Side panel / sign-in option:** white, hairline border, 10px radius, panel lift, 22px padding.
-- **Empty:** white, 1px dashed `line-strong`, 10px radius, 28px padding, with reset actions as secondary buttons.
-- **Error:** same shape, solid border, `error-bg` fill, Retry as primary.
-- **Loading:** skeleton bars that pulse at 1.4s; a "waking up the server" note appears after a delay (amber on the board, `warn` elsewhere).
-- **Toast:** board-black pill fixed at bottom centre, optional amber action, slides up in 220ms.
+### Toast
+A paper pill dropped from just under the header, Press Black text with a 2px border, an optional underlined action (Undo). Slides in 12px over 220ms.
 
 ### Icons
-One stroke set on a 24px grid, 1.75 stroke, round caps and joins, rendered at 1.15em and inheriting `currentColor`.
+Inline 24px-grid line icons, 1.75 stroke, round caps, sized to 1.15em beside text. Used beside labels, never alone, except the phone sign-out button, which has an aria-label.
+
+### Named Rules
+**The Same Corner Rule.** Join (or its disabled stand-in, or the Going tag with Leave) always sits bottom right of the poster, in the poster foot, regardless of how long the title or facts run.
+
+**The Said Twice Rule.** A full or closed activity shows a stamp and a disabled button whose label gives the reason (Full, Closed, Sign-up closed). Never hide the button, never use colour alone.
+
+**The Paste-Up Rule.** Posters fade up from 0.2 opacity and 6px below over 180ms (ease-out cubic-bezier(0.16, 1, 0.3, 1)), staggered 25ms each and capped at the eighth poster, on load and filter change only. Reduced motion removes it.
 
 ## Do's and Don'ts
 
 ### Do:
-- **Do** keep one dark board-black surface per view for the live information, and keep everything else on the light ground.
-- **Do** pair every line colour with its two-letter code or area name.
-- **Do** use ruled rows with the strip-map stop for lists of dated activities.
-- **Do** set headings, codes and numerals in Archivo at 84% or 75% width, and body at normal width.
-- **Do** keep pills for controls and tags, 10px for light containers, 0px for board surfaces.
-- **Do** design slow, empty and failing states with the empty/error panel and the waking-up note.
-- **Do** mark demo content with the Sample badge in `warn` on `warn-bg`.
-- **Do** extend this system to the planned surfaces (journal with photos, hours summary per area, reflection compiler, optional award tracker, admin) using these tokens and components before inventing new ones.
+- **Do** give every activity surface its area's spot ink and print on it in Press Black.
+- **Do** set dates as the largest type on a poster: Archivo 900, wdth 62, uppercase.
+- **Do** keep spots left and the closing date at 1rem or larger on every viewport.
+- **Do** keep posters compact on phones so about three show per screen.
+- **Do** put Join in the bottom-right corner of every poster.
+- **Do** show full and closed as a stamp plus a disabled button that names the reason.
+- **Do** keep area filters in one scrolling row on phones.
+- **Do** design slow, empty and failed loads as states on the wall (skeletons, the waking-up note, dashed empty frame, coral error frame).
+- **Do** extend the journal, hours summary, reflection compiler, award tracker and admin from these tokens and components before inventing new ones.
 
 ### Don't:
-- **Don't** use line colours for buttons, links, headings or decoration.
-- **Don't** put amber text on the light ground; use `warn` there.
-- **Don't** lay activities out as a photo-card grid led by a hero banner; photos are optional and secondary.
-- **Don't** add shadows to rows or the board.
-- **Don't** animate beyond the board tick, colour fades, button press and toast slide.
-- **Don't** turn off tabular numerals.
+- **Don't** add shadows, gradients or textures to any surface.
+- **Don't** use a spot ink for anything but its area.
+- **Don't** put deciding facts in label size or Paper Faint.
+- **Don't** round poster corners or square off buttons; posters are paper, controls are pills.
+- **Don't** wrap the area filters onto several lines on phones.
+- **Don't** hide a full or closed activity's button or signal its state by colour alone.
+- **Don't** animate anything beyond the paste-up and state transitions.

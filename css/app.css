@@ -448,7 +448,6 @@ select {
   .toast { top: 64px; }
   .nav a { padding: 0 8px; }
   .page { padding: 28px 16px 56px; }
-  .display { font-size: 4rem; }
   .lede { font-size: var(--t-base); margin-top: 10px; }
   .intro { margin-bottom: 16px; }
   .display { font-size: 3.5rem; }
