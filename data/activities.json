@@ -1,0 +1,115 @@
+{
+  "generatedAt": "2026-11-18T07:27:51.077Z",
+  "activities": [
+    {
+      "id": "nss-a1dffb3458",
+      "area": "OA",
+      "title": "Exploring Kranji Marshes Nature Park",
+      "organiser": "Nature Society Singapore",
+      "location": "Kranji Marshes Nature Park",
+      "startsAt": "2026-11-20T16:00:00.000Z",
+      "endsAt": "2026-11-20T18:00:00.000Z",
+      "spotsTotal": 30,
+      "spotsTaken": 30,
+      "signupClosesAt": "2026-11-20T15:59:00.000Z",
+      "description": "Join experienced guides from NSS Bird Group in exploring the core area of Kranji Marshes Nature Park. The paths and hides here offer excellent views across the freshwater marshes. Birding highlights include residents such as the Red-wattled Lapwing, Changeable Hawk Eagle and Gray-headed Fish Eagle and winter visitors such...",
+      "photoUrl": "https://www.nss.org.sg/wp-content/uploads/2026/09/Changeable-Hawk-Eagle_Alan-OwYong-e1789730881840.jpg",
+      "contact": {
+        "type": "email",
+        "value": "outreach@nss.org.sg"
+      },
+      "joined": false,
+      "friendsGoing": [],
+      "source": "nss",
+      "externalUrl": null
+    },
+    {
+      "id": "nss-cb37b87d3b",
+      "area": "SL",
+      "title": "Planting Trees along the Rail Corridor",
+      "organiser": "Nature Society Singapore",
+      "location": "Rail Corridor",
+      "startsAt": "2026-11-20T16:00:00.000Z",
+      "endsAt": "2026-11-20T18:00:00.000Z",
+      "spotsTotal": 30,
+      "spotsTaken": 0,
+      "signupClosesAt": "2026-11-20T15:59:00.000Z",
+      "description": "Spend a rewarding morning planting trees along the Rail Corridor and help create a thriving green corridor in the heart of Singapore. This is more than just planting trees – it is about connecting forests, mangroves, and urban greenery into a continuous lifeline for wildlife, providing food, shelter, and space...",
+      "photoUrl": "https://www.nss.org.sg/wp-content/uploads/2026/04/NSS-Rewilding-Project-1-e1776680135317.png",
+      "contact": {
+        "type": "email",
+        "value": "outreach@nss.org.sg"
+      },
+      "joined": false,
+      "friendsGoing": [],
+      "source": "nss",
+      "externalUrl": null
+    },
+    {
+      "id": "nss-b7ca9285cf",
+      "area": "OA",
+      "title": "Exploring Woodlands Botanic Gardens",
+      "organiser": "Nature Society Singapore",
+      "location": "Woodlands Botanic Gardens",
+      "startsAt": "2026-12-04T16:00:00.000Z",
+      "endsAt": "2026-12-04T18:00:00.000Z",
+      "spotsTotal": 30,
+      "spotsTaken": 0,
+      "signupClosesAt": "2026-12-04T15:59:00.000Z",
+      "description": "Join our guides from the Butterfly & Insect Group and Bird Group to explore Woodlands Botanic Gardens. At least 15 resident butterflies have been recorded here including the Common Rose, Common Birdwing, Black-veined Tiger, Julia Longwing, Peacock Royal and Leopard Lacewing. In addition to butterflies, the many flowers and plants in this garden are...",
+      "photoUrl": "https://www.nss.org.sg/wp-content/uploads/2026/11/Screenshot-2026-11-12-161335.png",
+      "contact": {
+        "type": "email",
+        "value": "outreach@nss.org.sg"
+      },
+      "joined": false,
+      "friendsGoing": [],
+      "source": "nss",
+      "externalUrl": null
+    },
+    {
+      "id": "nss-c5de1d1be8",
+      "area": "SL",
+      "title": "Leisurely Walk through Pasir Ris Mangrove",
+      "organiser": "Nature Society Singapore",
+      "location": "Pasir Ris Mangrove",
+      "startsAt": "2026-12-05T16:00:00.000Z",
+      "endsAt": "2026-12-05T18:00:00.000Z",
+      "spotsTotal": 30,
+      "spotsTaken": 0,
+      "signupClosesAt": "2026-12-05T15:59:00.000Z",
+      "description": "Join our Nature Stewards volunteers on a leisurely walk through the Pasir Ris Mangrove and uncover the secrets of this habitat. Keep your eyes peeled for wildlife such as monitor lizards, Oriental Pied Hornbills, spitting cobras, tent spiders, mudskippers and much more. Along the way, learn about the important role...",
+      "photoUrl": "https://www.nss.org.sg/wp-content/uploads/2026/09/WhatsApp-Image-2026-05-20-at-3.40.10-PM-1-e1789024797292.jpeg",
+      "contact": {
+        "type": "email",
+        "value": "outreach@nss.org.sg"
+      },
+      "joined": false,
+      "friendsGoing": [],
+      "source": "nss",
+      "externalUrl": null
+    },
+    {
+      "id": "nss-8f95245e0b",
+      "area": "SL",
+      "title": "Walk through Windsor Nature Park",
+      "organiser": "Nature Society Singapore",
+      "location": "Windsor Nature Park",
+      "startsAt": "2026-12-14T16:00:00.000Z",
+      "endsAt": "2026-12-14T18:00:00.000Z",
+      "spotsTotal": 30,
+      "spotsTaken": 0,
+      "signupClosesAt": "2026-12-14T15:59:00.000Z",
+      "description": "Join our Nature Stewards volunteers on a leisurely walk through Windsor Nature Park and explore the wonders of Singapore’s secondary forest. Keep your eyes peeled for wildlife such as long-tailed macaques, plantain squirrels, Sunda colugos, woodpeckers, and freshwater fishes. Along the way, learn about the importance of our forests in...",
+      "photoUrl": "https://www.nss.org.sg/wp-content/uploads/2026/10/Lake-and-Plant-e1791255820853.jpg",
+      "contact": {
+        "type": "email",
+        "value": "outreach@nss.org.sg"
+      },
+      "joined": false,
+      "friendsGoing": [],
+      "source": "nss",
+      "externalUrl": null
+    }
+  ]
+}
