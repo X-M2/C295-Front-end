@@ -74,8 +74,45 @@
     };
   });
 
+  // Past activities the sample student went to, for the Journal.
+  // [id, area, title, organiser, place, dayOffset (negative), start, end]
+  const pastRows = [
+    ["p01", "OA", "Mangrove boardwalk walk", "Ubin Shore Guides", "Sungei Buloh Wetland Reserve", -12, "08:30", "11:00"],
+    ["p02", "SL", "Food pack night", "Northside Food Share", "Woodlands Community Club", -9, "18:30", "21:00"],
+    ["p07", "HL", "Evening run along the park connector", "RP Running Club", "Woodlands Waterfront Park", -9, "07:00", "08:00"],
+    ["p03", "HL", "Badminton social", "RP Badminton Club", "RP Sports Hall", -6, "17:00", "19:00"],
+    ["p04", "CL", "Orientation station leader training", "RP Student Life", "RP Lecture Theatre 1", -4, "15:00", "18:00"],
+    ["p05", "SL", "Reading buddies for P3 pupils", "Library Buddies SG", "Woodlands Regional Library", -2, "10:00", "12:00"],
+    ["p06", "OA", "Sunrise kayak at Pasir Ris", "Paddle North", "Pasir Ris Park", -1, "07:00", "09:30"],
+  ];
+  const pastActivities = pastRows.map(([id, area, title, organiser, location, off, start, end]) => ({
+    id, area, title, organiser, location, startsAt: day(off, start), endsAt: day(off, end), isSample: true,
+  }));
+
+  const isoDate = (off) => { const d = new Date(); d.setDate(d.getDate() + off); return d.toLocaleDateString("en-CA"); };
+  // Sample journal entries. p04, p05 and p06 are left to log.
+  const journal = [
+    { id: "e01", activityId: "p01", area: "OA", title: "Mangrove boardwalk walk", date: isoDate(-12), start: "08:30", end: "11:00",
+      did: "Walked the boardwalk with a guide and counted mudskippers and fiddler crabs at low tide. Helped pick up plastic caught in the roots.",
+      learned: "Mangrove roots trap a lot of rubbish that floats in from the sea. Small clean-ups make a visible difference to the crabs' habitat.",
+      photos: [{ url: "assets/photos/shore-rocks.webp", sample: true }], source: "web" },
+    { id: "e02", activityId: "p02", area: "SL", title: "Food pack night", date: isoDate(-9), start: "18:30", end: "21:00",
+      did: "Sorted donated rice, canned food and oil, then packed 150 bundles with a team of six.",
+      learned: "Working in a line with one job each was much faster than everyone packing whole bundles. I also learned to check expiry dates first.",
+      photos: [{ url: "assets/photos/bread-oven.webp", sample: true }], source: "web" },
+    { id: "e04", activityId: "p07", area: "HL", title: "Evening run along the park connector", date: isoDate(-9), start: "07:00", end: "08:00",
+      did: "Ran 6 km with the club at an easy pace, then did stretches together at the jetty.",
+      learned: "Running with a group made it much easier to keep going on the last kilometre than running alone.",
+      photos: [{ url: "assets/photos/bike-bell.webp", sample: true }], source: "web" },
+    { id: "e03", activityId: "p03", area: "HL", title: "Badminton social", date: isoDate(-6), start: "17:00", end: "19:00",
+      did: "Played doubles for two hours and rotated partners every game.",
+      learned: "", photos: [], source: "telegram" },
+  ];
+
   window.SAMPLE_DATA = {
     activities,
+    pastActivities,
+    journal,
     student: { id: "s-sample", name: "Alex Lim", email: "alex.sample@example.org" },
     signInCode: "123456",
   };

@@ -61,6 +61,19 @@
 
   // ---- sample-mode state ----------------------------------------------------
 
+  const JOURNAL_KEY = "c295.sample.journal";
+  // Sample journal: starts from SAMPLE_DATA.journal, then lives in this browser.
+  function sampleJournal() {
+    const stored = readJSON(JOURNAL_KEY, null);
+    if (stored) return stored;
+    const seed = window.SAMPLE_DATA.journal.map((e) => ({ ...e }));
+    writeJSON(JOURNAL_KEY, seed);
+    return seed;
+  }
+  function requireSession() {
+    if (!session.get()) throw new ApiError("Sign in to see your journal.", 401);
+  }
+
   const joinedIds = () => new Set(readJSON(JOINED_KEY, []));
   function withViewer(a) {
     const s = session.get();
@@ -151,6 +164,88 @@
       const data = await request("/auth/token", { method: "POST", body: { token } });
       session.set({ ...data.student, token: data.token });
       return data.student;
+    },
+
+    // ---- journal ----------------------------------------------------------------
+    // Entry: { id, activityId|null, area, title, date "YYYY-MM-DD", start "HH:MM", end "HH:MM",
+    //          did, learned, photos: [{ url }], source: "web"|"telegram" }
+
+    async listJournal() {
+      requireSession();
+      if (cfg.useSampleData) return sample(() => sampleJournal());
+      return (await request("/me/journal")).entries;
+    },
+
+    // Activities the student went to (ended, joined) that have no entry yet, oldest first.
+    async listToLog() {
+      requireSession();
+      if (cfg.useSampleData) {
+        return sample(() => {
+          const logged = new Set(sampleJournal().map((e) => e.activityId).filter(Boolean));
+          return window.SAMPLE_DATA.pastActivities
+            .filter((a) => !logged.has(a.id))
+            .sort((a, b) => new Date(a.startsAt) - new Date(b.startsAt));
+        });
+      }
+      return (await request("/me/to-log")).activities;
+    },
+
+    // An ended activity the student went to, for prefilling the entry form.
+    async getPastActivity(id) {
+      requireSession();
+      if (cfg.useSampleData) {
+        return sample(() => {
+          const a = window.SAMPLE_DATA.pastActivities.find((x) => x.id === id);
+          if (!a) throw new ApiError("We couldn't find that activity in your history.", 404);
+          return a;
+        });
+      }
+      return (await request(`/me/history/${encodeURIComponent(id)}`)).activity;
+    },
+
+    async getEntry(id) {
+      requireSession();
+      if (cfg.useSampleData) {
+        return sample(() => {
+          const e = sampleJournal().find((x) => x.id === id);
+          if (!e) throw new ApiError("This entry doesn't exist or was deleted.", 404);
+          return e;
+        });
+      }
+      return (await request(`/me/journal/${encodeURIComponent(id)}`)).entry;
+    },
+
+    async saveEntry(entry) {
+      requireSession();
+      if (cfg.useSampleData) {
+        return sample(() => {
+          if (simulate === "offline") throw new ApiError("You're offline.", 0);
+          const list = sampleJournal();
+          const saved = { ...entry, id: entry.id || `e${Date.now()}`, source: entry.source || "web" };
+          const i = list.findIndex((x) => x.id === saved.id);
+          if (i >= 0) list[i] = saved; else list.push(saved);
+          writeJSON(JOURNAL_KEY, list);
+          return saved;
+        });
+      }
+      const path = entry.id ? `/me/journal/${encodeURIComponent(entry.id)}` : "/me/journal";
+      return (await request(path, { method: entry.id ? "PUT" : "POST", body: entry })).entry;
+    },
+
+    async deleteEntry(id) {
+      requireSession();
+      if (cfg.useSampleData) {
+        return sample(() => writeJSON(JOURNAL_KEY, sampleJournal().filter((x) => x.id !== id)));
+      }
+      await request(`/me/journal/${encodeURIComponent(id)}`, { method: "DELETE" });
+    },
+
+    // Real mode uploads the (already shrunk) photo and returns its URL.
+    // Sample mode keeps the shrunk image as a data URL in this browser.
+    async uploadPhoto(dataUrl) {
+      requireSession();
+      if (cfg.useSampleData) return sample(() => ({ url: dataUrl }));
+      return request("/me/photos", { method: "POST", body: { image: dataUrl } });
     },
 
     signOut() { session.clear(); },

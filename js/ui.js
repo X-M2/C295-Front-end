@@ -24,6 +24,9 @@
     link: '<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>',
     chat: '<path d="M4.5 18.5 6 15a7 7 0 1 1 3 3z"/>',
     retry: '<path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3M4.5 4.5v4h4"/>',
+    camera: '<path d="M4 8.5A1.5 1.5 0 0 1 5.5 7h2.3l1.4-2h5.6l1.4 2h2.3A1.5 1.5 0 0 1 20 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5z"/><circle cx="12" cy="12.5" r="3.5"/>',
+    x: '<path d="m6 6 12 12M18 6 6 18"/>',
+    trash: '<path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13"/>',
     logout: '<path d="M14.5 4.5h4a1.5 1.5 0 0 1 1.5 1.5v12a1.5 1.5 0 0 1-1.5 1.5h-4M10 16.5 5.5 12 10 7.5M5.5 12H15"/>',
     user: '<circle cx="12" cy="8.5" r="3.6"/><path d="M5 20c.8-3.8 3.6-5.8 7-5.8s6.2 2 7 5.8"/>',
   };
@@ -92,6 +95,15 @@
     return `In ${days} days · ${range}`;
   }
 
+  // Hours between two "HH:MM" times, to the nearest quarter hour. Null if not valid.
+  function hoursBetween(start, end) {
+    const m = (t) => { const x = /^(\d{1,2}):(\d{2})$/.exec(t || ""); return x ? +x[1] * 60 + +x[2] : null; };
+    const a = m(start), b = m(end);
+    if (a === null || b === null || b <= a) return null;
+    return Math.round(((b - a) / 60) * 4) / 4;
+  }
+  const hoursText = (h) => (h === null ? "" : `${Number.isInteger(h) ? h : h.toFixed(h * 4 % 2 ? 2 : 1).replace(/0$/, "")} h`);
+
   // Poster date line: ["MON", "23 NOV"]
   const posterDate = (d) => [weekday(d).toUpperCase(), `${dayNum(d)} ${month(d).toUpperCase()}`];
 
@@ -111,6 +123,7 @@
         <nav class="nav" aria-label="Main">
           <a href="index.html" ${page === "browse" ? 'aria-current="page"' : ""}>Browse</a>
           <a href="${s ? "index.html?mine=1" : `signin.html?next=${encodeURIComponent("index.html?mine=1")}`}" ${page === "mine" ? 'aria-current="page"' : ""}>Going${s && going ? `<span class="nav-count">${going}</span>` : ""}</a>
+          <a href="${s ? "journal.html" : `signin.html?next=${encodeURIComponent("journal.html")}`}" ${page === "journal" ? 'aria-current="page"' : ""}>Journal</a>
         </nav>
         <div class="who">
           ${s
@@ -165,7 +178,7 @@
   }
 
   window.ui = {
-    AREAS, esc, icon, pill, countdown, status, spotsText, whenLine, posterDate,
+    AREAS, esc, icon, pill, countdown, status, spotsText, whenLine, posterDate, hoursBetween, hoursText,
     time, weekday, dayNum, month, longDate, dayDiff, startOfDay,
     renderHeader, toast, slowNotice, consumeLinkToken,
   };
