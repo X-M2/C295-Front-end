@@ -131,6 +131,70 @@ components:
     textColor: "{colors.on-ink}"
     rounded: "{rounded.pill}"
     padding: "12px 14px 12px 20px"
+  button-icon:
+    backgroundColor: "transparent"
+    textColor: "{colors.paper}"
+    rounded: "{rounded.pill}"
+    padding: "0"
+    height: "36px"
+    width: "40px"
+  ticket:
+    backgroundColor: "{colors.ink-oa}"
+    textColor: "{colors.on-ink}"
+    rounded: "{rounded.none}"
+    padding: "16px"
+  day-cell:
+    backgroundColor: "{colors.ground-2}"
+    textColor: "{colors.paper}"
+    rounded: "{rounded.none}"
+  day-cell-logged:
+    backgroundColor: "{colors.ink-hl}"
+    textColor: "{colors.on-ink}"
+    rounded: "{rounded.none}"
+  day-cell-tolog:
+    backgroundColor: "transparent"
+    textColor: "{colors.paper}"
+    rounded: "{rounded.none}"
+  day-today:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.on-ink}"
+    rounded: "{rounded.pill}"
+    padding: "3px 6px"
+  day-flag:
+    backgroundColor: "{colors.on-ink}"
+    textColor: "{colors.soon}"
+    rounded: "{rounded.pill}"
+    size: "24px"
+  day-panel:
+    backgroundColor: "{colors.ground-2}"
+    textColor: "{colors.paper}"
+    rounded: "{rounded.none}"
+    padding: "22px"
+  entry-header:
+    backgroundColor: "{colors.ink-cl}"
+    textColor: "{colors.on-ink}"
+    rounded: "{rounded.none}"
+    padding: "24px 24px 22px"
+  photo-add:
+    backgroundColor: "transparent"
+    textColor: "{colors.paper}"
+    rounded: "{rounded.none}"
+    padding: "16px"
+    height: "96px"
+  thumb-remove:
+    backgroundColor: "{colors.ground}"
+    textColor: "{colors.paper}"
+    rounded: "{rounded.pill}"
+    size: "36px"
+  error-summary:
+    backgroundColor: "{colors.error-ground}"
+    rounded: "{rounded.none}"
+    padding: "14px 16px"
+  notice:
+    backgroundColor: "{colors.ground-2}"
+    textColor: "{colors.paper-2}"
+    rounded: "{rounded.none}"
+    padding: "12px 14px"
 ---
 
 # Design System: Student activities companion (working title)
@@ -145,7 +209,7 @@ The system is flat and printed. Depth comes only from ink against wall; there ar
 
 Motion is one gesture: posters paste up once on load and on filter change. Nothing else moves beyond state transitions.
 
-This system replaces the retired MRT arrival-board world (kept in git history). It must extend, without new worlds, to the planned surfaces: the activity journal with photos, the hours summary per area, the reflection compiler, the optional award tracker, and admin. No components exist for those yet; build them from the wall, paper type, spot inks and the components below.
+This system replaces the retired MRT arrival-board world (kept in git history). The journal is the first extension built inside it: the wall's own month calendar, where each logged day is pasted in its area's ink and each missed log is an empty dashed slot, with small ink tickets for what still needs logging and a one-page entry form under a poster header. It must extend the same way, without new worlds, to the remaining planned surfaces: the hours summary per area, the reflection compiler, the optional award tracker, and admin. No components exist for those yet; build them from the wall, paper type, spot inks and the components below.
 
 **Key Characteristics:**
 - Near-black wall, warm off-white paper ink, one flat spot ink per area.
@@ -154,6 +218,8 @@ This system replaces the retired MRT arrival-board world (kept in git history). 
 - Flat throughout: no gradients, textures or shadows.
 - Status is printed: angled FULL, CLOSED, GOING stamps.
 - Deciding facts at body size or larger, tabular numerals everywhere.
+- Photos print as duotone in the area ink on the wall, and in natural colour inside panels and on the activity page.
+- On the journal calendar, ink means logged and a dashed slot means still to log.
 
 ## Colors
 
@@ -168,22 +234,24 @@ A dark wall with warm paper type, and four loud flat spot inks reserved for the 
 
 ### Neutral
 - **Night Wall** (ground): page background and the base of everything off-poster.
-- **Wall Shadow** (ground-2): raised panels on the wall: side panel, sign-in options, inputs, skeletons.
+- **Wall Shadow** (ground-2): raised panels on the wall: side panel, sign-in options, inputs, skeletons, plain calendar day cells, the day panel, the restored-draft notice.
 - **Wall Edge** (ground-3): hover fill for outline buttons, meter track, avatar fill.
 - **Warm Rule** (rule): 1px header, footer and section rules; 2px tab and input borders; dashed empty-state frame.
 - **Paper** (paper): primary text, solid buttons, selected tab, toast, focus ring, meter fill.
-- **Paper Dim** (paper-2): secondary text, inactive nav, ledes, field icons.
-- **Paper Faint** (paper-3): placeholders, counts, footer, the full-meter fill.
+- **Paper Dim** (paper-2): secondary text, inactive nav, ledes, field icons; the dashes of to-log and unfinished day cells.
+- **Paper Faint** (paper-3): placeholders, counts, footer, the full-meter fill, weekday labels, the dashed photo add zone at rest.
 
 ### States
-- **Soon Amber** (soon): closing-soon and few-spots-left on the wall, and the slow-server note.
+- **Soon Amber** (soon): closing-soon and few-spots-left on the wall, the slow-server note, and unfinished journal entries (the flag on the day cell, the "Incomplete: add ..." line in the day panel).
 - **Going Mint** (going): "You're going" on the detail side panel.
-- **Error Coral** (error) on **Error Ground** (error-ground): invalid fields, field errors, the error state frame.
+- **Error Coral** (error) on **Error Ground** (error-ground): invalid fields (inputs, selects, textareas and the photo add zone), field errors, the error state frame, the form's error summary, and the live hours line when end is before start.
 
 ### Named Rules
 **The One Ink Per Area Rule.** Each spot ink belongs to exactly one area and is used only to identify it. Never use a spot ink for status, emphasis or decoration; states use the wall's own state colors.
 
 **The Printed In Black Rule.** Anything on a spot ink is Press Black (on-ink), never paper or another ink. The only reversal is the closing-soon fact, which knocks the poster's ink out of a black band.
+
+**The Duotone On The Wall Rule.** On the wall (poster photo bands, logged calendar day cells) a photo is printed in greyscale multiplied into its area's ink, so it reads as part of the poster. Inside panels (the day panel's entry photos, form thumbnails) and on the activity page the same photo shows in its natural colour. Text never sits on a photo.
 
 ## Typography
 
@@ -218,8 +286,14 @@ A centered page of 1240px max with 32px side padding (16px on phones), 48px top 
 
 **Filters** are a row of area pills over a search field and a date select.
 
+**Journal** runs top to bottom: the display title with a one-line count lede, the To log strip, then the month. To-log tickets fill an auto-fill grid (250px minimum, 12px gaps). The month heading (headline type) sits beside two 40px icon buttons, with Log something else pushed right. Below it, the calendar and a 380px day panel share a row with a 24px gap; under 1000px the panel drops below the calendar. The calendar is seven equal columns of square day cells with 6px gaps (4px on phones) under small Paper Faint weekday labels.
+
+**Entry form** uses the narrow 760px page: a back link, the poster header, then blocks 30px apart (Photos, the activity, When, What I did, What I learned) and a full-width large solid Save. The When row is date, start, end and the live hours in four columns; on phones date and hours each take a full row over start and end side by side.
+
 ### Named Rules
 **The Three On A Phone Rule.** At 760px and below a poster is compact (16px padding, 3.25rem date on one line, 1.375rem title, area name hidden) so about three posters are visible per screen.
+
+**The Seven Columns On A Phone Rule.** On phones the calendar keeps all seven columns; day cells drop their photos and show ink only, the Log mark shrinks to 0.6875rem and the flag to 18px. The to-log tickets become one 236px-wide scrolling row that bleeds to the screen edges, and the chosen day's panel opens below the grid, edge to edge.
 
 **The One Row Of Areas Rule.** On phones the area pills sit in one horizontally scrolling row that bleeds to the screen edges, with no visible scrollbar; the cut-off last pill shows there is more. The search field and a 128px date select share one row below it.
 
@@ -232,7 +306,7 @@ Flat. There are no shadows anywhere. Depth is tonal: the wall (ground), panels o
 
 ## Shapes
 
-Three shapes only. Posters, poster headers, panels, empty states and the meter are square-cornered (0px), like paper. Every control that is pressed or toggled, plus the toast and count badges, is a full pill (999px). Text inputs and selects are gently rounded (6px). Rules are 1px on the wall, 2px on posters and controls; the poster's facts sit under a 2px Press Black rule. The stamp is the one rotated shape: a 3px-bordered square tag, tilted 7 degrees.
+Three shapes only. Posters, poster headers, panels, empty states and the meter are square-cornered (0px), like paper. Every control that is pressed or toggled, plus the toast and count badges, is a full pill (999px). Text inputs and selects are gently rounded (6px). Rules are 1px on the wall, 2px on posters and controls; the poster's facts sit under a 2px Press Black rule, as does the to-log ticket's foot. Calendar day cells are square-cornered squares (aspect 1); a day that holds two areas is split on the diagonal, the second ink taking the lower-right triangle. Dashed 2px borders mean "something still to add": to-log day cells, unfinished day cells, the photo add zone, the day panel's to-log note and the empty state. The stamp is the one rotated shape: a 3px-bordered square tag, tilted 7 degrees.
 
 ## Components
 
@@ -243,6 +317,7 @@ Pill-shaped, bold (750) and plainly worded; 44px tall by default.
 - **Solid:** paper fill, Press Black text; hover goes to pure white. Used for the primary action on the wall (Join on the detail page, sign-in submits).
 - **Quiet:** borderless, Paper Dim text; hover brightens with a Wall Shadow fill. Sign out, secondary form actions.
 - **On-ink:** the poster's Join. Press Black fill, paper text, 104px min width (92px, 42px tall on phones). Disabled on-ink becomes a dashed Press Black outline with the reason as its label (Full, Closed). Leave on a poster is the on-ink quiet variant, a Press Black outline.
+- **Icon:** a small outline pill squared to 40px wide, holding one 18px arrow; the month's previous and next. Carries an aria-label.
 - **Sizes:** small 36px, large 54px; block buttons fill their column.
 - **States:** colour transitions 150ms; active nudges down 1px; disabled is 0.55 opacity off-poster; busy shows "Joining..." with a progress cursor.
 
@@ -259,10 +334,12 @@ Pill-shaped, bold (750) and plainly worded; 44px tall by default.
 ### Inputs / Fields
 - **Style:** Wall Shadow fill, 2px Warm Rule border, 6px radius, 46px tall, 1rem text; search carries a leading icon, select a paper chevron.
 - **Focus:** border turns paper (no glow).
-- **Error:** Error Coral border and a bold 0.8125rem Error Coral message below.
+- **Textarea:** the same field, 120px minimum, vertical resize, 1.55 leading.
+- **Error:** Error Coral border and a bold 0.8125rem Error Coral message below. Applies to inputs, selects, textareas and the photo add zone alike.
+- **Area choice in forms:** the area tabs reused as radio pills; checked fills paper with Press Black text.
 
 ### Navigation
-- **Style:** 64px header (56px on phones) under a 1px rule. The product name is set in poster type (900, wdth 62, uppercase). Browse and Going links in 650 weight, Paper Dim at rest, paper on hover and when current, with a 3px paper bar on the header's bottom edge for the current page. Going carries a paper count pill.
+- **Style:** 64px header (56px on phones) under a 1px rule. The product name is set in poster type (900, wdth 62, uppercase). Browse, Going and Journal links in 650 weight, Paper Dim at rest, paper on hover and when current, with a 3px paper bar on the header's bottom edge for the current page. Going carries a paper count pill.
 - **Mobile:** the student's name hides and Sign out collapses to its icon (with an accessible label).
 
 ### Stamp (signature)
@@ -270,6 +347,32 @@ FULL, CLOSED and GOING printed at an angle like a sold-out sticker: poster type 
 
 ### Toast
 A paper pill dropped from just under the header, Press Black text with a 2px border, an optional underlined action (Undo). Slides in 12px over 220ms.
+
+### To-log ticket
+A small poster for an activity the student went to but has not logged. Square block in the area's ink, Press Black type, 16px padding: the date line (2.25rem, 1.875rem on phones, one line), the title (850, wdth 76, uppercase, 1.125rem), place and duration (600, 0.9375rem), then a foot under a 2px Press Black rule holding the on-ink Write entry button. Tickets paste up like posters. When nothing is left, a single Paper Dim line with a Going Mint check replaces the strip.
+
+### Month calendar
+Square day cells, day number top left (750, 1rem; 0.9375rem on phones). States:
+- **Plain:** Wall Shadow fill; hover shows a 2px Paper Faint border.
+- **Logged:** filled with the area's ink, number in Press Black; on desktop the lower half (52%) carries the day's first photo as duotone in that ink.
+- **Two areas:** split on the diagonal, the second area's ink in the lower-right triangle.
+- **To log:** transparent with a 2px dashed Paper Dim border and a bold "Log" mark bottom left.
+- **Unfinished:** a 2px dashed Paper Dim border with the ink inset 3px inside it, and a 24px Press Black flag disc bottom right holding a Soon Amber flag.
+- **Today:** the day number sits in a paper pill with Press Black type.
+- **Selected:** a 3px paper outline offset 2px (aria-pressed).
+- **Future:** disabled at 0.4 opacity, no hover.
+Loading shows Wall Shadow squares pulsing; failure replaces the grid with the coral error frame.
+
+### Day panel and entry
+A Wall Shadow panel with a 1px Warm Rule border and 22px padding (edge to edge on phones). The heading is the day's date in headline type. A to-log activity shows first as a dashed Warm Rule note with a solid small Write entry. Each entry is an article: its photos in natural colour (one photo 16:9 full width, several in a three-column 4:3 grid), a title in 850 wdth 76 uppercase with the area's ink dot, a Paper Dim meta line (area, times, hours in paper bold, "from Telegram"), a Soon Amber "Incomplete: add ..." line with a flag when anything is missing, What I did and What I learned under small Paper Dim labels at 62ch, then Edit, or a solid Finish entry when incomplete. Entries are separated by a 1px rule.
+
+### Entry form
+- **Poster header:** the activity printed as a poster header in its area's ink (date line 4rem on one line, title 2rem; 3rem and 1.625rem on phones, bleeding to the edges). Logging something not listed uses the display title instead ("Log an activity", 4.5rem / 3.25rem).
+- **Block headings:** each block is headed in headline type at 1.5rem (900, wdth 62, uppercase), with an optional normal-width Paper Faint count, and a Paper Dim hint below.
+- **Photos:** a 96px dashed add zone (Paper Faint dashes, paper on hover, a 24px camera icon and "Add photo"); chosen photos show as square natural-colour thumbnails in a 104px auto-fill grid, each with a 36px wall-black remove pill with a paper border in its top-right corner.
+- **When:** date, start and end fields and the live hours, set in poster type (900, wdth 62, 1.75rem); when end is not after start it switches to a bold normal-width Error Coral sentence.
+- **Error summary:** on a failed save, an Error Ground box with a 2px Error Coral border above the form says how many things are missing in paper bold, then lists them; it takes focus. Errors clear one by one as they are fixed.
+- **Restored-draft notice:** a Wall Shadow strip with a 1px Warm Rule border, a retry icon and a Paper Dim line saying the unsaved entry was kept on this phone.
 
 ### Icons
 Inline 24px-grid line icons, 1.75 stroke, round caps, sized to 1.15em beside text. Used beside labels, never alone, except the phone sign-out button, which has an aria-label.
@@ -279,7 +382,9 @@ Inline 24px-grid line icons, 1.75 stroke, round caps, sized to 1.15em beside tex
 
 **The Said Twice Rule.** A full or closed activity shows a stamp and a disabled button whose label gives the reason (Full, Closed, Sign-up closed). Never hide the button, never use colour alone.
 
-**The Paste-Up Rule.** Posters fade up from 0.2 opacity and 6px below over 180ms (ease-out cubic-bezier(0.16, 1, 0.3, 1)), staggered 25ms each and capped at the eighth poster, on load and filter change only. Reduced motion removes it.
+**The Paste-Up Rule.** Posters and to-log tickets fade up from 0.2 opacity and 6px below over 180ms (ease-out cubic-bezier(0.16, 1, 0.3, 1)), staggered 25ms each and capped at the eighth poster, on load and filter change only. Reduced motion removes it. The calendar and the day panel do not animate.
+
+**The Filled Or Dashed Rule.** On the journal calendar a past day the student went to is either filled with its area's ink (logged) or a dashed empty slot marked Log (still to log). Ink on the calendar means logged and nothing else.
 
 ## Do's and Don'ts
 
@@ -292,7 +397,10 @@ Inline 24px-grid line icons, 1.75 stroke, round caps, sized to 1.15em beside tex
 - **Do** show full and closed as a stamp plus a disabled button that names the reason.
 - **Do** keep area filters in one scrolling row on phones.
 - **Do** design slow, empty and failed loads as states on the wall (skeletons, the waking-up note, dashed empty frame, coral error frame).
-- **Do** extend the journal, hours summary, reflection compiler, award tracker and admin from these tokens and components before inventing new ones.
+- **Do** print photos as duotone in the area ink on the wall, and show them in natural colour inside panels and on the activity page.
+- **Do** put what still needs logging first, as ink tickets with Write entry, and mark it again on the calendar as a dashed slot.
+- **Do** mark invalid photo zones, inputs and textareas with an Error Coral border plus a message, and summarise the errors above the form.
+- **Do** extend the hours summary, reflection compiler, award tracker and admin from these tokens and components before inventing new ones.
 
 ### Don't:
 - **Don't** add shadows, gradients or textures to any surface.
@@ -302,3 +410,4 @@ Inline 24px-grid line icons, 1.75 stroke, round caps, sized to 1.15em beside tex
 - **Don't** wrap the area filters onto several lines on phones.
 - **Don't** hide a full or closed activity's button or signal its state by colour alone.
 - **Don't** animate anything beyond the paste-up and state transitions.
+- **Don't** use ink on the calendar for anything but a logged day.

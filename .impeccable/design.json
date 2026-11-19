@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-18T02:26:23+00:00",
+  "generatedAt": "2026-11-19T03:28:20+00:00",
   "title": "Design System: Student activities companion (working title)",
   "extensions": {
     "colorMeta": {
@@ -312,6 +312,11 @@
         "name": "poster-hover",
         "value": "3px solid var(--paper); outline-offset: 4px",
         "purpose": "Poster hover and focus-within, in place of a lift."
+      },
+      {
+        "name": "day-selected",
+        "value": "3px solid var(--paper); outline-offset: 2px",
+        "purpose": "The selected calendar day (aria-pressed)."
       }
     ],
     "motion": [
@@ -323,7 +328,7 @@
       {
         "name": "paste-up",
         "value": "opacity 0.2 to 1, translateY 6px to 0, 180ms ease-out, 25ms stagger capped at 8",
-        "purpose": "Posters on load and filter change only."
+        "purpose": "Posters and to-log tickets on load and filter change only."
       },
       {
         "name": "state",
@@ -350,20 +355,31 @@
       {
         "name": "tablet",
         "value": "1000px",
-        "purpose": "Wall to two columns; facts stack; side panel 300px."
+        "purpose": "Wall to two columns; facts stack; side panel 300px. Journal day panel drops below the calendar."
       },
       {
         "name": "phone",
         "value": "760px",
-        "purpose": "One column, compact posters, one scrolling row of area tabs, side panel above content."
+        "purpose": "One column, compact posters, one scrolling row of area tabs, side panel above content. Tickets scroll in one row; calendar keeps seven columns, ink only; day panel and entry header bleed to the edges."
       }
     ],
     "futureSurfaces": [
-      "Activity journal with photos",
       "Hours summary per area",
       "Reflection compiler",
       "Optional award tracker (off by default)",
       "Admin: add activity form and CSV import"
+    ],
+    "photoTreatment": [
+      {
+        "name": "duotone",
+        "value": "img { filter: grayscale(1) contrast(1.15) brightness(1.05); mix-blend-mode: multiply; } on a var(--ink) ground",
+        "purpose": "Photos on the wall: poster photo bands and logged calendar day cells."
+      },
+      {
+        "name": "natural",
+        "value": "filter: none; mix-blend-mode: normal",
+        "purpose": "Photos inside panels (day panel entries, form thumbnails) and on the activity page."
+      }
     ]
   },
   "components": [
@@ -411,8 +427,8 @@
       "name": "Header Navigation",
       "kind": "nav",
       "refersTo": "",
-      "description": "Poster-type product name, Browse and Going links with a 3px current-page bar.",
-      "html": "<header class=\"ds-top\"><span class=\"ds-brand\">Working title</span><nav class=\"ds-nav\"><a href=\"#\" aria-current=\"page\">Browse</a><a href=\"#\">Going<span class=\"ds-count\">2</span></a></nav></header>",
+      "description": "Poster-type product name, Browse, Going and Journal links with a 3px current-page bar.",
+      "html": "<header class=\"ds-top\"><span class=\"ds-brand\">Working title</span><nav class=\"ds-nav\"><a href=\"#\" aria-current=\"page\">Browse</a><a href=\"#\">Going<span class=\"ds-count\">2</span></a><a href=\"#\">Journal</a></nav></header>",
       "css": ".ds-top { display:flex; align-items:center; gap:28px; min-height:64px; padding:0 32px; background:var(--ground,#121110); border-bottom:1px solid var(--rule,#3d3934); font-family: var(--font, Archivo, system-ui, sans-serif); } .ds-brand { font-weight:900; font-stretch:62%; font-variation-settings:'wdth' 62; text-transform:uppercase; font-size:1.625rem; line-height:1; color:var(--paper,#f3eee6); } .ds-nav { display:flex; align-self:stretch; gap:6px; } .ds-nav a { position:relative; display:flex; align-items:center; gap:8px; padding:0 10px; color:var(--paper-2,#c4bcb0); font-weight:650; font-size:0.9375rem; text-decoration:none; } .ds-nav a:hover, .ds-nav a[aria-current=\"page\"] { color:var(--paper,#f3eee6); } .ds-nav a[aria-current=\"page\"]::after { content:''; position:absolute; left:10px; right:10px; bottom:-1px; height:3px; background:var(--paper,#f3eee6); } .ds-nav a:focus-visible { outline:3px solid var(--focus,#f3eee6); outline-offset:3px; } .ds-count { min-width:20px; height:20px; padding:0 6px; border-radius:999px; display:inline-grid; place-items:center; background:var(--paper,#f3eee6); color:var(--on-ink,#121110); font-size:0.75rem; font-weight:800; }"
     },
     {
@@ -438,18 +454,60 @@
       "description": "Paper pill under the header with an optional underlined action.",
       "html": "<div class=\"ds-toast\" role=\"status\"><span>You're going to Badminton social.</span><button class=\"ds-toast-act\">Undo</button></div>",
       "css": ".ds-toast { display:inline-flex; align-items:center; gap:14px; padding:12px 14px 12px 20px; border-radius:999px; background:var(--paper,#f3eee6); color:var(--on-ink,#121110); border:2px solid var(--on-ink,#121110); font-family: var(--font, Archivo, system-ui, sans-serif); font-weight:700; font-size:0.9375rem; } .ds-toast-act { font:inherit; font-weight:850; color:var(--on-ink,#121110); background:none; border:0; padding:6px 10px; border-radius:999px; cursor:pointer; text-decoration:underline; text-underline-offset:3px; } .ds-toast-act:hover { background:rgb(18 17 16 / 0.08); } .ds-toast-act:focus-visible { outline:3px solid var(--on-ink,#121110); outline-offset:2px; }"
+    },
+    {
+      "name": "To-log Ticket",
+      "kind": "card",
+      "refersTo": "ticket",
+      "description": "An activity still to log: ink block, date line, title and place, Write entry in a foot under a 2px Press Black rule.",
+      "html": "<article class=\"ds-ticket\"><p class=\"ds-tdate\">Wed 18 Nov</p><h3 class=\"ds-ttitle\">Sunrise kayak at Pasir Ris</h3><p class=\"ds-twhere\">Pasir Ris Park · 2.5 h</p><div class=\"ds-tfoot\"><a class=\"ds-tbtn\" href=\"#\">Write entry</a></div></article>",
+      "css": ".ds-ticket { display:flex; flex-direction:column; gap:4px; width:270px; padding:16px; background:var(--oa,#3ad374); color:var(--on-ink,#121110); font-family: var(--font, Archivo, system-ui, sans-serif); } .ds-tdate { margin:0; font-weight:900; font-stretch:62%; font-variation-settings:'wdth' 62; text-transform:uppercase; font-size:2.25rem; line-height:0.9; } .ds-ttitle { margin:6px 0 0; font-weight:850; font-stretch:76%; font-variation-settings:'wdth' 76; text-transform:uppercase; font-size:1.125rem; line-height:1.05; } .ds-twhere { margin:0 0 14px; font-weight:600; font-size:0.9375rem; } .ds-tfoot { margin-top:auto; padding-top:12px; border-top:2px solid var(--on-ink,#121110); } .ds-tbtn { display:inline-flex; align-items:center; min-height:44px; min-width:104px; justify-content:center; padding:0 20px; font-weight:750; font-size:0.9375rem; color:var(--paper,#f3eee6); background:var(--on-ink,#121110); border:2px solid var(--on-ink,#121110); border-radius:999px; text-decoration:none; transition:background-color 150ms ease, transform 100ms ease; } .ds-tbtn:hover { background:#000; } .ds-tbtn:active { transform:translateY(1px); } .ds-tbtn:focus-visible { outline:3px solid var(--focus,#f3eee6); outline-offset:3px; }"
+    },
+    {
+      "name": "Month Calendar Day Cells",
+      "kind": "custom",
+      "refersTo": "day-cell",
+      "description": "Day cell states: plain, logged ink, two-area split, to log, unfinished with flag, today, selected, future.",
+      "html": "<div class=\"ds-cal\"><button class=\"ds-day\"><span class=\"ds-n\">12</span></button><button class=\"ds-day ds-ink\" style=\"--ink:#3ad374\"><span class=\"ds-n\">7</span></button><button class=\"ds-day ds-two\"><span class=\"ds-n\">10</span></button><button class=\"ds-day ds-tolog\"><span class=\"ds-n\">17</span><span class=\"ds-mark\">Log</span></button><button class=\"ds-day ds-unf\" aria-pressed=\"true\"><span class=\"ds-fill\"></span><span class=\"ds-n\">13</span><span class=\"ds-flag\"><svg viewBox=\"0 0 24 24\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 21V4h11l-2 4 2 4H5\"/></svg></span></button><button class=\"ds-day\"><span class=\"ds-n ds-today\">19</span></button><button class=\"ds-day\" disabled><span class=\"ds-n\">20</span></button></div>",
+      "css": ".ds-cal { display:grid; grid-template-columns:repeat(7, 72px); gap:6px; font-family: var(--font, Archivo, system-ui, sans-serif); } .ds-day { position:relative; aspect-ratio:1; padding:0; overflow:hidden; font:inherit; color:var(--paper,#f3eee6); background:var(--ground-2,#1d1b19); border:2px solid transparent; outline:3px solid transparent; outline-offset:2px; cursor:pointer; transition:border-color 150ms ease, outline-color 150ms ease; } .ds-day:hover { border-color:var(--paper-3,#a39b90); } .ds-day[aria-pressed=\"true\"] { outline-color:var(--paper,#f3eee6); } .ds-day:focus-visible { outline:3px solid var(--focus,#f3eee6); outline-offset:3px; } .ds-day:disabled { opacity:0.4; cursor:default; } .ds-day:disabled:hover { border-color:transparent; } .ds-n { position:absolute; top:6px; left:8px; z-index:2; font-weight:750; font-size:1rem; line-height:1; } .ds-today { padding:3px 6px; margin:-3px -6px; background:var(--paper,#f3eee6); color:var(--on-ink,#121110); border-radius:999px; } .ds-ink { background:var(--ink); color:var(--on-ink,#121110); } .ds-two { background:var(--sl,#d9714f); color:var(--on-ink,#121110); } .ds-two::after { content:''; position:absolute; inset:0; background:var(--hl,#dcb85a); clip-path:polygon(100% 0, 100% 100%, 0 100%); } .ds-tolog { background:transparent; border:2px dashed var(--paper-2,#c4bcb0); } .ds-mark { position:absolute; left:8px; bottom:7px; font-weight:800; font-size:0.8125rem; } .ds-unf { border:2px dashed var(--paper-2,#c4bcb0); color:var(--on-ink,#121110); } .ds-fill { position:absolute; inset:3px; background:var(--hl,#dcb85a); } .ds-flag { position:absolute; right:6px; bottom:6px; z-index:2; display:grid; place-items:center; width:24px; height:24px; border-radius:50%; background:var(--on-ink,#121110); color:var(--soon,#ffb85c); }"
+    },
+    {
+      "name": "Day Panel with Entry",
+      "kind": "card",
+      "refersTo": "day-panel",
+      "description": "The chosen day: date heading, entry with natural-colour photo, meta line, incomplete line, blocks and Finish entry.",
+      "html": "<section class=\"ds-panel\"><h3 class=\"ds-ph\">Fri 13 Nov</h3><article class=\"ds-entry\"><h4 class=\"ds-et\"><i style=\"background:#dcb85a\"></i>Badminton social</h4><p class=\"ds-em\">Healthy Living · 17:00–19:00 · <b>2 h</b> · from Telegram</p><p class=\"ds-inc\">Incomplete: add a photo and what you learned.</p><div><h5>What I did</h5><p>Played doubles for two hours and rotated partners every game.</p></div><a class=\"ds-fin\" href=\"#\">Finish entry</a></article></section>",
+      "css": ".ds-panel { max-width:380px; padding:22px; background:var(--ground-2,#1d1b19); border:1px solid var(--rule,#3d3934); color:var(--paper,#f3eee6); font-family: var(--font, Archivo, system-ui, sans-serif); } .ds-ph { margin:0 0 16px; font-weight:900; font-stretch:62%; font-variation-settings:'wdth' 62; text-transform:uppercase; font-size:2.25rem; line-height:1; } .ds-entry { display:grid; gap:12px; justify-items:start; } .ds-entry p { margin:0; } .ds-et { margin:0; display:flex; align-items:center; gap:8px; font-weight:850; font-stretch:76%; font-variation-settings:'wdth' 76; text-transform:uppercase; font-size:1.125rem; line-height:1.1; } .ds-et i { width:11px; height:11px; border-radius:50%; } .ds-em { color:var(--paper-2,#c4bcb0); font-size:0.9375rem; } .ds-em b { color:var(--paper,#f3eee6); } .ds-inc { color:var(--soon,#ffb85c); font-weight:700; } .ds-entry h5 { margin:0 0 2px; font-size:0.8125rem; font-weight:700; color:var(--paper-2,#c4bcb0); } .ds-fin { display:inline-flex; align-items:center; min-height:36px; padding:0 14px; font-weight:750; font-size:0.8125rem; color:var(--on-ink,#121110); background:var(--paper,#f3eee6); border:2px solid var(--paper,#f3eee6); border-radius:999px; text-decoration:none; transition:background-color 150ms ease; } .ds-fin:hover { background:#fff; } .ds-fin:focus-visible { outline:3px solid var(--focus,#f3eee6); outline-offset:3px; }"
+    },
+    {
+      "name": "Photo Add Zone and Thumbnails",
+      "kind": "input",
+      "refersTo": "photo-add",
+      "description": "Dashed add zone, natural-colour square thumbnails with a remove pill; coral border when invalid.",
+      "html": "<div class=\"ds-photos\"><ul class=\"ds-thumbs\"><li class=\"ds-thumb\"><span class=\"ds-img\"></span><button class=\"ds-rm\" aria-label=\"Remove photo 1\"><svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M6 6l12 12M18 6 6 18\"/></svg></button></li></ul><label class=\"ds-add\"><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 8h3l2-3h6l2 3h3v11H4z\"/><circle cx=\"12\" cy=\"13\" r=\"3.5\"/></svg>Add photo<input type=\"file\" accept=\"image/*\"></label><label class=\"ds-add ds-invalid\">Add photo</label></div>",
+      "css": ".ds-photos { display:grid; gap:8px; max-width:480px; font-family: var(--font, Archivo, system-ui, sans-serif); } .ds-thumbs { list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(auto-fill, minmax(104px, 1fr)); gap:8px; } .ds-thumb { position:relative; } .ds-img { display:block; aspect-ratio:1; background:var(--ground-3,#2b2825); } .ds-rm { position:absolute; top:6px; right:6px; width:36px; height:36px; padding:0; display:grid; place-items:center; border-radius:999px; background:var(--ground,#121110); color:var(--paper,#f3eee6); border:2px solid var(--paper,#f3eee6); cursor:pointer; } .ds-rm:hover { background:var(--ground-3,#2b2825); } .ds-rm:focus-visible { outline:3px solid var(--focus,#f3eee6); outline-offset:3px; } .ds-add { position:relative; display:flex; align-items:center; justify-content:center; gap:10px; min-height:96px; padding:16px; border:2px dashed var(--paper-3,#a39b90); color:var(--paper,#f3eee6); font-weight:750; cursor:pointer; transition:border-color 150ms ease; } .ds-add:hover { border-color:var(--paper,#f3eee6); } .ds-add input { position:absolute; inset:0; opacity:0; cursor:pointer; } .ds-add:has(input:focus-visible) { outline:3px solid var(--focus,#f3eee6); outline-offset:3px; } .ds-invalid, .ds-invalid:hover { border-color:var(--error,#ff9b8a); }"
+    },
+    {
+      "name": "Entry Form States",
+      "kind": "custom",
+      "refersTo": "error-summary",
+      "description": "Error summary, restored-draft notice, block heading, invalid textarea and the live hours line.",
+      "html": "<div class=\"ds-form\"><p class=\"ds-notice\">We kept your unsaved entry on this phone. Carry on where you left off.</p><div class=\"ds-sum\" tabindex=\"-1\"><p><b>2 things are missing.</b> Add at least one photo. Write a line or two about what you learned.</p></div><label class=\"ds-bh\" for=\"ds-l\">What I learned</label><textarea id=\"ds-l\" aria-invalid=\"true\"></textarea><p class=\"ds-err\">Write a line or two about what you learned.</p><p class=\"ds-hours\">3 h</p></div>",
+      "css": ".ds-form { display:grid; gap:8px; max-width:480px; color:var(--paper,#f3eee6); font-family: var(--font, Archivo, system-ui, sans-serif); } .ds-form p { margin:0; } .ds-notice { padding:12px 14px; background:var(--ground-2,#1d1b19); border:1px solid var(--rule,#3d3934); color:var(--paper-2,#c4bcb0); } .ds-sum { padding:14px 16px; background:var(--error-ground,#2c1a17); border:2px solid var(--error,#ff9b8a); color:#f1c8c0; } .ds-sum b { color:var(--paper,#f3eee6); } .ds-sum:focus-visible { outline:3px solid var(--focus,#f3eee6); outline-offset:3px; } .ds-bh { margin-top:14px; font-weight:900; font-stretch:62%; font-variation-settings:'wdth' 62; text-transform:uppercase; font-size:1.5rem; line-height:1; } .ds-form textarea { min-height:120px; padding:10px 14px; font:inherit; color:var(--paper,#f3eee6); background:var(--ground-2,#1d1b19); border:2px solid var(--rule,#3d3934); border-radius:6px; resize:vertical; line-height:1.55; transition:border-color 150ms ease; } .ds-form textarea:focus { outline:none; border-color:var(--paper,#f3eee6); } .ds-form textarea[aria-invalid=\"true\"] { border-color:var(--error,#ff9b8a); } .ds-err { color:var(--error,#ff9b8a); font-size:0.8125rem; font-weight:700; } .ds-hours { font-weight:900; font-stretch:62%; font-variation-settings:'wdth' 62; font-size:1.75rem; line-height:1; }"
     }
   ],
   "narrative": {
     "northStar": "The Gig Poster Wall",
-    "overview": "The week's activities are pasted up as gig posters on a dark wall, the kind outside *SCAPE or the Esplanade. The date is the headline: set in Archivo at its narrowest and heaviest, so what is soon reads from across the room. Each of the four areas is one flat spot ink, and every poster is printed on its ink in near-black. Everything around the posters (header, filters, side panels, forms) stays on the wall: near-black ground, warm off-white paper type, thin warm rules.\n\nThe system is flat and printed. Depth comes only from ink against wall; there are no gradients, textures or shadows. Type width is the main expressive lever: poster type runs condensed (wdth 62) and uppercase, titles slightly wider (wdth 76), and every fact a student must read to decide runs at normal width and body size or larger. The poster world never outranks usability: posters stay compact on phones, Join sits in the same corner of every poster, and full or closed activities say so twice, with a stamp and a disabled button.\n\nMotion is one gesture: posters paste up once on load and on filter change. Nothing else moves beyond state transitions.\n\nThis system replaces the retired MRT arrival-board world (kept in git history). It must extend, without new worlds, to the planned surfaces: the activity journal with photos, the hours summary per area, the reflection compiler, the optional award tracker, and admin. No components exist for those yet; build them from the wall, paper type, spot inks and the components below.",
+    "overview": "The week's activities are pasted up as gig posters on a dark wall, the kind outside *SCAPE or the Esplanade. The date is the headline: set in Archivo at its narrowest and heaviest, so what is soon reads from across the room. Each of the four areas is one flat spot ink, and every poster is printed on its ink in near-black. Everything around the posters (header, filters, side panels, forms) stays on the wall: near-black ground, warm off-white paper type, thin warm rules.\n\nThe system is flat and printed. Depth comes only from ink against wall; there are no gradients, textures or shadows. Type width is the main expressive lever: poster type runs condensed (wdth 62) and uppercase, titles slightly wider (wdth 76), and every fact a student must read to decide runs at normal width and body size or larger. The poster world never outranks usability: posters stay compact on phones, Join sits in the same corner of every poster, and full or closed activities say so twice, with a stamp and a disabled button.\n\nMotion is one gesture: posters paste up once on load and on filter change. Nothing else moves beyond state transitions.\n\nThis system replaces the retired MRT arrival-board world (kept in git history). The journal is the first extension built inside it: the wall's own month calendar, where each logged day is pasted in its area's ink and each missed log is an empty dashed slot, with small ink tickets for what still needs logging and a one-page entry form under a poster header. It must extend the same way, without new worlds, to the remaining planned surfaces: the hours summary per area, the reflection compiler, the optional award tracker, and admin. No components exist for those yet; build them from the wall, paper type, spot inks and the components below.",
     "keyCharacteristics": [
       "Near-black wall, warm off-white paper ink, one flat spot ink per area.",
       "The date line is the headline: Archivo 900, wdth 62, uppercase, tight leading.",
       "Posters are square-cornered ink blocks; controls are pills; text fields are gently rounded.",
       "Flat throughout: no gradients, textures or shadows.",
       "Status is printed: angled FULL, CLOSED, GOING stamps.",
-      "Deciding facts at body size or larger, tabular numerals everywhere."
+      "Deciding facts at body size or larger, tabular numerals everywhere.",
+      "Photos print as duotone in the area ink on the wall, and in natural colour inside panels and on the activity page.",
+      "On the journal calendar, ink means logged and a dashed slot means still to log."
     ],
     "rules": [
       {
@@ -460,6 +518,11 @@
       {
         "name": "The Printed In Black Rule",
         "body": "Anything on a spot ink is Press Black (on-ink), never paper or another ink. The only reversal is the closing-soon fact, which knocks the poster's ink out of a black band.",
+        "section": "colors"
+      },
+      {
+        "name": "The Duotone On The Wall Rule",
+        "body": "On the wall (poster photo bands, logged calendar day cells) a photo is printed in greyscale multiplied into its area's ink, so it reads as part of the poster. Inside panels (the day panel's entry photos, form thumbnails) and on the activity page the same photo shows in its natural colour. Text never sits on a photo.",
         "section": "colors"
       },
       {
@@ -480,6 +543,11 @@
       {
         "name": "The Three On A Phone Rule",
         "body": "At 760px and below a poster is compact (16px padding, 3.25rem date on one line, 1.375rem title, area name hidden) so about three posters are visible per screen.",
+        "section": "layout"
+      },
+      {
+        "name": "The Seven Columns On A Phone Rule",
+        "body": "On phones the calendar keeps all seven columns; day cells drop their photos and show ink only, the Log mark shrinks to 0.6875rem and the flag to 18px. The to-log tickets become one 236px-wide scrolling row that bleeds to the screen edges, and the chosen day's panel opens below the grid, edge to edge.",
         "section": "layout"
       },
       {
@@ -504,7 +572,12 @@
       },
       {
         "name": "The Paste-Up Rule",
-        "body": "Posters fade up from 0.2 opacity and 6px below over 180ms (ease-out cubic-bezier(0.16, 1, 0.3, 1)), staggered 25ms each and capped at the eighth poster, on load and filter change only. Reduced motion removes it.",
+        "body": "Posters and to-log tickets fade up from 0.2 opacity and 6px below over 180ms (ease-out cubic-bezier(0.16, 1, 0.3, 1)), staggered 25ms each and capped at the eighth poster, on load and filter change only. Reduced motion removes it. The calendar and the day panel do not animate.",
+        "section": "components"
+      },
+      {
+        "name": "The Filled Or Dashed Rule",
+        "body": "On the journal calendar a past day the student went to is either filled with its area's ink (logged) or a dashed empty slot marked Log (still to log). Ink on the calendar means logged and nothing else.",
         "section": "components"
       }
     ],
@@ -517,7 +590,10 @@
       "**Do** show full and closed as a stamp plus a disabled button that names the reason.",
       "**Do** keep area filters in one scrolling row on phones.",
       "**Do** design slow, empty and failed loads as states on the wall (skeletons, the waking-up note, dashed empty frame, coral error frame).",
-      "**Do** extend the journal, hours summary, reflection compiler, award tracker and admin from these tokens and components before inventing new ones."
+      "**Do** print photos as duotone in the area ink on the wall, and show them in natural colour inside panels and on the activity page.",
+      "**Do** put what still needs logging first, as ink tickets with Write entry, and mark it again on the calendar as a dashed slot.",
+      "**Do** mark invalid photo zones, inputs and textareas with an Error Coral border plus a message, and summarise the errors above the form.",
+      "**Do** extend the hours summary, reflection compiler, award tracker and admin from these tokens and components before inventing new ones."
     ],
     "donts": [
       "**Don't** add shadows, gradients or textures to any surface.",
@@ -526,7 +602,8 @@
       "**Don't** round poster corners or square off buttons; posters are paper, controls are pills.",
       "**Don't** wrap the area filters onto several lines on phones.",
       "**Don't** hide a full or closed activity's button or signal its state by colour alone.",
-      "**Don't** animate anything beyond the paste-up and state transitions."
+      "**Don't** animate anything beyond the paste-up and state transitions.",
+      "**Don't** use ink on the calendar for anything but a logged day."
     ]
   }
 }
