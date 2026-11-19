@@ -41,22 +41,59 @@ document.addEventListener("DOMContentLoaded", async () => {
   const joinList = (xs) => (xs.length < 2 ? xs.join("") : `${xs.slice(0, -1).join(", ")} and ${xs[xs.length - 1]}`);
 
   // ---- to log ---------------------------------------------------------------
-  function renderToLog() {
+  function renderToLog(ghost) {
     $("[data-tolog-n]").textContent = toLog.length || "";
-    if (!toLog.length) {
+    const list = ghost ? [...toLog, ghost].sort((a, b) => a.startsAt.localeCompare(b.startsAt)) : toLog;
+    if (!list.length) {
       tologBody.innerHTML = `<p class="caught-up">${icon("check")}You're all caught up. Activities you go to will show up here afterwards.</p>`;
       return;
     }
-    tologBody.innerHTML = `<ol class="tickets paste">${toLog.map((a, i) => {
+    tologBody.innerHTML = `<ol class="tickets paste">${list.map((a, i) => {
       const [wd, dm] = posterDate(new Date(a.startsAt));
+      const out = a === ghost;
       return `
-        <li class="ticket ink-${a.area}" style="--i:${i}">
+        <li class="ticket ink-${a.area}${out ? " ticket-out" : ""}" style="--i:${i}"${out ? ` aria-hidden="true" inert` : ""}>
           <p class="ticket-date" aria-hidden="true">${wd} ${dm}</p>
           <h3 class="ticket-title"><span class="visually-hidden">${esc(longDate(a.startsAt))}: </span>${esc(a.title)}</h3>
           <p class="ticket-where">${esc(a.location)} · ${hoursText(hoursBetween(time(a.startsAt), time(a.endsAt)))}</p>
           <div class="ticket-foot"><a class="btn btn-on-ink ticket-act" href="entry.html?activity=${encodeURIComponent(a.id)}">Write entry</a></div>
         </li>`;
     }).join("")}</ol>`;
+  }
+
+  // After saving from a ticket: show it once more, let it leave, and close the gap.
+  function clearTicket(ghost) {
+    renderToLog(ghost);
+    const out = tologBody.querySelector(".ticket-out");
+    if (!out) return;
+    // On phones the strip scrolls sideways: bring the leaving ticket into view first.
+    const strip = out.parentElement;
+    if (strip.scrollWidth > strip.clientWidth) strip.scrollLeft = out.offsetLeft - strip.offsetLeft - 16;
+    out.addEventListener("animationend", (e) => {
+      if (e.animationName !== "ticket-out") return;
+      const rest = [...tologBody.querySelectorAll(".ticket:not(.ticket-out)")];
+      const before = rest.map((t) => t.getBoundingClientRect());
+      out.remove();
+      if (!rest.length) { renderToLog(); return; }
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      rest.forEach((t, i) => {
+        const r = t.getBoundingClientRect();
+        const dx = before[i].left - r.left, dy = before[i].top - r.top;
+        if (dx || dy) t.animate([{ transform: `translate(${dx}px, ${dy}px)` }, { transform: "none" }], { duration: 240, easing: "cubic-bezier(0.16, 1, 0.3, 1)" });
+      });
+    });
+  }
+
+  // After saving: paste the day's ink in once, when the day is on screen.
+  function pasteDay(cell) {
+    if (!cell) return;
+    if (!("IntersectionObserver" in window)) return;
+    const io = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) return;
+      io.disconnect();
+      cell.classList.add("just-logged");
+    }, { threshold: 0.9 });
+    io.observe(cell);
   }
 
   // ---- calendar -----------------------------------------------------------------
@@ -218,12 +255,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         const d = dateOf(selected); month = new Date(d.getFullYear(), d.getMonth(), 1);
       }
       renderLede();
-      renderToLog();
+      const loggedId = params.get("saved") === "1" && params.get("logged");
+      const ghost = loggedId && !toLog.some((a) => a.id === loggedId) ? await api.getPastActivity(loggedId).catch(() => null) : null;
+      if (ghost) clearTicket(ghost); else renderToLog();
       renderCalendar();
       renderDay();
+      if (params.get("saved") === "1") pasteDay(calEl.querySelector(`[data-iso="${selected}"].has-entry`));
       if (params.get("saved")) {
         window.ui.toast(params.get("saved") === "deleted" ? "Entry deleted." : "Entry saved.");
         params.delete("saved");
+        params.delete("logged");
         history.replaceState(null, "", `${location.pathname}${params.toString() ? `?${params}` : ""}`);
       }
     } catch (err) {

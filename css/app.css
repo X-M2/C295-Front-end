@@ -322,6 +322,13 @@ select {
 
 .paste .poster { animation: paste 180ms var(--ease-out) both; animation-delay: calc(min(var(--i), 8) * 25ms); }
 @keyframes paste { from { opacity: 0.2; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+/* Joining: the GOING stamp is pressed onto the poster, once. */
+.stamp.stamp-in { animation: stamp-in 300ms linear both; }
+@keyframes stamp-in {
+  0% { opacity: 0; transform: rotate(7deg) scale(1.7); animation-timing-function: cubic-bezier(0.5, 0, 0.9, 0.5); }
+  50% { opacity: 1; transform: rotate(7deg) scale(0.95); animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+  100% { opacity: 1; transform: rotate(7deg) scale(1); }
+}
 
 /* Loading */
 .poster-skeleton { background: var(--ground-2); min-height: 260px; gap: 14px; }
@@ -472,6 +479,9 @@ input::-webkit-calendar-picker-indicator { filter: invert(0.9); cursor: pointer;
 .ticket-skeleton > span { display: block; height: 18px; background: var(--ground-3); animation: pulse 1.4s ease-in-out infinite; }
 .ticket-skeleton > span:first-child { height: 34px; width: 60%; }
 .paste .ticket { animation: paste 180ms var(--ease-out) both; animation-delay: calc(min(var(--i), 8) * 25ms); }
+/* After saving: the ticket that was just logged leaves the strip. */
+.tickets .ticket.ticket-out { animation: ticket-out 220ms ease-in 320ms both; pointer-events: none; }
+@keyframes ticket-out { to { opacity: 0; transform: scale(0.94); } }
 
 .cal-head { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-bottom: 14px; }
 .cal-head .group-h { margin: 0; min-width: 9ch; }
@@ -506,6 +516,9 @@ input::-webkit-calendar-picker-indicator { filter: invert(0.9); cursor: pointer;
 .is-incomplete { border: 2px dashed var(--paper-2); }
 .is-incomplete .day-ink { inset: 3px; }
 .day-photo { position: absolute; left: 0; right: 0; bottom: 0; height: 52%; }
+/* After saving: the day's ink is pasted in from the bottom, once. */
+.just-logged .day-ink, .just-logged .day-photo { animation: ink-in 380ms var(--ease-out) 250ms both; }
+@keyframes ink-in { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0); } }
 .is-tolog { background: transparent; border: 2px dashed var(--paper-2); }
 .day-mark {
   position: absolute; left: 8px; bottom: 7px;

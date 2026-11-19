@@ -240,6 +240,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
       const updated = await api.join(id);
       replace(updated);
+      window.ui.pressStamp(document.querySelector(`[data-leave="${CSS.escape(id)}"]`)?.closest(".poster"));
       window.ui.toast(`You're going to ${updated.title}.`, { label: "Undo", run: () => leave(id) });
     } catch (err) {
       window.ui.toast(err.message);

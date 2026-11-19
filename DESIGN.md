@@ -207,7 +207,7 @@ The week's activities are pasted up as gig posters on a dark wall, the kind outs
 
 The system is flat and printed. Depth comes only from ink against wall; there are no gradients, textures or shadows. Type width is the main expressive lever: poster type runs condensed (wdth 62) and uppercase, titles slightly wider (wdth 76), and every fact a student must read to decide runs at normal width and body size or larger. The poster world never outranks usability: posters stay compact on phones, Join sits in the same corner of every poster, and full or closed activities say so twice, with a stamp and a disabled button.
 
-Motion is one gesture: posters paste up once on load and on filter change. Nothing else moves beyond state transitions.
+Motion is one gesture: posters paste up once on load and on filter change. Two moments confirm an action the same way: joining presses the GOING stamp on, and saving an entry clears its to-log ticket and pastes that day's ink in. Nothing else moves beyond state transitions.
 
 This system replaces the retired MRT arrival-board world (kept in git history). The journal is the first extension built inside it: the wall's own month calendar, where each logged day is pasted in its area's ink and each missed log is an empty dashed slot, with small ink tickets for what still needs logging and a one-page entry form under a poster header. It must extend the same way, without new worlds, to the remaining planned surfaces: the hours summary per area, the reflection compiler, the optional award tracker, and admin. No components exist for those yet; build them from the wall, paper type, spot inks and the components below.
 
@@ -382,7 +382,9 @@ Inline 24px-grid line icons, 1.75 stroke, round caps, sized to 1.15em beside tex
 
 **The Said Twice Rule.** A full or closed activity shows a stamp and a disabled button whose label gives the reason (Full, Closed, Sign-up closed). Never hide the button, never use colour alone.
 
-**The Paste-Up Rule.** Posters and to-log tickets fade up from 0.2 opacity and 6px below over 180ms (ease-out cubic-bezier(0.16, 1, 0.3, 1)), staggered 25ms each and capped at the eighth poster, on load and filter change only. Reduced motion removes it. The calendar and the day panel do not animate.
+**The Paste-Up Rule.** Posters and to-log tickets fade up from 0.2 opacity and 6px below over 180ms (ease-out cubic-bezier(0.16, 1, 0.3, 1)), staggered 25ms each and capped at the eighth poster, on load and filter change only. Reduced motion removes it. The calendar and the day panel do not animate, except as below.
+
+**The Confirm Rule.** Motion may confirm an action the student just took, once, where they are looking. Joining presses the GOING stamp onto the poster (and the activity header): it drops from 1.7x to 0.95x and settles at 1x over 300ms, keeping its 7° tilt. Saving an entry from a ticket shows that ticket once more, fades it to 0.94x after 320ms, and slides the remaining tickets over the gap in 240ms (on phones the strip scrolls to it first). The saved day's ink and photo then wipe up from the bottom over 380ms, starting only once the day is on screen. Nothing repeats, nothing loops, and reduced motion removes all of it.
 
 **The Filled Or Dashed Rule.** On the journal calendar a past day the student went to is either filled with its area's ink (logged) or a dashed empty slot marked Log (still to log). Ink on the calendar means logged and nothing else.
 
@@ -409,5 +411,5 @@ Inline 24px-grid line icons, 1.75 stroke, round caps, sized to 1.15em beside tex
 - **Don't** round poster corners or square off buttons; posters are paper, controls are pills.
 - **Don't** wrap the area filters onto several lines on phones.
 - **Don't** hide a full or closed activity's button or signal its state by colour alone.
-- **Don't** animate anything beyond the paste-up and state transitions.
+- **Don't** animate anything beyond the paste-up, the two Confirm Rule moments and state transitions.
 - **Don't** use ink on the calendar for anything but a logged day.

@@ -145,6 +145,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
       activity = joinBtn ? await api.join(id) : await api.leave(id);
       render();
+      if (joinBtn) window.ui.pressStamp(content.querySelector(".detail-poster"));
       window.ui.toast(joinBtn ? `You're going to ${activity.title}.` : `You've left ${activity.title}.`,
         joinBtn ? { label: "Undo", run: () => content.querySelector("[data-leave]")?.click() } : undefined);
     } catch (err) {

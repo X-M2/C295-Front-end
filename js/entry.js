@@ -296,7 +296,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         photos: uploaded,
       });
       clearDraft();
-      location.href = `journal.html?day=${encodeURIComponent(saved.date)}&saved=1`;
+      const logged = mode === "activity" && activity ? `&logged=${encodeURIComponent(activity.id)}` : "";
+      location.href = `journal.html?day=${encodeURIComponent(saved.date)}&saved=1${logged}`;
     } catch (err) {
       btn.disabled = false;
       btn.textContent = entry ? "Save changes" : "Save entry";

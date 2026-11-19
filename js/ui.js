@@ -138,6 +138,11 @@
     });
   }
 
+  // ---- stamp pressed on after joining -----------------------------------------------
+  function pressStamp(poster) {
+    poster?.querySelector(".stamp")?.classList.add("stamp-in");
+  }
+
   // ---- toast with optional action -----------------------------------------------
   let toastTimer;
   function toast(message, action) {
@@ -180,6 +185,6 @@
   window.ui = {
     AREAS, esc, icon, pill, countdown, status, spotsText, whenLine, posterDate, hoursBetween, hoursText,
     time, weekday, dayNum, month, longDate, dayDiff, startOfDay,
-    renderHeader, toast, slowNotice, consumeLinkToken,
+    renderHeader, toast, pressStamp, slowNotice, consumeLinkToken,
   };
 })();
