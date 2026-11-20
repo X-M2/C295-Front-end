@@ -330,7 +330,7 @@ A centered page of 1240px max with 32px side padding (16px on phones), 48px top 
 
 **Entry form** uses the narrow 760px page: a back link, the poster header, then blocks 30px apart (Photos, the activity, When, What I did, What I learned) and a full-width large solid Save. The When row is date, start, end and the live hours in four columns; on phones date and hours each take a full row over start and end side by side.
 
-**Summary** uses a 1000px page: the display title with a one-line lede (total hours, activities, unfinished entries not counted with a Finish link), the range switch (26px below, 18px on phones), the line-up, then By month and Entries by area, each 52px apart (40px on phones) under headline-type headings.
+**Summary** uses a 1000px page: the display title with a one-line lede (total hours, activities, unfinished entries not counted with a Finish link), the range switch (26px below, 18px on phones), the line-up, then By month 52px below (40px on phones) under a headline-type heading, with the details panel under the chart. Entries stay hidden until the student taps a period or an area.
 
 ### Named Rules
 **The Three On A Phone Rule.** At 760px and below a poster is compact (16px padding, 3.25rem date on one line, 1.375rem title, area name hidden) so about three posters are visible per screen.
@@ -426,10 +426,16 @@ The four areas billed like a gig poster, most hours first. Each act is a row bet
 - **Error:** the coral error frame with Try again replaces the line-up.
 
 ### Stacked ink columns
-Hours per period as flat columns: By month (six to twelve months) or By week for This month. Columns share the width with 10px gaps (6px on phones) and scale to the busiest period at 170px (130px on phones). Each column stacks its areas' inks bottom up in a fixed area order, segments sized by hours, square-cornered and separated by 2px gaps of wall; an ink appears only where it has hours. The total sits above (750, 0.9375rem, Paper Dim, number only) and the period label below a 1px Warm Rule (0.9375rem Paper Dim; both 0.8125rem on phones); the current period's label and total are paper, the label bold. No axes, gridlines or legend: the line-up above is the key. The section hides when there are no hours. Each column carries a visually hidden sentence with the period, total and hours per area.
+Hours per period as flat columns: By month (six to twelve months) or By week for This month. Columns share the width with 12px gaps (6px on phones, bleeding 6px past the page edge) and scale to the busiest period at 300px (220px on phones). Each column stacks its areas' inks bottom up in a fixed area order, segments sized by hours, square-cornered and separated by 2px gaps of wall; an ink appears only where it has hours. The total sits above (800, 1.125rem, Paper Dim, number only; 0.9375rem on phones) and the period label below a 1px Warm Rule (0.9375rem Paper Dim; 0.8125rem on phones); the current period's label and total are paper, the label bold. No axes, gridlines or legend: the line-up above is the key. The section hides when there are no hours. Each column is a button carrying a visually hidden sentence with the period, total and hours per area; a period with nothing logged is disabled. Left and right arrows move between columns.
 
-### Entries by area
-One block per area with hours or unfinished entries, in billing order, 34px apart. The heading is title type at 1.5rem (850, wdth 76, uppercase) after a 13px ink dot, with the area's hours right-aligned in normal-width Paper Dim. Rows sit under 1px rules: date (Paper Dim, 0.9375rem, 8.5rem column), title (650) and hours (800) right; an unfinished entry shows a Soon Amber flag and "Unfinished" instead of hours and links to its form, a finished one to its journal day. Hover fills Wall Shadow. Five rows show, then a small quiet "Show all N". On phones the date sits over the title, hours at the right, and rows bleed to the screen edges.
+- **Picked period:** the column's stack takes a 2px paper outline 4px out, its label and total turn paper and bold, and the other columns drop to 0.35 opacity.
+- **Picked area** (from a line-up name): only that area's segments stay at full ink; every other segment drops to 0.18 opacity. The picked line-up name is underlined (3px) and the other names drop to 0.45.
+- **Hover:** the stack's outline shows in Warm Rule.
+
+### Details panel
+Under the chart, nothing but a Paper Dim hint ("Tap a month, or an area above, to see what you did.") until something is picked. One pick at a time: tapping the same column or name again, or the 40px round close button, clears it, and focus returns to what was tapped. A picked area scrolls the chart into view when it is below the fold. The pick lives in the address as `?show=` (a month as YYYY-MM, a week by its first day, or an area code); changing the range clears a period pick and keeps an area pick.
+
+The panel heading is title type at 1.5rem (850, wdth 76, uppercase): the period's full name, or a 13px ink dot and the area name. Its hours and activity count follow in 700 Paper Dim (below the heading on phones). Rows sit under 1px rules: date (Paper Dim, 0.9375rem, 8.5rem column), title (650; in a period, led by the entry's ink dot) and hours (800) right; an unfinished entry shows a Soon Amber flag and "Unfinished" instead of hours and links to its form, a finished one to its journal day. Hover fills Wall Shadow. On phones the date sits over the title, hours at the right, and rows bleed to the screen edges.
 
 ### Icons
 Inline 24px-grid line icons, 1.75 stroke, round caps, sized to 1.15em beside text. Used beside labels, never alone, except the phone sign-out button, which has an aria-label.
@@ -439,7 +445,9 @@ Inline 24px-grid line icons, 1.75 stroke, round caps, sized to 1.15em beside tex
 
 **The Said Twice Rule.** A full or closed activity shows a stamp and a disabled button whose label gives the reason (Full, Closed, Sign-up closed). Never hide the button, never use colour alone.
 
-**The Paste-Up Rule.** Posters, to-log tickets and summary line-up rows fade up from 0.2 opacity and 6px below over 180ms (ease-out cubic-bezier(0.16, 1, 0.3, 1)), staggered 25ms each and capped at the eighth poster, on load and filter or range change only. Reduced motion removes it. The calendar and the day panel do not animate, except as below.
+**The Paste-Up Rule.** Posters, to-log tickets and summary line-up rows fade up from 0.2 opacity and 6px below over 180ms (ease-out cubic-bezier(0.16, 1, 0.3, 1)), staggered 25ms each and capped at the eighth poster, on load and filter or range change only. Details panel rows paste up the same way when a pick opens them. Reduced motion removes it. The calendar and the day panel do not animate, except as below.
+
+**The Grow Rule.** On load and range change the summary's columns grow up from the baseline (clip-path wiping in from the bottom over 520ms, ease-out, 45ms apart left to right), and each total fades up 4px over 220ms as its column lands. Picking fades other columns or segments over 150ms. Nothing else on the chart moves, and reduced motion removes all of it.
 
 **The Confirm Rule.** Motion may confirm an action the student just took, once, where they are looking. Joining presses the GOING stamp onto the poster (and the activity header): it drops from 1.7x to 0.95x and settles at 1x over 300ms, keeping its 7° tilt. Saving an entry from a ticket shows that ticket once more, fades it to 0.94x after 320ms, and slides the remaining tickets over the gap in 240ms (on phones the strip scrolls to it first). The saved day's ink and photo then wipe up from the bottom over 380ms, starting only once the day is on screen. Nothing repeats, nothing loops, and reduced motion removes all of it.
 

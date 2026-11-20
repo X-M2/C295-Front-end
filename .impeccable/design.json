@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-20T06:46:48+00:00",
+  "generatedAt": "2026-11-20T06:55:43+00:00",
   "title": "Design System: Student activities companion (working title)",
   "extensions": {
     "colorMeta": {
@@ -365,6 +365,16 @@
         "purpose": "The saved day's ink and photo paste into the calendar after saving. Once."
       },
       {
+        "name": "bar-grow",
+        "value": "clip-path inset(100% 0 0 0) to inset(0), 520ms ease-out, 45ms stagger; totals fade up 4px over 220ms after 300ms",
+        "purpose": "Summary columns on load and range change."
+      },
+      {
+        "name": "pick-dim",
+        "value": "opacity 150ms ease (columns 0.35, segments 0.18, line-up names 0.45)",
+        "purpose": "Summary: what was not picked steps back."
+      },
+      {
         "name": "reduced-motion",
         "value": "animations and transitions cut to 1ms",
         "purpose": "prefers-reduced-motion: reduce."
@@ -543,7 +553,7 @@
       "css": ".ds-bars { list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(var(--n), minmax(0,1fr)); gap:10px; align-items:end; max-width:480px; font-family: var(--font, Archivo, system-ui, sans-serif); font-variant-numeric:tabular-nums; } .ds-bar { display:flex; flex-direction:column; min-width:0; } .ds-bt { min-height:1.4em; margin-bottom:4px; text-align:center; font-weight:750; font-size:0.9375rem; color:var(--paper-2,#c4bcb0); } .ds-bs { display:flex; flex-direction:column-reverse; gap:2px; height:calc(var(--h) * 170px); } .ds-bs > span { flex-basis:0; min-height:2px; } .ds-bl { padding-top:8px; border-top:1px solid var(--rule,#3d3934); text-align:center; font-size:0.9375rem; color:var(--paper-2,#c4bcb0); white-space:nowrap; } .ds-now .ds-bt { color:var(--paper,#f3eee6); } .ds-now .ds-bl { color:var(--paper,#f3eee6); font-weight:750; }"
     },
     {
-      "name": "Entries by Area",
+      "name": "Details Panel",
       "kind": "custom",
       "refersTo": "area-row",
       "description": "Area block heading with ink dot and hours, entry rows under rules, an unfinished row in Soon Amber, quiet Show all.",
@@ -638,7 +648,12 @@
       },
       {
         "name": "The Paste-Up Rule",
-        "body": "Posters, to-log tickets and summary line-up rows fade up from 0.2 opacity and 6px below over 180ms (ease-out cubic-bezier(0.16, 1, 0.3, 1)), staggered 25ms each and capped at the eighth poster, on load and filter or range change only. Reduced motion removes it. The calendar and the day panel do not animate, except as below.",
+        "body": "Posters, to-log tickets and summary line-up rows fade up from 0.2 opacity and 6px below over 180ms (ease-out cubic-bezier(0.16, 1, 0.3, 1)), staggered 25ms each and capped at the eighth poster, on load and filter or range change only. Details panel rows paste up the same way when a pick opens them. Reduced motion removes it. The calendar and the day panel do not animate, except as below.",
+        "section": "components"
+      },
+      {
+        "name": "The Grow Rule",
+        "body": "On load and range change the summary's columns grow up from the baseline (clip-path wiping in from the bottom over 520ms, ease-out, 45ms apart left to right), and each total fades up 4px over 220ms as its column lands. Picking fades other columns or segments over 150ms. Nothing else on the chart moves, and reduced motion removes all of it.",
         "section": "components"
       },
       {

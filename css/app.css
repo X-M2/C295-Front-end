@@ -735,30 +735,61 @@ a.act-name:hover { text-decoration: underline; text-decoration-thickness: 3px; t
 .lineup-skeleton .size-3 span { height: 2rem; width: 45%; }
 .lineup-skeleton .size-4 span { height: 1.35rem; width: 35%; }
 
-/* Hours by month: stacked area inks */
+/* Hours by month: stacked area inks. Tap a column (or an area name) to see its entries. */
 .months { margin-top: 52px; }
-.months[hidden], .by-area[hidden] { display: none; }
+.months[hidden] { display: none; }
 .bars {
   list-style: none; margin: 0; padding: 0;
-  display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 10px; align-items: end;
+  display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 12px; align-items: end;
 }
-.bar { display: flex; flex-direction: column; align-items: stretch; min-width: 0; }
-.bar-total { min-height: 1.4em; margin-bottom: 4px; text-align: center; font-weight: 750; font-size: var(--t-md); color: var(--paper-2); }
-.bar-stack { display: flex; flex-direction: column-reverse; gap: 2px; height: calc(var(--h) * 170px); }
-.bar-stack > span { flex-basis: 0; min-height: 2px; background: var(--ink); }
-.bar-label { padding-top: 8px; border-top: 1px solid var(--rule); text-align: center; font-size: var(--t-md); color: var(--paper-2); white-space: nowrap; }
+.bar { display: flex; min-width: 0; }
+.bar-btn {
+  flex: 1; display: flex; flex-direction: column; align-items: stretch; min-width: 0;
+  padding: 0; border: 0; background: none; color: inherit; font: inherit; cursor: pointer;
+  transition: opacity 150ms ease;
+}
+.bar-btn:disabled { cursor: default; }
+.bar-btn:focus-visible { outline-offset: 6px; }
+.bar-total { min-height: 1.4em; margin-bottom: 6px; text-align: center; font-weight: 800; font-size: var(--t-lg); color: var(--paper-2); }
+.bar-stack { display: flex; flex-direction: column-reverse; gap: 2px; height: calc(var(--h) * 300px); outline: 2px solid transparent; outline-offset: 4px; transition: outline-color 150ms ease; }
+.bar-stack > span { flex-basis: 0; min-height: 2px; background: var(--ink); transition: opacity 150ms ease; }
+.bar-label { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--rule); text-align: center; font-size: var(--t-md); color: var(--paper-2); white-space: nowrap; }
 .bar.is-now .bar-label { color: var(--paper); font-weight: 750; }
 .bar.is-now .bar-total { color: var(--paper); }
+.bar-btn:not(:disabled):hover .bar-stack { outline-color: var(--rule); }
+/* A tapped period: outlined; the others step back */
+.bars.has-pick:not(.pick-area) .bar:not(.is-picked) .bar-btn { opacity: 0.35; }
+.bar.is-picked .bar-stack { outline-color: var(--paper); }
+.bar.is-picked .bar-label, .bar.is-picked .bar-total { color: var(--paper); font-weight: 800; }
+/* A tapped area: only its ink stays */
+.bars.pick-area .bar-stack > span:not(.is-picked) { opacity: 0.18; }
+/* Columns grow up from the baseline, left to right, on load and range change */
+.bars.grow .bar-stack { animation: bar-grow 520ms var(--ease-out) both; animation-delay: calc(var(--i) * 45ms); }
+.bars.grow .bar-total { animation: bar-total 220ms ease-out both; animation-delay: calc(var(--i) * 45ms + 300ms); }
+@keyframes bar-grow { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0); } }
+@keyframes bar-total { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 
-/* Entries behind each area */
-.by-area { margin-top: 52px; }
-.area-block + .area-block { margin-top: 34px; }
-.area-h {
-  display: flex; align-items: center; gap: 10px; margin-bottom: 6px;
+/* Details for what was tapped */
+.pick { margin-top: 22px; }
+.pick-hint { color: var(--paper-2); text-wrap: pretty; }
+.pick-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 14px; margin-bottom: 8px; }
+.pick-h {
+  display: flex; align-items: center; gap: 10px;
   font-weight: 850; font-stretch: var(--title); text-transform: uppercase; font-size: var(--t-xl); line-height: 1.1;
 }
-.area-h .ink-dot { background: var(--ink); width: 13px; height: 13px; }
-.area-n { margin-left: auto; font-stretch: 100%; text-transform: none; font-weight: 750; font-size: var(--t-lg); color: var(--paper-2); }
+.pick-h .ink-dot { width: 13px; height: 13px; }
+.pick-n { color: var(--paper-2); font-weight: 700; }
+.pick-close { grid-column: 2; grid-row: 1 / span 2; }
+.row-title .ink-dot { display: inline-block; margin-right: 8px; vertical-align: 0.05em; }
+.paste.area-list > li { animation: paste 180ms var(--ease-out) both; animation-delay: calc(min(var(--i), 8) * 25ms); }
+
+/* Line-up names are buttons that pick an area */
+button.act-name { padding: 0; border: 0; background: none; cursor: pointer; text-align: left; font-family: inherit; }
+button.act-name:hover, button.act-name[aria-pressed="true"] { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 0.12em; }
+.lineup.has-pick .act:not(.is-picked) .act-name { opacity: 0.45; }
+.act-name { transition: opacity 150ms ease; }
+
+/* Entry rows */
 .area-list { list-style: none; margin: 0; padding: 0; }
 .area-row {
   display: grid; grid-template-columns: 8.5rem minmax(0, 1fr) auto; align-items: baseline; gap: 16px;
@@ -771,7 +802,6 @@ a.act-name:hover { text-decoration: underline; text-decoration-thickness: 3px; t
 .row-h { font-weight: 800; white-space: nowrap; }
 .row-unfinished { display: inline-flex; align-items: center; gap: 5px; color: var(--soon); font-weight: 750; font-size: var(--t-md); }
 .row-unfinished .icon { width: 16px; height: 16px; }
-.area-more { margin-top: 6px; margin-left: -14px; }
 
 @media (max-width: 760px) {
   .range { margin-bottom: 18px; }
@@ -781,15 +811,15 @@ a.act-name:hover { text-decoration: underline; text-decoration-thickness: 3px; t
   .size-3 .act-name { font-size: 1.625rem; }
   .size-4 .act-name { font-size: 1.25rem; }
   .act-hours { font-size: var(--t-lg); }
-  .months, .by-area { margin-top: 40px; }
-  .bars { gap: 6px; }
-  .bar-stack { height: calc(var(--h) * 130px); }
-  .bar-total, .bar-label { font-size: var(--t-sm); }
+  .months { margin-top: 40px; }
+  .bars { gap: 6px; margin: 0 -6px; }
+  .bar-stack { height: calc(var(--h) * 220px); }
+  .bar-total { font-size: var(--t-md); }
+  .bar-label { font-size: var(--t-sm); }
   .area-row { grid-template-columns: minmax(0, 1fr) auto; row-gap: 0; padding: 11px 16px; margin: 0 -16px; }
   .row-date { grid-column: 1; grid-row: 1; font-size: var(--t-sm); }
   .row-title { grid-column: 1; grid-row: 2; }
   .row-h { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
-  .area-more { margin-left: -14px; }
 }
 
 /* Four menu items: on small phones the menu replaces the name (Browse is home). */

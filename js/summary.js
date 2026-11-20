@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const rangeEl = $("[data-range]");
   const lineupEl = $("[data-lineup]");
   const monthsEl = $("[data-months]");
-  const byAreaEl = $("[data-by-area]");
+  const pickEl = $("[data-pick]");
 
   const isoOf = (d) => d.toLocaleDateString("en-CA");
   const dateOf = (iso) => { const [y, m, d] = iso.split("-").map(Number); return new Date(y, m - 1, d); };
@@ -37,7 +37,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   let range = RANGES.some((r) => r.id === params.get("range")) ? params.get("range") : "all";
   let entries = [];
   let loaded = false;
-  const expanded = new Set();
+  // What the student tapped: a period ("2026-10" month, or a week's first day) or an area ("SL"). One at a time.
+  let pick = params.get("show") || null;
+  let current = { list: [], buckets: [] };
 
   // An entry counts only when all four parts are there (same rule as the Journal).
   const isComplete = (e) => e.photos?.length && hoursBetween(e.start, e.end) !== null && e.did?.trim() && e.learned?.trim();
@@ -58,11 +60,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     const b = e.target.closest("[data-r]");
     if (!b || !loaded || b.dataset.r === range) return;
     range = b.dataset.r;
-    const p = new URLSearchParams(location.search);
-    if (range === "all") p.delete("range"); else p.set("range", range);
-    history.replaceState(null, "", `${location.pathname}${p.toString() ? `?${p}` : ""}`);
+    if (pick && !AREAS[pick]) pick = null;
+    syncUrl();
     render(true);
   });
+
+  function syncUrl() {
+    const p = new URLSearchParams(location.search);
+    if (range === "all") p.delete("range"); else p.set("range", range);
+    if (pick) p.set("show", pick); else p.delete("show");
+    history.replaceState(null, "", `${location.pathname}${p.toString() ? `?${p}` : ""}`);
+  }
 
   // ---- totals ----------------------------------------------------------------------
   function totals(list) {
@@ -114,7 +122,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         ? `<span class="act-hours">${hoursText(r.hours)}</span><span class="act-count">${plural(r.count, "activity", "activities")}</span>`
         : `<span class="act-hours">0 h</span>`;
       const name = r.hours
-        ? `<a class="act-name" href="#area-${r.code}">${esc(area.name)}</a>`
+        ? `<button type="button" class="act-name" data-area="${r.code}" aria-pressed="false" aria-controls="pick">${esc(area.name)}</button>`
         : `<span class="act-name">${esc(area.name)}</span>`;
       return `
         <li class="act ink-${r.code} size-${r.size}${r.hours ? "" : " is-zero"}" style="--i:${i}">
@@ -146,7 +154,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const e = new Date(s); e.setDate(e.getDate() + (7 - ((e.getDay() + 6) % 7)) - 1);
         const end = e > today ? today : e;
         const from = isoOf(s), to = isoOf(end);
-        out.push({ from, to, label: `${s.getDate()} ${monthName(s)}`, long: `Week of ${s.getDate()} ${monthName(s, true)}` });
+        out.push({ key: from, from, to, label: `${s.getDate()} ${monthName(s)}`, long: `Week of ${s.getDate()} ${monthName(s, true)}` });
         s = new Date(end); s.setDate(s.getDate() + 1);
       }
     } else {
@@ -163,72 +171,131 @@ document.addEventListener("DOMContentLoaded", async () => {
       let m = new Date(start.getFullYear(), start.getMonth(), 1);
       while (m <= today) {
         const end = new Date(m.getFullYear(), m.getMonth() + 1, 0);
-        out.push({ from: isoOf(m), to: isoOf(end), label: monthName(m), long: `${monthName(m, true)} ${m.getFullYear()}` });
+        out.push({ key: isoOf(m).slice(0, 7), from: isoOf(m), to: isoOf(end), label: monthName(m), long: `${monthName(m, true)} ${m.getFullYear()}` });
         m = new Date(m.getFullYear(), m.getMonth() + 1, 1);
       }
     }
     return out.map((b) => ({ ...b, t: totals(list.filter((e) => e.date >= b.from && e.date <= b.to)) }));
   }
 
-  function renderMonths(list) {
+  function renderMonths(list, animate) {
     const bs = buckets(list);
+    current.buckets = bs;
     const sum = (t) => Object.values(t).reduce((s, a) => s + a.hours, 0);
     const max = Math.max(...bs.map((b) => sum(b.t)));
     $("[data-months-wrap]").hidden = !max;
-    if (!max) return;
-    $("[data-months-h]").textContent = range === "month" ? "By week" : "By month";
+    if (!max) { pickEl.innerHTML = ""; return; }
+    const unit = range === "month" ? "week" : "month";
+    $("[data-months-h]").textContent = `By ${unit}`;
     const codes = Object.keys(AREAS);
-    monthsEl.innerHTML = `<ol class="bars" style="--n:${bs.length}">${bs.map((b) => {
+    monthsEl.innerHTML = `<ol class="bars${animate ? " grow" : ""}" style="--n:${bs.length}">${bs.map((b, i) => {
       const total = sum(b.t);
+      const any = total || Object.values(b.t).some((a) => a.unfinished.length);
       const parts = codes.filter((c) => b.t[c].hours);
       const said = parts.length ? parts.map((c) => `${AREAS[c].name} ${hoursText(b.t[c].hours)}`).join(", ") : "nothing logged";
       return `
-        <li class="bar${b.to >= todayIso && b.from <= todayIso ? " is-now" : ""}">
-          <span class="visually-hidden">${esc(b.long)}: ${total ? `${hoursText(total)}. ` : ""}${said}.</span>
-          <span class="bar-total" aria-hidden="true">${total ? hoursText(total).replace(" h", "") : ""}</span>
-          <span class="bar-stack" aria-hidden="true" style="--h:${total / max}">${parts.map((c) =>
-            `<span class="ink-${c}" style="flex-grow:${b.t[c].hours}"></span>`).join("")}</span>
-          <span class="bar-label" aria-hidden="true">${esc(b.label)}</span>
+        <li class="bar${b.to >= todayIso && b.from <= todayIso ? " is-now" : ""}" style="--i:${i}">
+          <button type="button" class="bar-btn" data-b="${b.key}" aria-pressed="false" aria-controls="pick"${any ? "" : " disabled"}>
+            <span class="visually-hidden">${esc(b.long)}: ${total ? `${hoursText(total)}. ` : ""}${said}.</span>
+            <span class="bar-total" aria-hidden="true">${total ? hoursText(total).replace(" h", "") : ""}</span>
+            <span class="bar-stack" aria-hidden="true" style="--h:${total / max}">${parts.map((c) =>
+              `<span class="ink-${c}" data-c="${c}" style="flex-grow:${b.t[c].hours}"></span>`).join("")}</span>
+            <span class="bar-label" aria-hidden="true">${esc(b.label)}</span>
+          </button>
         </li>`;
     }).join("")}</ol>`;
   }
 
-  // ---- entries behind each area ----------------------------------------------------------------
-  const SHOW = 5;
-  function renderByArea(rows) {
-    const shown = rows.filter((r) => r.hours || r.unfinished.length);
-    $("[data-by-area-wrap]").hidden = !shown.length;
-    byAreaEl.innerHTML = shown.map((r) => {
-      const area = AREAS[r.code];
-      const list = [...r.entries, ...r.unfinished].sort((a, b) => b.date.localeCompare(a.date) || (b.start || "").localeCompare(a.start || ""));
-      const open = expanded.has(r.code);
-      const visible = open ? list : list.slice(0, SHOW);
-      return `
-        <section class="area-block ink-${r.code}" id="area-${r.code}" aria-labelledby="area-h-${r.code}">
-          <h3 class="area-h" id="area-h-${r.code}"><i class="ink-dot" aria-hidden="true"></i>${esc(area.name)}<span class="area-n">${r.hours ? hoursText(r.hours) : "0 h"}</span></h3>
-          <ul class="area-list">${visible.map((e) => {
-            const done = isComplete(e);
-            const h = hoursBetween(e.start, e.end);
-            return `
-            <li>
-              <a class="area-row" href="${done ? `journal.html?day=${encodeURIComponent(e.date)}` : `entry.html?id=${encodeURIComponent(e.id)}`}">
-                <span class="row-date">${esc(shortDate(e.date))}</span>
-                <span class="row-title">${esc(e.title)}</span>
-                <span class="row-h">${done ? esc(hoursText(h)) : `<span class="row-unfinished">${icon("flag")}Unfinished</span>`}</span>
-              </a>
-            </li>`;
-          }).join("")}</ul>
-          ${list.length > SHOW ? `<button type="button" class="btn btn-sm btn-quiet area-more" data-more="${r.code}" aria-expanded="${open}">${open ? "Show fewer" : `Show all ${list.length}`}</button>` : ""}
-        </section>`;
-    }).join("");
+  // ---- what the student tapped -------------------------------------------------------------------
+  const byNewest = (a, b) => b.date.localeCompare(a.date) || (b.start || "").localeCompare(a.start || "");
+
+  function applyPick(animate) {
+    const bucket = current.buckets.find((b) => b.key === pick);
+    if (pick && !AREAS[pick] && !bucket) pick = null;
+    if (pick && AREAS[pick] && !current.list.some((e) => e.area === pick)) pick = null;
+
+    lineupEl.querySelector(".lineup")?.classList.toggle("has-pick", !!(pick && AREAS[pick]));
+    lineupEl.querySelectorAll("[data-area]").forEach((b) => {
+      b.setAttribute("aria-pressed", String(b.dataset.area === pick));
+      b.closest(".act").classList.toggle("is-picked", b.dataset.area === pick);
+    });
+    const bars = monthsEl.querySelector(".bars");
+    bars?.classList.toggle("has-pick", !!pick);
+    monthsEl.querySelectorAll("[data-b]").forEach((b) => {
+      b.setAttribute("aria-pressed", String(b.dataset.b === pick));
+      b.closest(".bar").classList.toggle("is-picked", b.dataset.b === pick);
+      b.querySelectorAll("[data-c]").forEach((seg) => seg.classList.toggle("is-picked", seg.dataset.c === pick));
+    });
+    bars?.classList.toggle("pick-area", !!(pick && AREAS[pick]));
+
+    if (!pick) {
+      const unit = range === "month" ? "week" : "month";
+      pickEl.innerHTML = `<p class="pick-hint">Tap a ${unit}, or an area above, to see what you did.</p>`;
+      return;
+    }
+    let title, list;
+    if (AREAS[pick]) {
+      list = current.list.filter((e) => e.area === pick);
+      title = `<i class="ink-dot ink-${pick}" aria-hidden="true"></i>${esc(AREAS[pick].name)}`;
+    } else {
+      list = current.list.filter((e) => e.date >= bucket.from && e.date <= bucket.to);
+      title = esc(bucket.long);
+    }
+    list = list.sort(byNewest);
+    const done = list.filter(isComplete);
+    const hours = done.reduce((s, e) => s + hoursBetween(e.start, e.end), 0);
+    pickEl.innerHTML = `
+      <div class="pick-head">
+        <h3 class="pick-h">${title}</h3>
+        <p class="pick-n">${hoursText(hours) || "0 h"} · ${plural(done.length, "activity", "activities")}</p>
+        <button type="button" class="btn btn-sm btn-icon pick-close" data-close aria-label="Close">${icon("x")}</button>
+      </div>
+      <ul class="area-list${animate ? " paste" : ""}">${list.map((e, i) => {
+        const ok = isComplete(e);
+        return `
+        <li style="--i:${i}">
+          <a class="area-row" href="${ok ? `journal.html?day=${encodeURIComponent(e.date)}` : `entry.html?id=${encodeURIComponent(e.id)}`}">
+            <span class="row-date">${esc(shortDate(e.date))}</span>
+            <span class="row-title">${AREAS[pick] ? "" : `<i class="ink-dot ink-${e.area}" aria-hidden="true"></i>`}${esc(e.title)}</span>
+            <span class="row-h">${ok ? esc(hoursText(hoursBetween(e.start, e.end))) : `<span class="row-unfinished">${icon("flag")}Unfinished</span>`}</span>
+          </a>
+        </li>`;
+      }).join("")}</ul>`;
   }
-  byAreaEl.addEventListener("click", (e) => {
-    const b = e.target.closest("[data-more]");
-    if (!b) return;
-    const c = b.dataset.more;
-    if (expanded.has(c)) expanded.delete(c); else expanded.add(c);
-    renderByArea(billing(totals(inRange())));
-    byAreaEl.querySelector(`[data-more="${c}"]`)?.focus();
+
+  function setPick(next, from) {
+    pick = pick === next ? null : next;
+    syncUrl();
+    applyPick(true);
+    if (pick && from === "area") {
+      const r = $("[data-months-wrap]").getBoundingClientRect();
+      if (r.top > innerHeight * 0.6) $("[data-months-wrap]").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+    }
+  }
+  lineupEl.addEventListener("click", (e) => {
+    const b = e.target.closest("[data-area]");
+    if (b && loaded) setPick(b.dataset.area, "area");
+  });
+  monthsEl.addEventListener("click", (e) => {
+    const b = e.target.closest("[data-b]");
+    if (b && loaded) setPick(b.dataset.b, "bar");
+  });
+  monthsEl.addEventListener("keydown", (e) => {
+    const steps = { ArrowLeft: -1, ArrowRight: 1 };
+    if (!(e.key in steps)) return;
+    const btns = [...monthsEl.querySelectorAll("[data-b]:not(:disabled)")];
+    const i = btns.indexOf(document.activeElement);
+    if (i < 0) return;
+    e.preventDefault();
+    btns[Math.max(0, Math.min(btns.length - 1, i + steps[e.key]))].focus();
+  });
+  pickEl.addEventListener("click", (e) => {
+    if (!e.target.closest("[data-close]")) return;
+    const was = pick;
+    pick = null;
+    syncUrl();
+    applyPick(false);
+    (monthsEl.querySelector(`[data-b="${was}"]`) || lineupEl.querySelector(`[data-area="${was}"]`))?.focus();
   });
 
   // ---- render / load ---------------------------------------------------------------------------
@@ -239,15 +306,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     renderRange();
     renderLede(t);
     renderLineup(rows, animate);
-    renderMonths(list);
-    renderByArea(rows);
+    current.list = list;
+    renderMonths(list, animate);
+    applyPick(false);
   }
 
   function showSkeleton() {
     root.classList.remove("has-error");
     lineupEl.innerHTML = `<ol class="lineup lineup-skeleton">${[1, 2, 3, 4].map((n) => `<li class="size-${n}"><span></span></li>`).join("")}</ol>`;
     $("[data-months-wrap]").hidden = true;
-    $("[data-by-area-wrap]").hidden = true;
   }
 
   function showError(err) {
@@ -271,7 +338,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       loaded = true;
       stopSlow();
       render(true);
-      if (location.hash) document.getElementById(location.hash.slice(1))?.scrollIntoView();
     } catch (err) {
       stopSlow();
       if (err.status === 401) { location.replace(`signin.html?next=${encodeURIComponent("summary.html")}`); return; }
