@@ -109,6 +109,29 @@
       learned: "", photos: [], source: "telegram" },
   ];
 
+  // Older sample entries, so the Summary has months to show. Mostly Service Learning,
+  // some Outdoor, a little Healthy Living, and no Community Leadership yet.
+  // [id, area, title, dayOffset, start, end, photo]
+  const older = [
+    ["e05", "SL", "Beach clean-up at Sembawang Park", -24, "09:00", "12:00", "shore-rocks"],
+    ["e06", "OA", "MacRitchie TreeTop Walk hike", -31, "08:00", "12:00", "shore-rocks"],
+    ["e07", "SL", "Harvest morning at a community farm", -45, "08:30", "12:30", "trimming-foliage"],
+    ["e08", "HL", "Rock climbing taster", -52, "18:00", "20:30", "bike-bell"],
+    ["e09", "SL", "Thrift sorting day", -66, "10:00", "13:30", "trimming-foliage"],
+    ["e10", "OA", "Coney Island cycling loop", -80, "08:00", "11:30", "bike-bell"],
+    ["e11", "SL", "Food pack night", -96, "18:00", "22:00", "bread-oven"],
+    ["e12", "SL", "Reading buddies for P3 pupils", -110, "09:00", "12:30", "trimming-foliage"],
+    ["e13", "OA", "Chek Jawa intertidal walk", -124, "07:30", "11:30", "shore-rocks"],
+    ["e14", "HL", "Yoga on the lawn", -131, "17:00", "19:30", "bike-bell"],
+    ["e15", "SL", "Harvest morning at a community farm", -145, "08:00", "12:00", "trimming-foliage"],
+  ];
+  older.forEach(([id, area, title, off, start, end, photo]) => journal.push({
+    id, activityId: null, area, title, date: isoDate(off), start, end,
+    did: "Sample entry: what I did is written here.",
+    learned: "Sample entry: what I learned is written here.",
+    photos: [{ url: `assets/photos/${photo}.webp`, sample: true }], source: "web",
+  }));
+
   window.SAMPLE_DATA = {
     activities,
     pastActivities,

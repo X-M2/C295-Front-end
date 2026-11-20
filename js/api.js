@@ -61,7 +61,7 @@
 
   // ---- sample-mode state ----------------------------------------------------
 
-  const JOURNAL_KEY = "c295.sample.journal";
+  const JOURNAL_KEY = "c295.sample.journal.v2";  // bump when the sample journal changes
   // Sample journal: starts from SAMPLE_DATA.journal, then lives in this browser.
   function sampleJournal() {
     const stored = readJSON(JOURNAL_KEY, null);

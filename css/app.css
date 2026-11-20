@@ -693,6 +693,110 @@ fieldset.field legend { font-weight: 700; font-size: var(--t-md); padding: 0; ma
   .time-row .hours { grid-column: 1 / -1; padding-bottom: 0; }
 }
 
+/* ---------------------------------------------------------------- summary */
+
+.page-summary { max-width: 1000px; }
+.range { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; }
+.range .tab[aria-pressed="true"] { background: var(--paper); border-color: var(--paper); color: var(--on-ink); }
+.range[hidden] { display: none; }
+.lede a { color: var(--paper); text-underline-offset: 3px; }
+
+/* The line-up: billed by hours, headliner biggest */
+.lineup { list-style: none; margin: 0; padding: 0; border-bottom: 1px solid var(--rule); }
+.act {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; column-gap: 24px;
+  padding: 16px 0 14px; border-top: 1px solid var(--rule);
+}
+.act-name {
+  justify-self: start; color: var(--ink); text-decoration: none;
+  font-weight: 900; font-stretch: var(--poster); text-transform: uppercase; line-height: 0.9; letter-spacing: -0.005em;
+  text-wrap: balance;
+}
+a.act-name:hover { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 0.12em; }
+.size-1 .act-name { font-size: 4.5rem; }
+.size-2 .act-name { font-size: 3.25rem; }
+.size-3 .act-name { font-size: 2.25rem; }
+.size-4 .act-name { font-size: 1.5rem; }
+.is-zero .act-name { color: var(--paper-3); }
+.act-facts { display: grid; justify-items: end; gap: 0; text-align: right; padding-bottom: 2px; }
+.act-hours { font-weight: 800; font-size: var(--t-xl); line-height: 1.1; white-space: nowrap; }
+.act-count { color: var(--paper-2); font-size: var(--t-base); white-space: nowrap; }
+.is-zero .act-hours { color: var(--paper-3); font-size: var(--t-lg); }
+.act-find { grid-column: 1 / -1; margin-top: 8px; color: var(--paper-2); }
+.act-find a { display: inline-flex; align-items: center; gap: 4px; color: var(--paper); font-weight: 750; text-underline-offset: 3px; }
+.act-find .icon { width: 16px; height: 16px; }
+.paste .act { animation: paste 180ms var(--ease-out) both; animation-delay: calc(var(--i) * 25ms); }
+.lineup-empty { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+
+.lineup-skeleton li { padding: 16px 0 14px; border-top: 1px solid var(--rule); }
+.lineup-skeleton span { display: block; background: var(--ground-2); animation: pulse 1.4s ease-in-out infinite; }
+.lineup-skeleton .size-1 span { height: 4rem; width: 70%; }
+.lineup-skeleton .size-2 span { height: 2.9rem; width: 55%; }
+.lineup-skeleton .size-3 span { height: 2rem; width: 45%; }
+.lineup-skeleton .size-4 span { height: 1.35rem; width: 35%; }
+
+/* Hours by month: stacked area inks */
+.months { margin-top: 52px; }
+.months[hidden], .by-area[hidden] { display: none; }
+.bars {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); gap: 10px; align-items: end;
+}
+.bar { display: flex; flex-direction: column; align-items: stretch; min-width: 0; }
+.bar-total { min-height: 1.4em; margin-bottom: 4px; text-align: center; font-weight: 750; font-size: var(--t-md); color: var(--paper-2); }
+.bar-stack { display: flex; flex-direction: column-reverse; gap: 2px; height: calc(var(--h) * 170px); }
+.bar-stack > span { flex-basis: 0; min-height: 2px; background: var(--ink); }
+.bar-label { padding-top: 8px; border-top: 1px solid var(--rule); text-align: center; font-size: var(--t-md); color: var(--paper-2); white-space: nowrap; }
+.bar.is-now .bar-label { color: var(--paper); font-weight: 750; }
+.bar.is-now .bar-total { color: var(--paper); }
+
+/* Entries behind each area */
+.by-area { margin-top: 52px; }
+.area-block + .area-block { margin-top: 34px; }
+.area-h {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 6px;
+  font-weight: 850; font-stretch: var(--title); text-transform: uppercase; font-size: var(--t-xl); line-height: 1.1;
+}
+.area-h .ink-dot { background: var(--ink); width: 13px; height: 13px; }
+.area-n { margin-left: auto; font-stretch: 100%; text-transform: none; font-weight: 750; font-size: var(--t-lg); color: var(--paper-2); }
+.area-list { list-style: none; margin: 0; padding: 0; }
+.area-row {
+  display: grid; grid-template-columns: 8.5rem minmax(0, 1fr) auto; align-items: baseline; gap: 16px;
+  padding: 12px 0; border-top: 1px solid var(--rule);
+  color: var(--paper); text-decoration: none; transition: background-color 150ms ease;
+}
+.area-row:hover { background: var(--ground-2); }
+.row-date { color: var(--paper-2); font-size: var(--t-md); white-space: nowrap; }
+.row-title { font-weight: 650; overflow-wrap: anywhere; }
+.row-h { font-weight: 800; white-space: nowrap; }
+.row-unfinished { display: inline-flex; align-items: center; gap: 5px; color: var(--soon); font-weight: 750; font-size: var(--t-md); }
+.row-unfinished .icon { width: 16px; height: 16px; }
+.area-more { margin-top: 6px; margin-left: -14px; }
+
+@media (max-width: 760px) {
+  .range { margin-bottom: 18px; }
+  .act { column-gap: 14px; padding: 12px 0 11px; }
+  .size-1 .act-name { font-size: 2.75rem; }
+  .size-2 .act-name { font-size: 2.125rem; }
+  .size-3 .act-name { font-size: 1.625rem; }
+  .size-4 .act-name { font-size: 1.25rem; }
+  .act-hours { font-size: var(--t-lg); }
+  .months, .by-area { margin-top: 40px; }
+  .bars { gap: 6px; }
+  .bar-stack { height: calc(var(--h) * 130px); }
+  .bar-total, .bar-label { font-size: var(--t-sm); }
+  .area-row { grid-template-columns: minmax(0, 1fr) auto; row-gap: 0; padding: 11px 16px; margin: 0 -16px; }
+  .row-date { grid-column: 1; grid-row: 1; font-size: var(--t-sm); }
+  .row-title { grid-column: 1; grid-row: 2; }
+  .row-h { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
+  .area-more { margin-left: -14px; }
+}
+
+/* Four menu items: on small phones the menu replaces the name (Browse is home). */
+@media (max-width: 480px) {
+  .brand { display: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 1ms !important; animation-delay: 0ms !important; transition-duration: 1ms !important; }
 }

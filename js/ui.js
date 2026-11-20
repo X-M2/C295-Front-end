@@ -124,6 +124,7 @@
           <a href="index.html" ${page === "browse" ? 'aria-current="page"' : ""}>Browse</a>
           <a href="${s ? "index.html?mine=1" : `signin.html?next=${encodeURIComponent("index.html?mine=1")}`}" ${page === "mine" ? 'aria-current="page"' : ""}>Going${s && going ? `<span class="nav-count">${going}</span>` : ""}</a>
           <a href="${s ? "journal.html" : `signin.html?next=${encodeURIComponent("journal.html")}`}" ${page === "journal" ? 'aria-current="page"' : ""}>Journal</a>
+          <a href="${s ? "summary.html" : `signin.html?next=${encodeURIComponent("summary.html")}`}" ${page === "summary" ? 'aria-current="page"' : ""}>Summary</a>
         </nav>
         <div class="who">
           ${s

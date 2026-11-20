@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en-SG">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#121110">
+  <title>Summary</title>
+  <link rel="preload" href="assets/fonts/archivo-variable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/app.css">
+  <script src="js/config.js" defer></script>
+  <script src="js/sample-data.js" defer></script>
+  <script src="js/api.js" defer></script>
+  <script src="js/ui.js" defer></script>
+  <script src="js/summary.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#lineup">Skip to your areas</a>
+  <header class="top" data-header></header>
+
+  <main class="page page-summary" data-summary>
+    <div class="intro">
+      <h1 class="display">Summary</h1>
+      <p class="lede" data-lede>How your time splits across the four areas.</p>
+    </div>
+
+    <div class="range" role="group" aria-label="Time range" data-range></div>
+
+    <section class="lineup-wrap" id="lineup" aria-labelledby="lineup-h">
+      <h2 class="visually-hidden" id="lineup-h">Hours per area</h2>
+      <div data-lineup></div>
+    </section>
+
+    <section class="months" aria-labelledby="months-h" data-months-wrap>
+      <h2 class="group-h" id="months-h" data-months-h>By month</h2>
+      <div data-months></div>
+    </section>
+
+    <section class="by-area" aria-labelledby="by-area-h" data-by-area-wrap>
+      <h2 class="group-h" id="by-area-h">Entries by area</h2>
+      <div data-by-area></div>
+    </section>
+    <p class="slow-note">Waking up the server. This can take up to a minute the first time.</p>
+  </main>
+
+  <footer class="foot">
+    <p>C295 project by Zhen Kang, Jun Hao and Xingmeng, Republic Polytechnic.</p>
+  </footer>
+</body>
+</html>
