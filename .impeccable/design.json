@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-20T06:31:51+00:00",
+  "generatedAt": "2026-11-20T06:46:48+00:00",
   "title": "Design System: Student activities companion (working title)",
   "extensions": {
     "colorMeta": {
@@ -289,6 +289,10 @@
       "label": {
         "displayName": "Label",
         "purpose": "Fact-sheet labels, hints, field errors; never a deciding fact."
+      },
+      "billing": {
+        "displayName": "Billing",
+        "purpose": "Area names on the summary line-up at four fixed rank sizes (4.5/3.25/2.25/1.5rem; phones 2.75/2.125/1.625/1.25rem)."
       }
     },
     "fontSource": {
@@ -328,7 +332,7 @@
       {
         "name": "paste-up",
         "value": "opacity 0.2 to 1, translateY 6px to 0, 180ms ease-out, 25ms stagger capped at 8",
-        "purpose": "Posters and to-log tickets on load and filter change only."
+        "purpose": "Posters, to-log tickets and summary line-up rows on load and filter or range change only."
       },
       {
         "name": "state",
@@ -376,10 +380,14 @@
         "name": "phone",
         "value": "760px",
         "purpose": "One column, compact posters, one scrolling row of area tabs, side panel above content. Tickets scroll in one row; calendar keeps seven columns, ink only; day panel and entry header bleed to the edges."
+      },
+      {
+        "name": "small-phone",
+        "value": "480px",
+        "purpose": "The product name hides from the header so the four nav links fit on one line; Browse is home."
       }
     ],
     "futureSurfaces": [
-      "Hours summary per area",
       "Reflection compiler",
       "Optional award tracker (off by default)",
       "Admin: add activity form and CSV import"
@@ -442,9 +450,9 @@
       "name": "Header Navigation",
       "kind": "nav",
       "refersTo": "",
-      "description": "Poster-type product name, Browse, Going and Journal links with a 3px current-page bar.",
-      "html": "<header class=\"ds-top\"><span class=\"ds-brand\">Working title</span><nav class=\"ds-nav\"><a href=\"#\" aria-current=\"page\">Browse</a><a href=\"#\">Going<span class=\"ds-count\">2</span></a><a href=\"#\">Journal</a></nav></header>",
-      "css": ".ds-top { display:flex; align-items:center; gap:28px; min-height:64px; padding:0 32px; background:var(--ground,#121110); border-bottom:1px solid var(--rule,#3d3934); font-family: var(--font, Archivo, system-ui, sans-serif); } .ds-brand { font-weight:900; font-stretch:62%; font-variation-settings:'wdth' 62; text-transform:uppercase; font-size:1.625rem; line-height:1; color:var(--paper,#f3eee6); } .ds-nav { display:flex; align-self:stretch; gap:6px; } .ds-nav a { position:relative; display:flex; align-items:center; gap:8px; padding:0 10px; color:var(--paper-2,#c4bcb0); font-weight:650; font-size:0.9375rem; text-decoration:none; } .ds-nav a:hover, .ds-nav a[aria-current=\"page\"] { color:var(--paper,#f3eee6); } .ds-nav a[aria-current=\"page\"]::after { content:''; position:absolute; left:10px; right:10px; bottom:-1px; height:3px; background:var(--paper,#f3eee6); } .ds-nav a:focus-visible { outline:3px solid var(--focus,#f3eee6); outline-offset:3px; } .ds-count { min-width:20px; height:20px; padding:0 6px; border-radius:999px; display:inline-grid; place-items:center; background:var(--paper,#f3eee6); color:var(--on-ink,#121110); font-size:0.75rem; font-weight:800; }"
+      "description": "Poster-type product name, Browse, Going, Journal and Summary links with a 3px current-page bar; the name hides at 480px and below.",
+      "html": "<header class=\"ds-top\"><span class=\"ds-brand\">Working title</span><nav class=\"ds-nav\"><a href=\"#\" aria-current=\"page\">Browse</a><a href=\"#\">Going<span class=\"ds-count\">2</span></a><a href=\"#\">Journal</a><a href=\"#\">Summary</a></nav></header>",
+      "css": ".ds-top { display:flex; align-items:center; gap:28px; min-height:64px; padding:0 32px; background:var(--ground,#121110); border-bottom:1px solid var(--rule,#3d3934); font-family: var(--font, Archivo, system-ui, sans-serif); } .ds-brand { font-weight:900; font-stretch:62%; font-variation-settings:'wdth' 62; text-transform:uppercase; font-size:1.625rem; line-height:1; color:var(--paper,#f3eee6); } .ds-nav { display:flex; align-self:stretch; gap:6px; } .ds-nav a { position:relative; display:flex; align-items:center; gap:8px; padding:0 10px; color:var(--paper-2,#c4bcb0); font-weight:650; font-size:0.9375rem; text-decoration:none; } .ds-nav a:hover, .ds-nav a[aria-current=\"page\"] { color:var(--paper,#f3eee6); } .ds-nav a[aria-current=\"page\"]::after { content:''; position:absolute; left:10px; right:10px; bottom:-1px; height:3px; background:var(--paper,#f3eee6); } .ds-nav a:focus-visible { outline:3px solid var(--focus,#f3eee6); outline-offset:3px; } .ds-count { min-width:20px; height:20px; padding:0 6px; border-radius:999px; display:inline-grid; place-items:center; background:var(--paper,#f3eee6); color:var(--on-ink,#121110); font-size:0.75rem; font-weight:800; } @media (max-width:480px) { .ds-brand { display:none; } }"
     },
     {
       "name": "Gig Poster",
@@ -509,11 +517,43 @@
       "description": "Error summary, restored-draft notice, block heading, invalid textarea and the live hours line.",
       "html": "<div class=\"ds-form\"><p class=\"ds-notice\">We kept your unsaved entry on this phone. Carry on where you left off.</p><div class=\"ds-sum\" tabindex=\"-1\"><p><b>2 things are missing.</b> Add at least one photo. Write a line or two about what you learned.</p></div><label class=\"ds-bh\" for=\"ds-l\">What I learned</label><textarea id=\"ds-l\" aria-invalid=\"true\"></textarea><p class=\"ds-err\">Write a line or two about what you learned.</p><p class=\"ds-hours\">3 h</p></div>",
       "css": ".ds-form { display:grid; gap:8px; max-width:480px; color:var(--paper,#f3eee6); font-family: var(--font, Archivo, system-ui, sans-serif); } .ds-form p { margin:0; } .ds-notice { padding:12px 14px; background:var(--ground-2,#1d1b19); border:1px solid var(--rule,#3d3934); color:var(--paper-2,#c4bcb0); } .ds-sum { padding:14px 16px; background:var(--error-ground,#2c1a17); border:2px solid var(--error,#ff9b8a); color:#f1c8c0; } .ds-sum b { color:var(--paper,#f3eee6); } .ds-sum:focus-visible { outline:3px solid var(--focus,#f3eee6); outline-offset:3px; } .ds-bh { margin-top:14px; font-weight:900; font-stretch:62%; font-variation-settings:'wdth' 62; text-transform:uppercase; font-size:1.5rem; line-height:1; } .ds-form textarea { min-height:120px; padding:10px 14px; font:inherit; color:var(--paper,#f3eee6); background:var(--ground-2,#1d1b19); border:2px solid var(--rule,#3d3934); border-radius:6px; resize:vertical; line-height:1.55; transition:border-color 150ms ease; } .ds-form textarea:focus { outline:none; border-color:var(--paper,#f3eee6); } .ds-form textarea[aria-invalid=\"true\"] { border-color:var(--error,#ff9b8a); } .ds-err { color:var(--error,#ff9b8a); font-size:0.8125rem; font-weight:700; } .ds-hours { font-weight:900; font-stretch:62%; font-variation-settings:'wdth' 62; font-size:1.75rem; line-height:1; }"
+    },
+    {
+      "name": "Range Switch",
+      "kind": "chip",
+      "refersTo": "range-tab",
+      "description": "Area-tab pills reused as aria-pressed toggles: All time, This term, This month.",
+      "html": "<div class=\"ds-range\" role=\"group\" aria-label=\"Time range\"><button type=\"button\" class=\"ds-rt\" aria-pressed=\"true\">All time</button><button type=\"button\" class=\"ds-rt\" aria-pressed=\"false\">This term</button><button type=\"button\" class=\"ds-rt\" aria-pressed=\"false\">This month</button></div>",
+      "css": ".ds-range { display:flex; flex-wrap:wrap; gap:8px; } .ds-rt { min-height:42px; padding:0 16px; font-family: var(--font, Archivo, system-ui, sans-serif); font-weight:650; font-size:0.9375rem; color:var(--paper,#f3eee6); background:transparent; border:2px solid var(--rule,#3d3934); border-radius:999px; cursor:pointer; transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease; } .ds-rt:hover { border-color:var(--paper-2,#c4bcb0); } .ds-rt[aria-pressed=\"true\"] { background:var(--paper,#f3eee6); border-color:var(--paper,#f3eee6); color:var(--on-ink,#121110); } .ds-rt:focus-visible { outline:3px solid var(--focus,#f3eee6); outline-offset:3px; }"
+    },
+    {
+      "name": "Line-up",
+      "kind": "custom",
+      "refersTo": "lineup-act",
+      "description": "Signature: areas billed by hours at four fixed rank sizes, names in area ink on the wall, a zero-hour area in Paper Faint with Find one.",
+      "html": "<ol class=\"ds-lineup\"><li class=\"ds-act ds-s1\" style=\"--ink:#d9714f\"><a class=\"ds-an\" href=\"#\">Service Learning</a><p class=\"ds-af\"><span class=\"ds-ah\">24.5 h</span><span class=\"ds-ac\">7 activities</span></p></li><li class=\"ds-act ds-s2\" style=\"--ink:#3ad374\"><a class=\"ds-an\" href=\"#\">Outdoor Appreciation</a><p class=\"ds-af\"><span class=\"ds-ah\">14 h</span><span class=\"ds-ac\">4 activities</span></p></li><li class=\"ds-act ds-s3\" style=\"--ink:#dcb85a\"><a class=\"ds-an\" href=\"#\">Healthy Living</a><p class=\"ds-af\"><span class=\"ds-ah\">6 h</span><span class=\"ds-ac\">3 activities</span></p></li><li class=\"ds-act ds-s4 ds-zero\"><span class=\"ds-an\">Community Leadership</span><p class=\"ds-af\"><span class=\"ds-ah\">0 h</span></p><p class=\"ds-find\">Nothing yet. <a href=\"#\">Find one →</a></p></li></ol>",
+      "css": ".ds-lineup { list-style:none; margin:0; padding:0; border-bottom:1px solid var(--rule,#3d3934); font-family: var(--font, Archivo, system-ui, sans-serif); } .ds-act { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:end; column-gap:24px; padding:16px 0 14px; border-top:1px solid var(--rule,#3d3934); } .ds-an { justify-self:start; color:var(--ink); text-decoration:none; font-weight:900; font-stretch:62%; font-variation-settings:'wdth' 62; text-transform:uppercase; line-height:0.9; letter-spacing:-0.005em; text-wrap:balance; } a.ds-an:hover { text-decoration:underline; text-decoration-thickness:3px; text-underline-offset:0.12em; } a.ds-an:focus-visible { outline:3px solid var(--focus,#f3eee6); outline-offset:3px; } .ds-s1 .ds-an { font-size:4.5rem; } .ds-s2 .ds-an { font-size:3.25rem; } .ds-s3 .ds-an { font-size:2.25rem; } .ds-s4 .ds-an { font-size:1.5rem; } .ds-af { margin:0; display:grid; justify-items:end; text-align:right; padding-bottom:2px; font-variant-numeric:tabular-nums; } .ds-ah { font-weight:800; font-size:1.5rem; line-height:1.1; color:var(--paper,#f3eee6); white-space:nowrap; } .ds-ac { color:var(--paper-2,#c4bcb0); font-size:1rem; white-space:nowrap; } .ds-zero .ds-an, .ds-zero .ds-ah { color:var(--paper-3,#a39b90); } .ds-zero .ds-ah { font-size:1.125rem; } .ds-find { grid-column:1 / -1; margin:8px 0 0; color:var(--paper-2,#c4bcb0); } .ds-find a { color:var(--paper,#f3eee6); font-weight:750; text-underline-offset:3px; } @media (max-width:760px) { .ds-act { column-gap:14px; padding:12px 0 11px; } .ds-s1 .ds-an { font-size:2.75rem; } .ds-s2 .ds-an { font-size:2.125rem; } .ds-s3 .ds-an { font-size:1.625rem; } .ds-s4 .ds-an { font-size:1.25rem; } .ds-ah { font-size:1.125rem; } }"
+    },
+    {
+      "name": "Stacked Ink Columns",
+      "kind": "custom",
+      "refersTo": "bar-segment",
+      "description": "Hours by month or week: flat ink segments with 2px wall gaps, total above, label below a rule, current period in paper.",
+      "html": "<ol class=\"ds-bars\" style=\"--n:3\"><li class=\"ds-bar\"><span class=\"ds-bt\">6.5</span><span class=\"ds-bs\" style=\"--h:0.59\"><span style=\"background:#3ad374;flex-grow:4\"></span><span style=\"background:#dcb85a;flex-grow:2.5\"></span></span><span class=\"ds-bl\">Sept</span></li><li class=\"ds-bar\"><span class=\"ds-bt\">11</span><span class=\"ds-bs\" style=\"--h:1\"><span style=\"background:#d9714f;flex-grow:7\"></span><span style=\"background:#3ad374;flex-grow:4\"></span></span><span class=\"ds-bl\">Oct</span></li><li class=\"ds-bar ds-now\"><span class=\"ds-bt\">6</span><span class=\"ds-bs\" style=\"--h:0.55\"><span style=\"background:#d9714f;flex-grow:2.5\"></span><span style=\"background:#3ad374;flex-grow:2.5\"></span><span style=\"background:#dcb85a;flex-grow:1\"></span></span><span class=\"ds-bl\">Nov</span></li></ol>",
+      "css": ".ds-bars { list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(var(--n), minmax(0,1fr)); gap:10px; align-items:end; max-width:480px; font-family: var(--font, Archivo, system-ui, sans-serif); font-variant-numeric:tabular-nums; } .ds-bar { display:flex; flex-direction:column; min-width:0; } .ds-bt { min-height:1.4em; margin-bottom:4px; text-align:center; font-weight:750; font-size:0.9375rem; color:var(--paper-2,#c4bcb0); } .ds-bs { display:flex; flex-direction:column-reverse; gap:2px; height:calc(var(--h) * 170px); } .ds-bs > span { flex-basis:0; min-height:2px; } .ds-bl { padding-top:8px; border-top:1px solid var(--rule,#3d3934); text-align:center; font-size:0.9375rem; color:var(--paper-2,#c4bcb0); white-space:nowrap; } .ds-now .ds-bt { color:var(--paper,#f3eee6); } .ds-now .ds-bl { color:var(--paper,#f3eee6); font-weight:750; }"
+    },
+    {
+      "name": "Entries by Area",
+      "kind": "custom",
+      "refersTo": "area-row",
+      "description": "Area block heading with ink dot and hours, entry rows under rules, an unfinished row in Soon Amber, quiet Show all.",
+      "html": "<section class=\"ds-ab\"><h3 class=\"ds-ah3\"><i style=\"background:#dcb85a\"></i>Healthy Living<span>6 h</span></h3><ul class=\"ds-al\"><li><a class=\"ds-ar\" href=\"#\"><span class=\"ds-rd\">Sat, 14 Nov</span><span class=\"ds-rt2\">Badminton social</span><span class=\"ds-ru\">⚑ Unfinished</span></a></li><li><a class=\"ds-ar\" href=\"#\"><span class=\"ds-rd\">Wed, 11 Nov</span><span class=\"ds-rt2\">Evening run along the park connector</span><span class=\"ds-rh\">1 h</span></a></li></ul></section>",
+      "css": ".ds-ab { max-width:640px; color:var(--paper,#f3eee6); font-family: var(--font, Archivo, system-ui, sans-serif); } .ds-ah3 { display:flex; align-items:center; gap:10px; margin:0 0 6px; font-weight:850; font-stretch:76%; font-variation-settings:'wdth' 76; text-transform:uppercase; font-size:1.5rem; line-height:1.1; } .ds-ah3 i { width:13px; height:13px; border-radius:50%; flex:none; } .ds-ah3 span { margin-left:auto; font-stretch:100%; font-variation-settings:'wdth' 100; text-transform:none; font-weight:750; font-size:1.125rem; color:var(--paper-2,#c4bcb0); } .ds-al { list-style:none; margin:0; padding:0; } .ds-ar { display:grid; grid-template-columns:8.5rem minmax(0,1fr) auto; align-items:baseline; gap:16px; padding:12px 0; border-top:1px solid var(--rule,#3d3934); color:var(--paper,#f3eee6); text-decoration:none; transition:background-color 150ms ease; } .ds-ar:hover { background:var(--ground-2,#1d1b19); } .ds-ar:focus-visible { outline:3px solid var(--focus,#f3eee6); outline-offset:3px; } .ds-rd { color:var(--paper-2,#c4bcb0); font-size:0.9375rem; white-space:nowrap; } .ds-rt2 { font-weight:650; overflow-wrap:anywhere; } .ds-rh { font-weight:800; white-space:nowrap; } .ds-ru { color:var(--soon,#ffb85c); font-weight:750; font-size:0.9375rem; white-space:nowrap; }"
     }
   ],
   "narrative": {
     "northStar": "The Gig Poster Wall",
-    "overview": "The week's activities are pasted up as gig posters on a dark wall, the kind outside *SCAPE or the Esplanade. The date is the headline: set in Archivo at its narrowest and heaviest, so what is soon reads from across the room. Each of the four areas is one flat spot ink, and every poster is printed on its ink in near-black. Everything around the posters (header, filters, side panels, forms) stays on the wall: near-black ground, warm off-white paper type, thin warm rules.\n\nThe system is flat and printed. Depth comes only from ink against wall; there are no gradients, textures or shadows. Type width is the main expressive lever: poster type runs condensed (wdth 62) and uppercase, titles slightly wider (wdth 76), and every fact a student must read to decide runs at normal width and body size or larger. The poster world never outranks usability: posters stay compact on phones, Join sits in the same corner of every poster, and full or closed activities say so twice, with a stamp and a disabled button.\n\nMotion is one gesture: posters paste up once on load and on filter change. Two moments confirm an action the same way: joining presses the GOING stamp on, and saving an entry clears its to-log ticket and pastes that day's ink in. Nothing else moves beyond state transitions.\n\nThis system replaces the retired MRT arrival-board world (kept in git history). The journal is the first extension built inside it: the wall's own month calendar, where each logged day is pasted in its area's ink and each missed log is an empty dashed slot, with small ink tickets for what still needs logging and a one-page entry form under a poster header. It must extend the same way, without new worlds, to the remaining planned surfaces: the hours summary per area, the reflection compiler, the optional award tracker, and admin. No components exist for those yet; build them from the wall, paper type, spot inks and the components below.",
+    "overview": "The week's activities are pasted up as gig posters on a dark wall, the kind outside *SCAPE or the Esplanade. The date is the headline: set in Archivo at its narrowest and heaviest, so what is soon reads from across the room. Each of the four areas is one flat spot ink, and every poster is printed on its ink in near-black. Everything around the posters (header, filters, side panels, forms) stays on the wall: near-black ground, warm off-white paper type, thin warm rules.\n\nThe system is flat and printed. Depth comes only from ink against wall; there are no gradients, textures or shadows. Type width is the main expressive lever: poster type runs condensed (wdth 62) and uppercase, titles slightly wider (wdth 76), and every fact a student must read to decide runs at normal width and body size or larger. The poster world never outranks usability: posters stay compact on phones, Join sits in the same corner of every poster, and full or closed activities say so twice, with a stamp and a disabled button.\n\nMotion is one gesture: posters paste up once on load and on filter change. Two moments confirm an action the same way: joining presses the GOING stamp on, and saving an entry clears its to-log ticket and pastes that day's ink in. Nothing else moves beyond state transitions.\n\nThis system replaces the retired MRT arrival-board world (kept in git history). The journal is the first extension built inside it: the wall's own month calendar, where each logged day is pasted in its area's ink and each missed log is an empty dashed slot, with small ink tickets for what still needs logging and a one-page entry form under a poster header. The summary is the second: the four areas billed like a gig poster's line-up, type size as rank, the headliner biggest in its ink and an area with no hours set smallest in Paper Faint with a way to find one; under it, hours per month as stacked ink columns and the entries behind each area. It must extend the same way, without new worlds, to the remaining planned surfaces: the reflection compiler, the optional award tracker, and admin. No components exist for those yet; build them from the wall, paper type, spot inks and the components below.",
     "keyCharacteristics": [
       "Near-black wall, warm off-white paper ink, one flat spot ink per area.",
       "The date line is the headline: Archivo 900, wdth 62, uppercase, tight leading.",
@@ -522,7 +562,8 @@
       "Status is printed: angled FULL, CLOSED, GOING stamps.",
       "Deciding facts at body size or larger, tabular numerals everywhere.",
       "Photos print as duotone in the area ink on the wall, and in natural colour inside panels and on the activity page.",
-      "On the journal calendar, ink means logged and a dashed slot means still to log."
+      "On the journal calendar, ink means logged and a dashed slot means still to log.",
+      "On the summary, type size is rank: four fixed billing sizes, set by hours."
     ],
     "rules": [
       {
@@ -541,6 +582,11 @@
         "section": "colors"
       },
       {
+        "name": "The Ink Type On The Wall Rule",
+        "body": "A spot ink may print directly on the wall as type only for an area's own name, in billing type (900, wdth 62, uppercase, 1.25rem or larger), as on the summary line-up. This is identification, so it sits inside One Ink Per Area; it is not on an ink, so Printed In Black does not apply. Every other area label on the wall stays paper type with the 11-13px ink dot, and numbers beside an inked name stay paper. An area with nothing to identify (no hours) drops its ink for Paper Faint.",
+        "section": "colors"
+      },
+      {
         "name": "The Date Is The Headline Rule",
         "body": "On every poster and poster header, the date line is the largest type. Titles come second.",
         "section": "typography"
@@ -553,6 +599,11 @@
       {
         "name": "The Two Widths Rule",
         "body": "Condensed width (wdth 62-76) is for dates, titles and headings in uppercase. Facts, controls and prose use normal width and sentence case.",
+        "section": "typography"
+      },
+      {
+        "name": "The Size Is Rank Rule",
+        "body": "On the line-up an area's name size is its billing rank by hours, from four fixed sizes only. Areas tied on hours share a size; an area with no hours always takes the smallest. On phones a long name wraps to two lines rather than shrinking below its rank size. The hours and count beside it stay normal width and right-aligned, so the numbers read at full size whatever the billing.",
         "section": "typography"
       },
       {
@@ -587,12 +638,13 @@
       },
       {
         "name": "The Paste-Up Rule",
-        "body": "Posters and to-log tickets fade up from 0.2 opacity and 6px below over 180ms (ease-out cubic-bezier(0.16, 1, 0.3, 1)), staggered 25ms each and capped at the eighth poster, on load and filter change only. Reduced motion removes it. The calendar and the day panel do not animate, except as below.",
+        "body": "Posters, to-log tickets and summary line-up rows fade up from 0.2 opacity and 6px below over 180ms (ease-out cubic-bezier(0.16, 1, 0.3, 1)), staggered 25ms each and capped at the eighth poster, on load and filter or range change only. Reduced motion removes it. The calendar and the day panel do not animate, except as below.",
         "section": "components"
       },
       {
         "name": "The Confirm Rule",
-        "body": "Motion may confirm an action the student just took, once, where they are looking. Joining presses the GOING stamp onto the poster (and the activity header): it drops from 1.7x to 0.95x and settles at 1x over 300ms, keeping its 7° tilt. Saving an entry from a ticket shows that ticket once more, fades it to 0.94x after 320ms, and slides the remaining tickets over the gap in 240ms (on phones the strip scrolls to it first). The saved day's ink and photo then wipe up from the bottom over 380ms, starting only once the day is on screen. Nothing repeats, nothing loops, and reduced motion removes all of it."
+        "body": "Motion may confirm an action the student just took, once, where they are looking. Joining presses the GOING stamp onto the poster (and the activity header): it drops from 1.7x to 0.95x and settles at 1x over 300ms, keeping its 7° tilt. Saving an entry from a ticket shows that ticket once more, fades it to 0.94x after 320ms, and slides the remaining tickets over the gap in 240ms (on phones the strip scrolls to it first). The saved day's ink and photo then wipe up from the bottom over 380ms, starting only once the day is on screen. Nothing repeats, nothing loops, and reduced motion removes all of it.",
+        "section": "components"
       },
       {
         "name": "The Filled Or Dashed Rule",
@@ -612,7 +664,9 @@
       "**Do** print photos as duotone in the area ink on the wall, and show them in natural colour inside panels and on the activity page.",
       "**Do** put what still needs logging first, as ink tickets with Write entry, and mark it again on the calendar as a dashed slot.",
       "**Do** mark invalid photo zones, inputs and textareas with an Error Coral border plus a message, and summarise the errors above the form.",
-      "**Do** extend the hours summary, reflection compiler, award tracker and admin from these tokens and components before inventing new ones."
+      "**Do** bill areas on the summary by hours with the four fixed rank sizes, ties sharing a size, numbers at full size on the right.",
+      "**Do** chart hours as flat stacked ink columns with 2px wall gaps, a total above and a label below a rule, and no axes chrome.",
+      "**Do** extend the reflection compiler, award tracker and admin from these tokens and components before inventing new ones."
     ],
     "donts": [
       "**Don't** add shadows, gradients or textures to any surface.",
@@ -622,7 +676,9 @@
       "**Don't** wrap the area filters onto several lines on phones.",
       "**Don't** hide a full or closed activity's button or signal its state by colour alone.",
       "**Don't** animate anything beyond the paste-up, the two Confirm Rule moments and state transitions.",
-      "**Don't** use ink on the calendar for anything but a logged day."
+      "**Don't** use ink on the calendar for anything but a logged day.",
+      "**Don't** print a spot ink as type on the wall for anything but an area's own name in billing type.",
+      "**Don't** shrink a line-up name below its rank size to fit a phone; let it wrap."
     ]
   }
 }
