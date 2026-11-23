@@ -19,12 +19,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   const panel = $("[data-panel]");
   $("[data-name]").textContent = me.name || "Profile";
   if ((me.name || "").length > 18) $("[data-name]").classList.add("is-long");
-  $("[data-mail]").textContent = me.email || "";
+  $("[data-mail]").textContent = me.email || "No email linked";
   $("[data-signout-page]").addEventListener("click", () => { api.signOut(); location.href = "index.html"; });
 
   const params = new URLSearchParams(location.search);
   const STUBS = ["buddy", "reminders", "telegram", "data"];
-  let open = STUBS.includes(params.get("open")) ? params.get("open") : null;
+  // Reminders opens by default so the page never starts with an empty half.
+  let open = STUBS.includes(params.get("open")) ? params.get("open") : "reminders";
   let settings = null;
   let busy = false;
 
@@ -73,7 +74,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (!b || !settings) return;
     open = open === b.dataset.stub ? null : b.dataset.stub;
     const p = new URLSearchParams(location.search);
-    if (open) p.set("open", open); else p.delete("open");
+    if (open && open !== "reminders") p.set("open", open); else p.delete("open");
     history.replaceState(null, "", `${location.pathname}${p.toString() ? `?${p}` : ""}`);
     renderStubs();
     renderPanel();
