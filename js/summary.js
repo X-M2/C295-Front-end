@@ -24,13 +24,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   const todayIso = isoOf(today);
   const shortDate = (iso) => dateOf(iso).toLocaleDateString("en-SG", { weekday: "short", day: "numeric", month: "short" });
   const monthName = (d, long) => d.toLocaleDateString("en-SG", { month: long ? "long" : "short" });
-  const dayMonth = (iso) => dateOf(iso).toLocaleDateString("en-SG", { day: "numeric", month: "short" }).replace(" ", "\u00a0");
   const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 
-  const term = (window.APP_CONFIG.terms || []).find((t) => t.start <= todayIso && todayIso <= t.end);
   const RANGES = [
     { id: "all", label: "All time" },
-    ...(term ? [{ id: "term", label: "This term" }] : []),
     { id: "month", label: "This month" },
   ];
   const params = new URLSearchParams(location.search);
@@ -46,7 +43,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function bounds() {
     if (range === "month") return [isoOf(new Date(today.getFullYear(), today.getMonth(), 1)), todayIso];
-    if (range === "term") return [term.start, term.end < todayIso ? term.end : todayIso];
     return ["0000-01-01", todayIso];
   }
   const inRange = () => { const [a, b] = bounds(); return entries.filter((e) => e.date >= a && e.date <= b); };
@@ -101,7 +97,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     const count = all.reduce((s, a) => s + a.count, 0);
     const unfinished = all.flatMap((a) => a.unfinished);
     const when = range === "month" ? `in ${monthName(today, true)}`
-      : range === "term" ? `this term (${dayMonth(term.start)} to ${dayMonth(term.end)}${term.placeholder ? ", placeholder dates" : ""})`
       : "so far";
     let html = count
       ? `${hoursText(hours)} across ${plural(count, "activity", "activities")} ${when}.`
@@ -158,16 +153,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         s = new Date(end); s.setDate(s.getDate() + 1);
       }
     } else {
-      let start;
-      if (range === "term") start = dateOf(term.start);
-      else {
-        const earliest = list.length ? dateOf(list.map((e) => e.date).sort()[0]) : today;
-        start = new Date(earliest.getFullYear(), earliest.getMonth(), 1);
-        const minStart = new Date(today.getFullYear(), today.getMonth() - 5, 1);   // at least six months
-        const maxStart = new Date(today.getFullYear(), today.getMonth() - 11, 1);  // at most twelve
-        if (start > minStart) start = minStart;
-        if (start < maxStart) start = maxStart;
-      }
+      const earliest = list.length ? dateOf(list.map((e) => e.date).sort()[0]) : today;
+      let start = new Date(earliest.getFullYear(), earliest.getMonth(), 1);
+      const minStart = new Date(today.getFullYear(), today.getMonth() - 5, 1);   // at least six months
+      const maxStart = new Date(today.getFullYear(), today.getMonth() - 11, 1);  // at most twelve
+      if (start > minStart) start = minStart;
+      if (start < maxStart) start = maxStart;
       let m = new Date(start.getFullYear(), start.getMonth(), 1);
       while (m <= today) {
         const end = new Date(m.getFullYear(), m.getMonth() + 1, 0);

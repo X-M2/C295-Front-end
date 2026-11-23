@@ -417,7 +417,7 @@ A Wall Shadow panel with a 1px Warm Rule border and 22px padding (edge to edge o
 - **Restored-draft notice:** a Wall Shadow strip with a 1px Warm Rule border, a retry icon and a Paper Dim line saying the unsaved entry was kept on this phone.
 
 ### Range switch
-The area-tab pill reused as a group of toggle buttons (aria-pressed) under the lede: All time, This term (only while a term is on), This month. Pressed fills paper with Press Black text, as a selected tab. The choice is kept in the URL. Hidden while the page shows its error frame.
+The area-tab pill reused as a group of toggle buttons (aria-pressed) under the lede: All time and This month. There is no term range: term dates change every year. Pressed fills paper with Press Black text, as a selected tab. The choice is kept in the URL. Hidden while the page shows its error frame.
 
 ### Line-up (signature)
 The four areas billed like a gig poster, most hours first. Each act is a row between 1px Warm Rule rules (16px top, 14px bottom; 12px and 11px on phones): the area name on the left in billing type at its rank size (see The Size Is Rank Rule), printed in its own ink on the wall and linking to that area's entries (hover underlines it 3px); on the right, aligned to the name's foot, the hours (800, 1.5rem; 1.125rem on phones) over the activity count (Paper Dim, 1rem), both normal width, right-aligned and unwrapped. An area with no hours sets its name and 0 h in Paper Faint, with "Nothing yet. Find one" below (Paper Dim, the link in paper bold with an arrow) leading to Browse filtered to that area. Rows paste up on load and on range change. Loading shows four pulsing Wall Shadow bars sized by rank.

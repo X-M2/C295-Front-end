@@ -532,8 +532,8 @@
       "name": "Range Switch",
       "kind": "chip",
       "refersTo": "range-tab",
-      "description": "Area-tab pills reused as aria-pressed toggles: All time, This term, This month.",
-      "html": "<div class=\"ds-range\" role=\"group\" aria-label=\"Time range\"><button type=\"button\" class=\"ds-rt\" aria-pressed=\"true\">All time</button><button type=\"button\" class=\"ds-rt\" aria-pressed=\"false\">This term</button><button type=\"button\" class=\"ds-rt\" aria-pressed=\"false\">This month</button></div>",
+      "description": "Area-tab pills reused as aria-pressed toggles: All time and This month.",
+      "html": "<div class=\"ds-range\" role=\"group\" aria-label=\"Time range\"><button type=\"button\" class=\"ds-rt\" aria-pressed=\"true\">All time</button><button type=\"button\" class=\"ds-rt\" aria-pressed=\"false\">This month</button></div>",
       "css": ".ds-range { display:flex; flex-wrap:wrap; gap:8px; } .ds-rt { min-height:42px; padding:0 16px; font-family: var(--font, Archivo, system-ui, sans-serif); font-weight:650; font-size:0.9375rem; color:var(--paper,#f3eee6); background:transparent; border:2px solid var(--rule,#3d3934); border-radius:999px; cursor:pointer; transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease; } .ds-rt:hover { border-color:var(--paper-2,#c4bcb0); } .ds-rt[aria-pressed=\"true\"] { background:var(--paper,#f3eee6); border-color:var(--paper,#f3eee6); color:var(--on-ink,#121110); } .ds-rt:focus-visible { outline:3px solid var(--focus,#f3eee6); outline-offset:3px; }"
     },
     {

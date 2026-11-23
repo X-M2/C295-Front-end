@@ -7,7 +7,7 @@ related_targets: []
 
 # Surface: Summary (summary.html)
 
-Mode: Operate. Signed-in only. A quick balance check on a phone, after logging or before choosing what to join next. Inside the established gig-poster-wall world (DESIGN.md): extend, do not invent a new world. Lead job: answer "am I balanced across the four areas?" at a glance, then send the student to their neglected area. Range switch: All time (default), This term, This month. Also shows hours by month and the entries behind each area. Hours come from start and end times; incomplete entries are not counted and are named. Data comes from GET /me/journal; no new endpoint. Anti-goals: targets or progress bars (award tracker, later), badges, streaks, scores, celebration effects, pie or donut charts, hero-metric tiles. All demo content is sample data.
+Mode: Operate. Signed-in only. A quick balance check on a phone, after logging or before choosing what to join next. Inside the established gig-poster-wall world (DESIGN.md): extend, do not invent a new world. Lead job: answer "am I balanced across the four areas?" at a glance, then send the student to their neglected area. Range switch: All time (default) and This month; no term range, because term dates change every year. Also shows hours by month and the entries behind each area. Hours come from start and end times; incomplete entries are not counted and are named. Data comes from GET /me/journal; no new endpoint. Anti-goals: targets or progress bars (award tracker, later), badges, streaks, scores, celebration effects, pie or donut charts, hero-metric tiles. All demo content is sample data.
 
 ## Direction contract
 
