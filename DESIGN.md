@@ -69,6 +69,11 @@ typography:
     lineHeight: 0.9
     letterSpacing: "-0.005em"
     fontVariation: "'wdth' 62"
+  setting:
+    fontFamily: "Archivo, system-ui, -apple-system, Segoe UI, sans-serif"
+    fontSize: "1.125rem"
+    fontWeight: 750
+    lineHeight: 1.5
 rounded:
   none: "0px"
   field: "6px"
@@ -229,6 +234,37 @@ components:
     padding: "12px 0"
   area-row-hover:
     backgroundColor: "{colors.ground-2}"
+  stub:
+    backgroundColor: "{colors.paper}"
+    textColor: "{colors.on-ink}"
+    rounded: "{rounded.none}"
+    padding: "16px 16px 14px"
+    height: "150px"
+  stub-off:
+    backgroundColor: "{colors.ground-2}"
+    textColor: "{colors.paper}"
+    rounded: "{rounded.none}"
+  switch:
+    backgroundColor: "{colors.ground-3}"
+    rounded: "{rounded.pill}"
+    height: "32px"
+    width: "56px"
+  switch-on:
+    backgroundColor: "{colors.paper}"
+    rounded: "{rounded.pill}"
+  button-danger:
+    backgroundColor: "transparent"
+    textColor: "{colors.error}"
+    rounded: "{rounded.pill}"
+    padding: "0 14px"
+    height: "36px"
+  button-danger-hover:
+    backgroundColor: "{colors.error-ground}"
+  warn-box:
+    backgroundColor: "transparent"
+    textColor: "{colors.paper}"
+    rounded: "{rounded.none}"
+    padding: "14px 16px"
 ---
 
 # Design System: Student activities companion (working title)
@@ -241,20 +277,21 @@ The week's activities are pasted up as gig posters on a dark wall, the kind outs
 
 The system is flat and printed. Depth comes only from ink against wall; there are no gradients, textures or shadows. Type width is the main expressive lever: poster type runs condensed (wdth 62) and uppercase, titles slightly wider (wdth 76), and every fact a student must read to decide runs at normal width and body size or larger. The poster world never outranks usability: posters stay compact on phones, Join sits in the same corner of every poster, and full or closed activities say so twice, with a stamp and a disabled button.
 
-Motion is one gesture: posters paste up once on load and on filter change. Two moments confirm an action the same way: joining presses the GOING stamp on, and saving an entry clears its to-log ticket and pastes that day's ink in. Nothing else moves beyond state transitions.
+Motion is one gesture: posters paste up once on load and on filter change. Three moments confirm an action the same way: joining presses the GOING stamp on, saving an entry clears its to-log ticket and pastes that day's ink in, and changing a setting re-presses the state stamp on its stub. Nothing else moves beyond state transitions.
 
-This system replaces the retired MRT arrival-board world (kept in git history). The journal is the first extension built inside it: the wall's own month calendar, where each logged day is pasted in its area's ink and each missed log is an empty dashed slot, with small ink tickets for what still needs logging and a one-page entry form under a poster header. The summary is the second: the four areas billed like a gig poster's line-up, type size as rank, the headliner biggest in its ink and an area with no hours set smallest in Paper Faint with a way to find one; under it, hours per month as stacked ink columns and the entries behind each area. It must extend the same way, without new worlds, to the remaining planned surfaces: the reflection compiler, the optional award tracker, and admin. No components exist for those yet; build them from the wall, paper type, spot inks and the components below.
+This system replaces the retired MRT arrival-board world (kept in git history). The journal is the first extension built inside it: the wall's own month calendar, where each logged day is pasted in its area's ink and each missed log is an empty dashed slot, with small ink tickets for what still needs logging and a one-page entry form under a poster header. The summary is the second: the four areas billed like a gig poster's line-up, type size as rank, the headliner biggest in its ink and an area with no hours set smallest in Paper Faint with a way to find one; under it, hours per month as stacked ink columns and the entries behind each area. Profile is the third: the student's settings as four stubs stamped with their state (OFF, ON, LINKED) in the posters' own stamp, paper when a setting is on and dark on the wall when it is off, so a glance says how everything stands before a tap opens one. It must extend the same way, without new worlds, to the remaining planned surfaces: the reflection compiler, the optional award tracker, and admin. No components exist for those yet; build them from the wall, paper type, spot inks and the components below.
 
 **Key Characteristics:**
 - Near-black wall, warm off-white paper ink, one flat spot ink per area.
 - The date line is the headline: Archivo 900, wdth 62, uppercase, tight leading.
 - Posters are square-cornered ink blocks; controls are pills; text fields are gently rounded.
 - Flat throughout: no gradients, textures or shadows.
-- Status is printed: angled FULL, CLOSED, GOING stamps.
+- Status is printed: angled FULL, CLOSED, GOING stamps; on Profile, OFF, ON and LINKED on settings stubs.
 - Deciding facts at body size or larger, tabular numerals everywhere.
 - Photos print as duotone in the area ink on the wall, and in natural colour inside panels and on the activity page.
 - On the journal calendar, ink means logged and a dashed slot means still to log.
 - On the summary, type size is rank: four fixed billing sizes, set by hours.
+- On Profile, a paper stub means a setting is on; a dark stub with a dashed edge means it is off or absent.
 
 ## Colors
 
@@ -269,17 +306,17 @@ A dark wall with warm paper type, and four loud flat spot inks reserved for the 
 
 ### Neutral
 - **Night Wall** (ground): page background and the base of everything off-poster.
-- **Wall Shadow** (ground-2): raised panels on the wall: side panel, sign-in options, inputs, skeletons, plain calendar day cells, the day panel, the restored-draft notice; hover fill on the summary's entry rows.
-- **Wall Edge** (ground-3): hover fill for outline buttons, meter track, avatar fill.
-- **Warm Rule** (rule): 1px header, footer and section rules; 2px tab and input borders; dashed empty-state frame.
-- **Paper** (paper): primary text, solid buttons, selected tab, toast, focus ring, meter fill.
+- **Wall Shadow** (ground-2): raised panels on the wall: side panel, sign-in options, inputs, skeletons, plain calendar day cells, the day panel, the restored-draft notice; hover fill on the summary's entry rows; a Profile stub whose setting is off or absent.
+- **Wall Edge** (ground-3): hover fill for outline buttons, meter track, avatar fill, the off switch's track.
+- **Warm Rule** (rule): 1px header, footer and section rules; 2px tab and input borders; dashed empty-state frame; the 1px rules between Profile's setting rows, an off stub's tear line, and a stub's hover outline.
+- **Paper** (paper): primary text, solid buttons, selected tab, toast, focus ring, meter fill; the stock of a Profile stub whose setting is on, the on switch, the open stub's outline.
 - **Paper Dim** (paper-2): secondary text, inactive nav, ledes, field icons; the dashes of to-log and unfinished day cells.
-- **Paper Faint** (paper-3): placeholders, counts, footer, the full-meter fill, weekday labels, the dashed photo add zone at rest; the name and 0 h of a line-up area with no hours.
+- **Paper Faint** (paper-3): placeholders, counts, footer, the full-meter fill, weekday labels, the dashed photo add zone at rest; the name and 0 h of a line-up area with no hours; the dashed edge of an off stub and the off switch's border.
 
 ### States
-- **Soon Amber** (soon): closing-soon and few-spots-left on the wall, the slow-server note, and unfinished journal entries (the flag on the day cell, the "Incomplete: add ..." line in the day panel, the flagged "Unfinished" mark on a summary entry row).
-- **Going Mint** (going): "You're going" on the detail side panel.
-- **Error Coral** (error) on **Error Ground** (error-ground): invalid fields (inputs, selects, textareas and the photo add zone), field errors, the error state frame, the form's error summary, and the live hours line when end is before start.
+- **Soon Amber** (soon): closing-soon and few-spots-left on the wall, the slow-server note, and unfinished journal entries (the flag on the day cell, the "Incomplete: add ..." line in the day panel, the flagged "Unfinished" mark on a summary entry row); the 2px dashed border of Profile's Needs Telegram box.
+- **Going Mint** (going): "You're going" on the detail side panel; the "Saved" word beside a setting on Profile.
+- **Error Coral** (error) on **Error Ground** (error-ground): invalid fields (inputs, selects, textareas and the photo add zone), field errors, the error state frame, the form's error summary, and the live hours line when end is before start; the danger button's outline and text (Unlink, Delete my account), with Error Ground as its hover fill.
 
 ### Named Rules
 **The One Ink Per Area Rule.** Each spot ink belongs to exactly one area and is used only to identify it. Never use a spot ink for status, emphasis or decoration; states use the wall's own state colors.
@@ -290,6 +327,8 @@ A dark wall with warm paper type, and four loud flat spot inks reserved for the 
 
 **The Ink Type On The Wall Rule.** A spot ink may print directly on the wall as type only for an area's own name, in billing type (900, wdth 62, uppercase, 1.25rem or larger), as on the summary line-up. This is identification, so it sits inside One Ink Per Area; it is not on an ink, so Printed In Black does not apply. Every other area label on the wall stays paper type with the 11-13px ink dot, and numbers beside an inked name stay paper. An area with nothing to identify (no hours) drops its ink for Paper Faint.
 
+**The Paper Is On Rule.** On Profile a stub is printed on Paper in Press Black when its setting is on or linked, and goes dark on the wall (Wall Shadow, paper type, a 2px dashed Paper Faint edge) when it is off or absent. Stubs never take an area ink; an area's ink appears on Profile only as the 11px dot on its area pill.
+
 ## Typography
 
 **Display Font:** Archivo variable (wdth 62-125, wght 100-900), self-hosted, falling back to system-ui
@@ -298,13 +337,14 @@ A dark wall with warm paper type, and four loud flat spot inks reserved for the 
 **Character:** One family doing two jobs. Condensed and black, it is the poster's shout; at normal width it is a calm, legible fact sheet. Numerals are tabular everywhere so dates, times and spots line up.
 
 ### Hierarchy
-- **Display** (900, wdth 62, uppercase, 6rem / 3.5rem on phones, 0.86): the page title ("What's on", "Sign in" at 4.5rem / 3.5rem).
+- **Display** (900, wdth 62, uppercase, 6rem / 3.5rem on phones, 0.86): the page title ("What's on", "Sign in" at 4.5rem / 3.5rem; the student's name on Profile at 4.5rem / 3.25rem, see The Long Name Rule).
 - **Date line** (900, wdth 62, uppercase, 4.5rem on posters, 6rem on the headliner and detail header; 3.25rem on phone posters, 3.75rem on the phone detail header; 0.84): weekday and date, two stacked lines on desktop posters, one line on headliner, detail and phones.
-- **Headline** (900, wdth 62, uppercase, 2.25rem / 1.875rem on phones, 1): week group headings (THIS WEEK, NEXT WEEK, LATER); also the large spots figure in the side panel and sign-in option headings at 1.5rem.
+- **Headline** (900, wdth 62, uppercase, 2.25rem / 1.875rem on phones, 1): week group headings (THIS WEEK, NEXT WEEK, LATER); also the large spots figure in the side panel and sign-in option headings at 1.5rem; the open stub's panel heading at 1.875rem (1.625rem on phones); the stub title at 1.5rem (1.375rem on phones, 0.95 leading).
 - **Title** (850, wdth 76, uppercase, 1.625rem / 1.375rem on phones, 1.02): activity titles on posters; 2.25rem on the headliner, 3rem (2rem phones) on the detail header.
 - **Body** (400, 1rem, 1.5): running text; prose capped at 62ch with 1.65 leading.
 - **Fact** (600-850, 1rem, 1.35): poster facts; spots left is 1.125rem with the count in 850.
-- **Label** (700, 0.8125rem): fact-sheet labels, field errors, hints, the area name on desktop posters. Never used for a deciding fact.
+- **Label** (700, 0.8125rem): fact-sheet labels, field errors, hints, the area name on desktop posters, the "Saved" confirmation (750). Never used for a deciding fact.
+- **Setting** (750, 1.125rem, normal width, sentence case): a setting row's label on Profile, over a 0.9375rem Paper Dim description capped at 58ch.
 - **Billing** (900, wdth 62, uppercase, 0.9, -0.005em, balanced wrap): area names on the summary line-up, at one of four fixed rank sizes: 4.5, 3.25, 2.25 and 1.5rem on desktop; 2.75, 2.125, 1.625 and 1.25rem on phones.
 
 ### Named Rules
@@ -315,6 +355,8 @@ A dark wall with warm paper type, and four loud flat spot inks reserved for the 
 **The Two Widths Rule.** Condensed width (wdth 62-76) is for dates, titles and headings in uppercase. Facts, controls and prose use normal width and sentence case.
 
 **The Size Is Rank Rule.** On the line-up an area's name size is its billing rank by hours, from four fixed sizes only. Areas tied on hours share a size; an area with no hours always takes the smallest. On phones a long name wraps to two lines rather than shrinking below its rank size. The hours and count beside it stay normal width and right-aligned, so the numbers read at full size whatever the billing.
+
+**The Long Name Rule.** The student's name on Profile is display type at 4.5rem (3.25rem on phones); a name over 18 characters steps down one size, to 3.25rem (2.25rem on phones). It wraps anywhere and balances, and never truncates.
 
 ## Layout
 
@@ -332,6 +374,8 @@ A centered page of 1240px max with 32px side padding (16px on phones), 48px top 
 
 **Summary** uses a 1000px page: the display title with a one-line lede (total hours, activities, unfinished entries not counted with a Finish link), the range switch (26px below, 18px on phones), the line-up, then By month 52px below (40px on phones) under a headline-type heading, with the details panel under the chart. Entries stay hidden until the student taps a period or an area.
 
+**Profile** uses the 1000px page: the student's name in display type, then the email in Paper Dim (28px below the name block, 20px on phones). The stubs form one row of four from 761px up and a 2x2 grid at 760px and below (12px gaps; 10px on phones). The open stub's settings sit 28px below the grid (22px on phones): the panel heading, then setting rows (label and description on the left, the switch on the right, 20px apart, 16px vertical padding) between 1px Warm Rule rules, with any pills or extra control on a full-width line under the row. The open stub is kept in the URL as `?open=`; on phones, opening one scrolls the panel into view when it lands below three quarters of the screen.
+
 ### Named Rules
 **The Three On A Phone Rule.** At 760px and below a poster is compact (16px padding, 3.25rem date on one line, 1.375rem title, area name hidden) so about three posters are visible per screen.
 
@@ -341,14 +385,14 @@ A centered page of 1240px max with 32px side padding (16px on phones), 48px top 
 
 ## Elevation & Depth
 
-Flat. There are no shadows anywhere. Depth is tonal: the wall (ground), panels one step lighter (ground-2), hover and tracks one step more (ground-3), and the spot-ink posters as the brightest surfaces. Hover on a poster is a 3px paper outline offset 4px, not a lift.
+Flat. There are no shadows anywhere. Depth is tonal: the wall (ground), panels one step lighter (ground-2), hover and tracks one step more (ground-3), and the spot-ink posters as the brightest surfaces. Hover on a poster is a 3px paper outline offset 4px, not a lift. The open Profile stub takes a 3px paper outline offset 3px (Warm Rule on hover).
 
 ### Named Rules
 **The Pasted Flat Rule.** No box-shadow, gradient or texture on any surface. A poster announces itself with ink, not elevation.
 
 ## Shapes
 
-Three shapes only. Posters, poster headers, panels, empty states and the meter are square-cornered (0px), like paper. Every control that is pressed or toggled, plus the toast and count badges, is a full pill (999px). Text inputs and selects are gently rounded (6px). Rules are 1px on the wall, 2px on posters and controls; the poster's facts sit under a 2px Press Black rule, as does the to-log ticket's foot. Calendar day cells are square-cornered squares (aspect 1); a day that holds two areas is split on the diagonal, the second ink taking the lower-right triangle. Dashed 2px borders mean "something still to add": to-log day cells, unfinished day cells, the photo add zone, the day panel's to-log note and the empty state. The stamp is the one rotated shape: a 3px-bordered square tag, tilted 7 degrees.
+Three shapes only. Posters, poster headers, panels, empty states and the meter are square-cornered (0px), like paper. Every control that is pressed or toggled, plus the toast and count badges, is a full pill (999px). Text inputs and selects are gently rounded (6px). Rules are 1px on the wall, 2px on posters and controls; the poster's facts sit under a 2px Press Black rule, as does the to-log ticket's foot. Calendar day cells are square-cornered squares (aspect 1); a day that holds two areas is split on the diagonal, the second ink taking the lower-right triangle. Dashed 2px borders mean "something still to add": to-log day cells, unfinished day cells, the photo add zone, the day panel's to-log note and the empty state; on Profile, the edge of a stub whose setting is off or absent and the Soon Amber Needs Telegram box. A Profile stub is a square-cornered ticket with a 2px dashed tear line under its title (Press Black at 35% on paper, Warm Rule on an off stub); on a paper stub, 14px wall-coloured circular notches bite in where the tear line meets the edges, as on a torn ticket. The switch is a pill track with a round knob. The stamp is the one rotated shape: a 3px-bordered square tag, tilted 7 degrees.
 
 ## Components
 
@@ -359,7 +403,8 @@ Pill-shaped, bold (750) and plainly worded; 44px tall by default.
 - **Solid:** paper fill, Press Black text; hover goes to pure white. Used for the primary action on the wall (Join on the detail page, sign-in submits).
 - **Quiet:** borderless, Paper Dim text; hover brightens with a Wall Shadow fill. Sign out, secondary form actions.
 - **On-ink:** the poster's Join. Press Black fill, paper text, 104px min width (92px, 42px tall on phones). Disabled on-ink becomes a dashed Press Black outline with the reason as its label (Full, Closed). Leave on a poster is the on-ink quiet variant, a Press Black outline.
-- **Icon:** a small outline pill squared to 40px wide, holding one 18px arrow; the month's previous and next. Carries an aria-label.
+- **Icon:** a small outline pill squared to 40px wide, holding one 18px icon: the month's previous and next arrows, and the header's profile icon on phones. Carries an aria-label.
+- **Danger:** an outline pill in Error Coral (border and text); hover fills Error Ground. Used only for Unlink Telegram's confirm and Delete my account; its partner is a quiet Cancel, which takes focus when the confirm opens.
 - **Sizes:** small 36px, large 54px; block buttons fill their column.
 - **States:** colour transitions 150ms; active nudges down 1px; disabled is 0.55 opacity off-poster; busy shows "Joining..." with a progress cursor.
 
@@ -382,10 +427,12 @@ Pill-shaped, bold (750) and plainly worded; 44px tall by default.
 
 ### Navigation
 - **Style:** 64px header (56px on phones) under a 1px rule. The product name is set in poster type (900, wdth 62, uppercase). Four links, Browse, Going, Journal and Summary, in 650 weight, Paper Dim at rest, paper on hover and when current, with a 3px paper bar on the header's bottom edge for the current page. Going carries a paper count pill.
-- **Mobile:** the student's name hides and Sign out collapses to its icon (with an accessible label). At 480px and below the product name hides too, so the four links fit on one line; Browse is home.
+- **Account (laptops):** the student's name, led by a Paper Dim person icon, is a link to Profile (650, 0.9375rem, paper); hover and the current page underline it 2px. Sign out sits beside it as a quiet small button.
+- **Mobile:** the student's name and the Sign out button hide; a 40px round profile icon button (aria-label "Profile") takes their place, filled paper with a Press Black icon when Profile is the current page. Sign out moves onto the Profile page, as a small outline button at the right of the email line, shown on phones only. At 480px and below the product name hides too, so the four links fit on one line; Browse is home.
 
 ### Stamp (signature)
 FULL, CLOSED and GOING printed at an angle like a sold-out sticker: poster type at 1.625rem (1.25rem on phones, 2rem on the detail header), 3px Press Black border, the poster's own ink as fill, rotated 7 degrees, top right. Decorative to assistive tech; the facts and the button carry the state in words.
+- **On a stub:** OFF, ON or LINKED, 1.25rem (1.125rem on phones), with no fill: the border and type take the stub's own colour (Press Black on paper, Paper Dim on an off stub). It sits in the flow, right-aligned above the stub's sub line, so a long sub line never runs under it.
 
 ### Toast
 A paper pill dropped from just under the header, Press Black text with a 2px border, an optional underlined action (Undo). Slides in 12px over 220ms.
@@ -437,8 +484,25 @@ Under the chart, nothing but a Paper Dim hint ("Tap a month, or an area above, t
 
 The panel heading is title type at 1.5rem (850, wdth 76, uppercase): the period's full name, or a 13px ink dot and the area name. Its hours and activity count follow in 700 Paper Dim (below the heading on phones). Rows sit under 1px rules: date (Paper Dim, 0.9375rem, 8.5rem column), title (650; in a period, led by the entry's ink dot) and hours (800) right; an unfinished entry shows a Soon Amber flag and "Unfinished" instead of hours and links to its form, a finished one to its journal day. Hover fills Wall Shadow. On phones the date sits over the title, hours at the right, and rows bleed to the screen edges.
 
+### Settings stub (signature)
+One per setting on Profile (Buddy matching, Reminders, Telegram, My data), a button that opens its settings below the grid (aria-expanded). Top to bottom: the title in condensed uppercase (900, wdth 62) over the dashed tear line, the state stamp right-aligned, then a sub line at the foot (650, 1rem; 0.9375rem on phones) saying how it stands in words ("3 of 4 on", "Hidden", "@username", "Needs Telegram"). 150px minimum height (128px on phones). See The Paper Is On Rule for paper versus dark; My data carries no stamp and stays dark. The stamp's word is repeated to assistive tech.
+- **Open:** a 3px paper outline offset 3px. **Hover:** the same outline in Warm Rule. **Focus:** the focus ring.
+- **Loading:** four Wall Shadow stubs with pulsing Wall Edge bars. **Failure:** the stubs clear and the coral error frame ("Couldn't load your settings", Try again) takes the panel.
+
+### Stub panel
+Under the grid, headed by the open stub's title in headline type. Each setting is a row: the setting label with a "Saved" word in Going Mint (750, 0.8125rem) that fades in for 1.8s after the server confirms, the description below, and the switch at the right. Choices within a setting (Day before, 2 h before; the four areas) are small area-tab pills (38px, 0.8125rem) used as toggle buttons (aria-pressed), pressed in paper with Press Black text; area pills keep their 11px ink dot. A Paper Dim note or a panel line (62ch) leads where context is needed. Every change saves at once, with no Save button; a failed save flips the switch or pill back and a toast says why.
+- **Needs Telegram box:** a 2px dashed Soon Amber box (14px 16px padding) with a paper line and a solid small Link Telegram, above the rows it governs.
+- **Disabled row:** its label and description drop to 0.55 opacity; its switch and pills to 0.4, not-allowed.
+- **Confirm in place:** Unlink Telegram swaps its button for a bold question, a danger Unlink and a quiet Cancel.
+
+### Switch
+A 56 x 32px pill with a 2px border and a 20px round knob. Off: Wall Edge track, Paper Faint border, Paper Dim knob on the left. On: paper track and border, Press Black knob slid 24px right. Knob and colours move over 150ms. role="switch" with aria-checked, labelled by its row's label. Disabled at 0.4 opacity.
+
+### Typed confirm
+Delete my account opens a small form in place of its button (360px max): a label "Type DELETE to confirm", a standard text field, and a danger "Delete everything" that stays disabled until the field reads DELETE, beside a quiet Cancel. The field takes focus; while working the button reads "Deleting...".
+
 ### Icons
-Inline 24px-grid line icons, 1.75 stroke, round caps, sized to 1.15em beside text. Used beside labels, never alone, except the phone sign-out button, which has an aria-label.
+Inline 24px-grid line icons, 1.75 stroke, round caps, sized to 1.15em beside text. Used beside labels, never alone, except the header's phone profile button and the month arrows, which carry aria-labels. The set includes a download arrow for Download my data.
 
 ### Named Rules
 **The Same Corner Rule.** Join (or its disabled stand-in, or the Going tag with Leave) always sits bottom right of the poster, in the poster foot, regardless of how long the title or facts run.
@@ -449,9 +513,13 @@ Inline 24px-grid line icons, 1.75 stroke, round caps, sized to 1.15em beside tex
 
 **The Grow Rule.** On load and range change the summary's columns grow up from the baseline (clip-path wiping in from the bottom over 520ms, ease-out, 45ms apart left to right), and each total fades up 4px over 220ms as its column lands. Picking fades other columns or segments over 150ms. Nothing else on the chart moves, and reduced motion removes all of it.
 
-**The Confirm Rule.** Motion may confirm an action the student just took, once, where they are looking. Joining presses the GOING stamp onto the poster (and the activity header): it drops from 1.7x to 0.95x and settles at 1x over 300ms, keeping its 7° tilt. Saving an entry from a ticket shows that ticket once more, fades it to 0.94x after 320ms, and slides the remaining tickets over the gap in 240ms (on phones the strip scrolls to it first). The saved day's ink and photo then wipe up from the bottom over 380ms, starting only once the day is on screen. Nothing repeats, nothing loops, and reduced motion removes all of it.
+**The Confirm Rule.** Motion may confirm an action the student just took, once, where they are looking. Joining presses the GOING stamp onto the poster (and the activity header): it drops from 1.7x to 0.95x and settles at 1x over 300ms, keeping its 7° tilt. Saving an entry from a ticket shows that ticket once more, fades it to 0.94x after 320ms, and slides the remaining tickets over the gap in 240ms (on phones the strip scrolls to it first). The saved day's ink and photo then wipe up from the bottom over 380ms, starting only once the day is on screen. Changing a setting re-presses its stub's stamp with the same 300ms stamp-in, only when the stamp's word changes (OFF to ON, OFF to LINKED). Nothing repeats, nothing loops, and reduced motion removes all of it.
 
 **The Filled Or Dashed Rule.** On the journal calendar a past day the student went to is either filled with its area's ink (logged) or a dashed empty slot marked Log (still to log). Ink on the calendar means logged and nothing else.
+
+**The Stamped State Rule.** Every Profile setting shows how it stands on its stub before any tap: the stamp's word, paper or dark, and a sub line in words. Never hide a setting's state behind a tap.
+
+**The Needs Telegram Rule.** While Telegram is unlinked, every reminder renders off and disabled under the Needs Telegram box, and the Reminders stub reads OFF, "Needs Telegram". The choices the student saved are kept and come back once Telegram is linked.
 
 ## Do's and Don'ts
 
@@ -469,6 +537,9 @@ Inline 24px-grid line icons, 1.75 stroke, round caps, sized to 1.15em beside tex
 - **Do** mark invalid photo zones, inputs and textareas with an Error Coral border plus a message, and summarise the errors above the form.
 - **Do** bill areas on the summary by hours with the four fixed rank sizes, ties sharing a size, numbers at full size on the right.
 - **Do** chart hours as flat stacked ink columns with 2px wall gaps, a total above and a label below a rule, and no axes chrome.
+- **Do** show each Profile setting's state on its stub, as a stamp, as paper or dark, and in words.
+- **Do** save each setting change at once, confirm it with Saved in Going Mint, and flip it back with a reason when the save fails.
+- **Do** set destructive actions as Error Coral outline pills, confirmed in place, and ask for DELETE to be typed before deleting an account.
 - **Do** extend the reflection compiler, award tracker and admin from these tokens and components before inventing new ones.
 
 ### Don't:
@@ -478,7 +549,8 @@ Inline 24px-grid line icons, 1.75 stroke, round caps, sized to 1.15em beside tex
 - **Don't** round poster corners or square off buttons; posters are paper, controls are pills.
 - **Don't** wrap the area filters onto several lines on phones.
 - **Don't** hide a full or closed activity's button or signal its state by colour alone.
-- **Don't** animate anything beyond the paste-up, the two Confirm Rule moments and state transitions.
+- **Don't** animate anything beyond the paste-up, the Confirm Rule moments and state transitions.
 - **Don't** use ink on the calendar for anything but a logged day.
 - **Don't** print a spot ink as type on the wall for anything but an area's own name in billing type.
 - **Don't** shrink a line-up name below its rank size to fit a phone; let it wrap.
+- **Don't** print an area ink on a settings stub; stubs are paper or wall.

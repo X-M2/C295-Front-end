@@ -35,6 +35,7 @@ CREATE TABLE students (
   course           NVARCHAR(120) NULL,
   interests        NVARCHAR(40) NULL,          -- area codes, e.g. 'SL,OA'
   buddy_matching   BIT NOT NULL DEFAULT 0,     -- PDPA consent to be shown to others
+  reminders        NVARCHAR(400) NULL,         -- JSON: the Settings.reminders object (see api.md)
   award_tracker    BIT NOT NULL DEFAULT 0,
   created_at       DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
 );
@@ -156,6 +157,16 @@ The request and response shapes are in [`api.md`](api.md). The rules behind them
 
 **Errors:** respond with the right status and `{ "message": "..." }`. The website shows the message to students as it is, so write it for them.
 
+**Profile page** (shapes in [`api.md`](api.md#profile-and-settings-signed-in-only)):
+
+| Endpoint | Priority | Rules |
+|---|---|---|
+| `GET /me/settings`, `PUT /me/settings` | Must | `buddy_matching` column plus the `reminders` JSON. `PUT` receives only what changed; return the full settings. `telegram` comes from `telegram_id` / `telegram_username` and can't be set here. |
+| `POST /me/telegram/link` | Should | Make a one-time code (hashed in `link_tokens`, 15 minutes) and return `https://t.me/RPVolunteerBuddyDemoBot?start=<code>`. The bot's `/start <code>` handler saves the sender's Telegram ID and username on that student. |
+| `DELETE /me/telegram` | Should | Set `telegram_id` and `telegram_username` to NULL. |
+| `GET /me/export` | Must (PDPA) | Everything about the student as JSON: student row (no token hashes), settings, sign-ups, journal entries with photo links. |
+| `DELETE /me` | Must (PDPA) | Delete the student and everything linked to them, photos in storage included, in one transaction. |
+
 **Planned for later pages.** Shapes will be agreed when those pages are designed:
 
 | Endpoint | Priority | Purpose |
@@ -163,7 +174,6 @@ The request and response shapes are in [`api.md`](api.md). The rules behind them
 | `GET /me/summary` | Should | Hours and number of activities per area for the signed-in student. |
 | `GET /me/journal`, `POST /me/journal`, `PUT/DELETE /me/journal/:id` | Should | Journal entries, with hours worked out from start and end time. |
 | `POST /me/journal/:id/photos` | Should | Photo upload from the website to cloud storage. |
-| `GET/PUT /me/settings` | Should | Name, course, interests, buddy matching, award tracker on or off. |
 | `POST /admin/activities`, `POST /admin/import` | Should | Add one activity, or import a CSV. Re-importing updates rows with the same `source_id` instead of duplicating them. Some real listings don't state `spots_total`; when it is empty, store a default such as 999 (no stated limit) instead of skipping the row. |
 | Award tracker endpoints | Later | Goals, targets and log book data. |
 
@@ -211,8 +221,11 @@ A student who signs in by email and also uses the bot ends up as one student row
 
 | Workflow | Schedule | Priority | What it does |
 |---|---|---|---|
-| Reminder | Daily, 18:00 Singapore time | Should | Messages every student with a signup for an activity starting tomorrow: title, time, place. |
-| Log prompt | Daily, 20:00 | Should | Messages students whose activity ended today: "How did it go? Send /log to record it." |
+| Reminder | Daily, 18:00 Singapore time | Should | Messages every student with `reminders.before.on` and `dayBefore` who has a signup for an activity starting tomorrow: title, time, place. |
+| Reminder (2 h) | Every 15 minutes | Could | Same, for `twoHours`, for activities starting in about 2 hours. |
+| Log prompt | Daily, 20:00 | Should | Messages students with `reminders.afterwards.on` whose activity ended today: "How did it go? Send /log to record it." |
+| New in my areas | When an activity is added | Could | Messages students with `reminders.newInAreas.on` whose `areas` include the new activity's area. |
+| Sign-up closing | Daily, 12:00 | Could | Messages students with `reminders.closing.on` about activities in their areas whose sign-up closes within 24 hours and that they haven't joined. |
 | Clean-up | Daily, 03:00 | Should | Deletes expired `login_codes`, `link_tokens` and `sessions`. |
 
 ## 7. Privacy and safety (PDPA)
@@ -222,6 +235,8 @@ A student who signs in by email and also uses the bot ends up as one student row
 - Codes, link tokens and session tokens are stored **hashed**, never in plain text.
 - No passwords are stored. Sign-in is by code or link only.
 - Only send what the website or bot needs; never return other students' emails or Telegram IDs.
+- Reminders only go to linked Telegram accounts and only for the reminder types the student turned on.
+- `GET /me/export` and `DELETE /me` let students see and erase their data; delete really deletes (photos in storage too).
 - Sample and test activities have `is_sample = 1` and are labelled as sample on the website.
 
 ## 8. Testing checklist
@@ -235,6 +250,9 @@ A student who signs in by email and also uses the bot ends up as one student row
 - [ ] Signed out: `friendsGoing` is empty. Signed in: only opted-in friends are named.
 - [ ] Bot `/browse` → Join shows up on the website as joined, and the other way round.
 - [ ] Reminder arrives the evening before (test by temporarily changing the schedule).
+- [ ] Profile: turning a setting on, refreshing, and it's still on. Reminders you turned off don't arrive.
+- [ ] Link Telegram from Profile: the bot's /start saves the account; Unlink clears it.
+- [ ] Download my data returns your own data only. Delete my account removes every row and photo.
 
 ## 9. Build order
 

@@ -28,6 +28,7 @@
     x: '<path d="m6 6 12 12M18 6 6 18"/>',
     trash: '<path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13"/>',
     logout: '<path d="M14.5 4.5h4a1.5 1.5 0 0 1 1.5 1.5v12a1.5 1.5 0 0 1-1.5 1.5h-4M10 16.5 5.5 12 10 7.5M5.5 12H15"/>',
+    download: '<path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/>',
     user: '<circle cx="12" cy="8.5" r="3.6"/><path d="M5 20c.8-3.8 3.6-5.8 7-5.8s6.2 2 7 5.8"/>',
   };
   const icon = (name, cls = "") =>
@@ -128,8 +129,9 @@
         </nav>
         <div class="who">
           ${s
-            ? `<span class="who-name">${icon("user")}<span>${esc(s.name)}</span></span>
-               <button class="btn btn-quiet btn-sm btn-signout" type="button" data-signout aria-label="Sign out">${icon("logout")}<span class="signout-text">Sign out</span></button>`
+            ? `<a class="who-name" href="profile.html"${page === "profile" ? ' aria-current="page"' : ""}>${icon("user")}<span>${esc(s.name)}</span></a>
+               <a class="btn btn-sm btn-icon who-icon" href="profile.html" aria-label="Profile"${page === "profile" ? ' aria-current="page"' : ""}>${icon("user")}</a>
+               <button class="btn btn-quiet btn-sm btn-signout" type="button" data-signout>${icon("logout")}<span>Sign out</span></button>`
             : `<a class="btn btn-sm" href="signin.html?next=${back}">Sign in</a>`}
         </div>
       </div>`;

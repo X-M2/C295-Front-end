@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-20T06:55:43+00:00",
+  "generatedAt": "2026-11-23T01:52:25+00:00",
   "title": "Design System: Student activities companion (working title)",
   "extensions": {
     "colorMeta": {
@@ -264,7 +264,7 @@
     "typographyMeta": {
       "display": {
         "displayName": "Display",
-        "purpose": "Page titles: What's on, Sign in."
+        "purpose": "Page titles: What's on, Sign in; the student's name on Profile (4.5rem / 3.25rem, one step smaller past 18 characters)."
       },
       "date-line": {
         "displayName": "Date line",
@@ -272,7 +272,7 @@
       },
       "headline": {
         "displayName": "Headline",
-        "purpose": "Week group headings, side-panel spots figure, sign-in option headings."
+        "purpose": "Week group headings, side-panel spots figure, sign-in option headings; Profile's stub titles (1.5rem / 1.375rem) and open-stub panel heading (1.875rem / 1.625rem)."
       },
       "title": {
         "displayName": "Title",
@@ -288,11 +288,15 @@
       },
       "label": {
         "displayName": "Label",
-        "purpose": "Fact-sheet labels, hints, field errors; never a deciding fact."
+        "purpose": "Fact-sheet labels, hints, field errors; never a deciding fact; the Saved confirmation on Profile (750)."
       },
       "billing": {
         "displayName": "Billing",
         "purpose": "Area names on the summary line-up at four fixed rank sizes (4.5/3.25/2.25/1.5rem; phones 2.75/2.125/1.625/1.25rem)."
+      },
+      "setting": {
+        "displayName": "Setting",
+        "purpose": "A setting row's label on Profile, normal width and sentence case, over a 0.9375rem Paper Dim description (58ch)."
       }
     },
     "fontSource": {
@@ -321,6 +325,11 @@
         "name": "day-selected",
         "value": "3px solid var(--paper); outline-offset: 2px",
         "purpose": "The selected calendar day (aria-pressed)."
+      },
+      {
+        "name": "stub-open",
+        "value": "3px solid var(--paper); outline-offset: 3px",
+        "purpose": "The open Profile stub (aria-expanded); Warm Rule on hover."
       }
     ],
     "motion": [
@@ -337,7 +346,7 @@
       {
         "name": "state",
         "value": "150ms ease",
-        "purpose": "Colour and border transitions on buttons, tabs, fields."
+        "purpose": "Colour and border transitions on buttons, tabs, fields, the switch track and knob, the stub outline."
       },
       {
         "name": "press",
@@ -352,7 +361,7 @@
       {
         "name": "stamp-in",
         "value": "scale 1.7 to 0.95 (ease-in) then to 1 (ease-out), keeps rotate(7deg), opacity 0 to 1 in the first half, 300ms",
-        "purpose": "GOING stamp after joining, on the poster and the activity header. Once."
+        "purpose": "GOING stamp after joining, on the poster and the activity header; on Profile, a stub's state stamp when its word changes (OFF to ON or LINKED). Once."
       },
       {
         "name": "ticket-out",
@@ -375,6 +384,11 @@
         "purpose": "Summary: what was not picked steps back."
       },
       {
+        "name": "saved-flash",
+        "value": "opacity 0 to 1, 150ms ease; held 1.8s, then cleared",
+        "purpose": "The Going Mint Saved word beside a setting on Profile after the server confirms a change."
+      },
+      {
         "name": "reduced-motion",
         "value": "animations and transitions cut to 1ms",
         "purpose": "prefers-reduced-motion: reduce."
@@ -389,7 +403,7 @@
       {
         "name": "phone",
         "value": "760px",
-        "purpose": "One column, compact posters, one scrolling row of area tabs, side panel above content. Tickets scroll in one row; calendar keeps seven columns, ink only; day panel and entry header bleed to the edges."
+        "purpose": "One column, compact posters, one scrolling row of area tabs, side panel above content. Tickets scroll in one row; calendar keeps seven columns, ink only; day panel and entry header bleed to the edges. Profile stubs go 2x2; the header's name and Sign out give way to a round profile icon, and Sign out moves onto the Profile page."
       },
       {
         "name": "small-phone",
@@ -559,21 +573,54 @@
       "description": "Area block heading with ink dot and hours, entry rows under rules, an unfinished row in Soon Amber, quiet Show all.",
       "html": "<section class=\"ds-ab\"><h3 class=\"ds-ah3\"><i style=\"background:#dcb85a\"></i>Healthy Living<span>6 h</span></h3><ul class=\"ds-al\"><li><a class=\"ds-ar\" href=\"#\"><span class=\"ds-rd\">Sat, 14 Nov</span><span class=\"ds-rt2\">Badminton social</span><span class=\"ds-ru\">⚑ Unfinished</span></a></li><li><a class=\"ds-ar\" href=\"#\"><span class=\"ds-rd\">Wed, 11 Nov</span><span class=\"ds-rt2\">Evening run along the park connector</span><span class=\"ds-rh\">1 h</span></a></li></ul></section>",
       "css": ".ds-ab { max-width:640px; color:var(--paper,#f3eee6); font-family: var(--font, Archivo, system-ui, sans-serif); } .ds-ah3 { display:flex; align-items:center; gap:10px; margin:0 0 6px; font-weight:850; font-stretch:76%; font-variation-settings:'wdth' 76; text-transform:uppercase; font-size:1.5rem; line-height:1.1; } .ds-ah3 i { width:13px; height:13px; border-radius:50%; flex:none; } .ds-ah3 span { margin-left:auto; font-stretch:100%; font-variation-settings:'wdth' 100; text-transform:none; font-weight:750; font-size:1.125rem; color:var(--paper-2,#c4bcb0); } .ds-al { list-style:none; margin:0; padding:0; } .ds-ar { display:grid; grid-template-columns:8.5rem minmax(0,1fr) auto; align-items:baseline; gap:16px; padding:12px 0; border-top:1px solid var(--rule,#3d3934); color:var(--paper,#f3eee6); text-decoration:none; transition:background-color 150ms ease; } .ds-ar:hover { background:var(--ground-2,#1d1b19); } .ds-ar:focus-visible { outline:3px solid var(--focus,#f3eee6); outline-offset:3px; } .ds-rd { color:var(--paper-2,#c4bcb0); font-size:0.9375rem; white-space:nowrap; } .ds-rt2 { font-weight:650; overflow-wrap:anywhere; } .ds-rh { font-weight:800; white-space:nowrap; } .ds-ru { color:var(--soon,#ffb85c); font-weight:750; font-size:0.9375rem; white-space:nowrap; }"
+    },
+    {
+      "name": "Settings Stubs",
+      "kind": "custom",
+      "refersTo": "stub",
+      "description": "Profile's settings as stamped stubs: paper when on (ticket notches where the dashed tear line meets the edges), dark Wall Shadow with a dashed Paper Faint edge when off or absent; the open stub carries a 3px paper outline.",
+      "html": "<div class=\"ds-stubs\"><button type=\"button\" class=\"ds-stub ds-off\" aria-expanded=\"false\"><span class=\"ds-sh\">Buddy matching</span><span class=\"ds-sst\" aria-hidden=\"true\">Off</span><span class=\"ds-ss\">Hidden</span></button><button type=\"button\" class=\"ds-stub\" aria-expanded=\"true\"><span class=\"ds-sh\">Reminders</span><span class=\"ds-sst\" aria-hidden=\"true\">On</span><span class=\"ds-ss\">3 of 4 on</span></button><button type=\"button\" class=\"ds-stub\" aria-expanded=\"false\"><span class=\"ds-sh\">Telegram</span><span class=\"ds-sst\" aria-hidden=\"true\">Linked</span><span class=\"ds-ss\">@alex_sample</span></button><button type=\"button\" class=\"ds-stub ds-off\" aria-expanded=\"false\"><span class=\"ds-sh\">My data</span><span class=\"ds-ss\">Download or delete</span></button></div>",
+      "css": ".ds-stubs { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; padding:8px; background:var(--ground,#121110); font-family: var(--font, Archivo, system-ui, sans-serif); } .ds-stub { position:relative; display:flex; flex-direction:column; align-items:flex-start; min-height:150px; padding:16px 16px 14px; overflow:hidden; text-align:left; font:inherit; color:var(--on-ink,#121110); background:var(--paper,#f3eee6); border:0; border-radius:0; cursor:pointer; outline:3px solid transparent; outline-offset:3px; transition:outline-color 150ms ease, background-color 150ms ease; } .ds-stub:hover { outline-color:var(--rule,#3d3934); } .ds-stub[aria-expanded=\"true\"] { outline-color:var(--paper,#f3eee6); } .ds-stub:focus-visible { outline-color:var(--focus,#f3eee6); } .ds-sh { position:relative; width:100%; padding-bottom:12px; margin-bottom:10px; border-bottom:2px dashed rgb(18 17 16 / 0.35); font-weight:900; font-stretch:62%; font-variation-settings:'wdth' 62; text-transform:uppercase; font-size:1.5rem; line-height:0.95; } .ds-sh::before, .ds-sh::after { content:''; position:absolute; bottom:-8px; width:14px; height:14px; border-radius:50%; background:var(--ground,#121110); } .ds-sh::before { left:-23px; } .ds-sh::after { right:-23px; } .ds-sst { align-self:flex-end; margin:2px 2px 8px 0; padding:3px 10px 1px; border:3px solid currentColor; font-weight:900; font-stretch:62%; font-variation-settings:'wdth' 62; text-transform:uppercase; font-size:1.25rem; line-height:1; transform:rotate(7deg); } .ds-ss { margin-top:auto; font-weight:650; font-size:1rem; line-height:1.25; overflow-wrap:anywhere; } .ds-off { background:var(--ground-2,#1d1b19); color:var(--paper,#f3eee6); } .ds-off::after { content:''; position:absolute; inset:0; border:2px dashed var(--paper-3,#a39b90); pointer-events:none; } .ds-off .ds-sh { border-bottom-color:var(--rule,#3d3934); } .ds-off .ds-sh::before, .ds-off .ds-sh::after { display:none; } .ds-off .ds-sst { color:var(--paper-2,#c4bcb0); } @media (max-width:760px) { .ds-stubs { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; } .ds-stub { min-height:128px; padding:14px 14px 12px; } .ds-sh { font-size:1.375rem; padding-bottom:10px; margin-bottom:8px; } .ds-sst { font-size:1.125rem; margin-bottom:6px; } }"
+    },
+    {
+      "name": "Stub Panel with Switch",
+      "kind": "custom",
+      "refersTo": "switch",
+      "description": "The open stub's settings: headline heading, setting rows under 1px rules with a 56x32 switch and Saved in Going Mint, toggle pills (aria-pressed), the dashed Soon Amber Needs Telegram box, and a disabled row.",
+      "html": "<section class=\"ds-sp\"><h2 class=\"ds-sph\">Reminders</h2><div class=\"ds-warn\"><p>Reminders come from the Telegram bot, so they are all off until you link it.</p><button type=\"button\" class=\"ds-lk\">Link Telegram</button></div><div class=\"ds-row\"><div><p class=\"ds-sl\" id=\"ds-r1\">Before an activity<span class=\"ds-saved\">Saved</span></p><p class=\"ds-sd\">For activities you joined.</p></div><button type=\"button\" class=\"ds-sw\" role=\"switch\" aria-checked=\"true\" aria-labelledby=\"ds-r1\"><span></span></button><div class=\"ds-pills\"><button type=\"button\" class=\"ds-pill\" aria-pressed=\"true\">Day before</button><button type=\"button\" class=\"ds-pill\" aria-pressed=\"false\">2 h before</button></div></div><div class=\"ds-row ds-dis\"><div><p class=\"ds-sl\" id=\"ds-r2\">Sign-up closing</p><p class=\"ds-sd\">A day before sign-up closes, for activities in your areas.</p></div><button type=\"button\" class=\"ds-sw\" role=\"switch\" aria-checked=\"false\" aria-labelledby=\"ds-r2\" disabled><span></span></button></div></section>",
+      "css": ".ds-sp { max-width:640px; color:var(--paper,#f3eee6); font-family: var(--font, Archivo, system-ui, sans-serif); } .ds-sp p { margin:0; } .ds-sph { margin:0 0 8px; font-weight:900; font-stretch:62%; font-variation-settings:'wdth' 62; text-transform:uppercase; font-size:1.875rem; line-height:1; } .ds-warn { display:flex; flex-wrap:wrap; align-items:center; gap:10px 16px; padding:14px 16px; margin:4px 0 8px; border:2px dashed var(--soon,#ffb85c); } .ds-warn p { flex:1 1 240px; } .ds-lk { min-height:36px; padding:0 14px; font:inherit; font-weight:750; font-size:0.8125rem; color:var(--on-ink,#121110); background:var(--paper,#f3eee6); border:2px solid var(--paper,#f3eee6); border-radius:999px; cursor:pointer; } .ds-row { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:center; column-gap:20px; padding:16px 0; border-top:1px solid var(--rule,#3d3934); } .ds-sl { display:flex; align-items:baseline; gap:4px 10px; font-weight:750; font-size:1.125rem; } .ds-sd { margin-top:2px; color:var(--paper-2,#c4bcb0); font-size:0.9375rem; max-width:58ch; } .ds-saved { font-size:0.8125rem; font-weight:750; color:var(--going,#7be3a3); } .ds-dis .ds-sl, .ds-dis .ds-sd { opacity:0.55; } .ds-sw { position:relative; width:56px; height:32px; padding:0; border:2px solid var(--paper-3,#a39b90); border-radius:999px; background:var(--ground-3,#2b2825); cursor:pointer; transition:background-color 150ms ease, border-color 150ms ease; } .ds-sw > span { position:absolute; top:4px; left:4px; width:20px; height:20px; border-radius:50%; background:var(--paper-2,#c4bcb0); transition:transform 150ms cubic-bezier(0.16,1,0.3,1), background-color 150ms ease; } .ds-sw[aria-checked=\"true\"] { background:var(--paper,#f3eee6); border-color:var(--paper,#f3eee6); } .ds-sw[aria-checked=\"true\"] > span { transform:translateX(24px); background:var(--on-ink,#121110); } .ds-sw:disabled { opacity:0.4; cursor:not-allowed; } .ds-sw:focus-visible, .ds-pill:focus-visible { outline:3px solid var(--focus,#f3eee6); outline-offset:3px; } .ds-pills { grid-column:1 / -1; margin-top:10px; display:flex; flex-wrap:wrap; gap:8px; } .ds-pill { min-height:38px; padding:0 14px; font:inherit; font-weight:650; font-size:0.8125rem; color:var(--paper,#f3eee6); background:transparent; border:2px solid var(--rule,#3d3934); border-radius:999px; cursor:pointer; transition:border-color 150ms ease, background-color 150ms ease; } .ds-pill:hover { border-color:var(--paper-2,#c4bcb0); } .ds-pill[aria-pressed=\"true\"] { background:var(--paper,#f3eee6); border-color:var(--paper,#f3eee6); color:var(--on-ink,#121110); }"
+    },
+    {
+      "name": "Danger Button and Typed Confirm",
+      "kind": "button",
+      "refersTo": "button-danger",
+      "description": "Error Coral outline pill for Unlink and Delete; Delete my account opens a typed DELETE confirm whose danger button stays disabled until the field reads DELETE.",
+      "html": "<form class=\"ds-dc\"><label for=\"ds-del\">Type <b>DELETE</b> to confirm</label><input id=\"ds-del\" type=\"text\" autocomplete=\"off\"><div class=\"ds-da\"><button type=\"submit\" class=\"ds-danger\" disabled>Delete everything</button><button type=\"button\" class=\"ds-q\">Cancel</button></div><div class=\"ds-da\"><button type=\"button\" class=\"ds-danger\">Delete my account</button></div></form>",
+      "css": ".ds-dc { display:grid; gap:6px; max-width:360px; color:var(--paper,#f3eee6); font-family: var(--font, Archivo, system-ui, sans-serif); } .ds-dc label { font-weight:650; } .ds-dc input { min-height:46px; padding:10px 14px; font:inherit; color:var(--paper,#f3eee6); background:var(--ground-2,#1d1b19); border:2px solid var(--rule,#3d3934); border-radius:6px; } .ds-dc input:focus { outline:none; border-color:var(--paper,#f3eee6); } .ds-da { display:flex; gap:8px; margin-top:8px; } .ds-danger, .ds-q { min-height:36px; padding:0 14px; font:inherit; font-weight:750; font-size:0.8125rem; border-radius:999px; cursor:pointer; transition:background-color 150ms ease, transform 100ms ease; } .ds-danger { color:var(--error,#ff9b8a); background:transparent; border:2px solid var(--error,#ff9b8a); } .ds-danger:hover { background:var(--error-ground,#2c1a17); } .ds-danger:disabled { opacity:0.35; cursor:not-allowed; } .ds-danger:disabled:hover { background:transparent; } .ds-danger:active { transform:translateY(1px); } .ds-q { color:var(--paper-2,#c4bcb0); background:transparent; border:2px solid transparent; } .ds-q:hover { color:var(--paper,#f3eee6); background:var(--ground-2,#1d1b19); } .ds-danger:focus-visible, .ds-q:focus-visible { outline:3px solid var(--focus,#f3eee6); outline-offset:3px; }"
+    },
+    {
+      "name": "Header Account",
+      "kind": "nav",
+      "refersTo": "button-icon",
+      "description": "The student's name as a link to Profile on laptops (underlined when current); on phones a 40px round profile icon button, filled paper when Profile is current, replaces the name and Sign out.",
+      "html": "<div class=\"ds-who\"><a class=\"ds-wn\" href=\"#\" aria-current=\"page\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"8.5\" r=\"3.6\"/><path d=\"M5 20c.8-3.8 3.6-5.8 7-5.8s6.2 2 7 5.8\"/></svg><span>Alex Lim</span></a><a class=\"ds-wi\" href=\"#\" aria-label=\"Profile\" aria-current=\"page\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"8.5\" r=\"3.6\"/><path d=\"M5 20c.8-3.8 3.6-5.8 7-5.8s6.2 2 7 5.8\"/></svg></a></div>",
+      "css": ".ds-who { display:flex; align-items:center; gap:10px; padding:10px 16px; background:var(--ground,#121110); font-family: var(--font, Archivo, system-ui, sans-serif); } .ds-wn { display:inline-flex; align-items:center; gap:6px; min-height:40px; font-weight:650; font-size:0.9375rem; color:var(--paper,#f3eee6); text-decoration:none; text-underline-offset:4px; } .ds-wn svg { color:var(--paper-2,#c4bcb0); } .ds-wn:hover, .ds-wn[aria-current=\"page\"] { text-decoration:underline; text-decoration-thickness:2px; } .ds-wi { display:inline-flex; align-items:center; justify-content:center; width:40px; min-height:36px; color:var(--paper,#f3eee6); border:2px solid var(--paper,#f3eee6); border-radius:999px; transition:background-color 150ms ease; } .ds-wi:hover { background:var(--ground-3,#2b2825); } .ds-wi[aria-current=\"page\"] { background:var(--paper,#f3eee6); color:var(--on-ink,#121110); } .ds-wn:focus-visible, .ds-wi:focus-visible { outline:3px solid var(--focus,#f3eee6); outline-offset:3px; }"
     }
   ],
   "narrative": {
     "northStar": "The Gig Poster Wall",
-    "overview": "The week's activities are pasted up as gig posters on a dark wall, the kind outside *SCAPE or the Esplanade. The date is the headline: set in Archivo at its narrowest and heaviest, so what is soon reads from across the room. Each of the four areas is one flat spot ink, and every poster is printed on its ink in near-black. Everything around the posters (header, filters, side panels, forms) stays on the wall: near-black ground, warm off-white paper type, thin warm rules.\n\nThe system is flat and printed. Depth comes only from ink against wall; there are no gradients, textures or shadows. Type width is the main expressive lever: poster type runs condensed (wdth 62) and uppercase, titles slightly wider (wdth 76), and every fact a student must read to decide runs at normal width and body size or larger. The poster world never outranks usability: posters stay compact on phones, Join sits in the same corner of every poster, and full or closed activities say so twice, with a stamp and a disabled button.\n\nMotion is one gesture: posters paste up once on load and on filter change. Two moments confirm an action the same way: joining presses the GOING stamp on, and saving an entry clears its to-log ticket and pastes that day's ink in. Nothing else moves beyond state transitions.\n\nThis system replaces the retired MRT arrival-board world (kept in git history). The journal is the first extension built inside it: the wall's own month calendar, where each logged day is pasted in its area's ink and each missed log is an empty dashed slot, with small ink tickets for what still needs logging and a one-page entry form under a poster header. The summary is the second: the four areas billed like a gig poster's line-up, type size as rank, the headliner biggest in its ink and an area with no hours set smallest in Paper Faint with a way to find one; under it, hours per month as stacked ink columns and the entries behind each area. It must extend the same way, without new worlds, to the remaining planned surfaces: the reflection compiler, the optional award tracker, and admin. No components exist for those yet; build them from the wall, paper type, spot inks and the components below.",
+    "overview": "The week's activities are pasted up as gig posters on a dark wall, the kind outside *SCAPE or the Esplanade. The date is the headline: set in Archivo at its narrowest and heaviest, so what is soon reads from across the room. Each of the four areas is one flat spot ink, and every poster is printed on its ink in near-black. Everything around the posters (header, filters, side panels, forms) stays on the wall: near-black ground, warm off-white paper type, thin warm rules.\n\nThe system is flat and printed. Depth comes only from ink against wall; there are no gradients, textures or shadows. Type width is the main expressive lever: poster type runs condensed (wdth 62) and uppercase, titles slightly wider (wdth 76), and every fact a student must read to decide runs at normal width and body size or larger. The poster world never outranks usability: posters stay compact on phones, Join sits in the same corner of every poster, and full or closed activities say so twice, with a stamp and a disabled button.\n\nMotion is one gesture: posters paste up once on load and on filter change. Three moments confirm an action the same way: joining presses the GOING stamp on, saving an entry clears its to-log ticket and pastes that day's ink in, and changing a setting re-presses the state stamp on its stub. Nothing else moves beyond state transitions.\n\nThis system replaces the retired MRT arrival-board world (kept in git history). The journal is the first extension built inside it: the wall's own month calendar, where each logged day is pasted in its area's ink and each missed log is an empty dashed slot, with small ink tickets for what still needs logging and a one-page entry form under a poster header. The summary is the second: the four areas billed like a gig poster's line-up, type size as rank, the headliner biggest in its ink and an area with no hours set smallest in Paper Faint with a way to find one; under it, hours per month as stacked ink columns and the entries behind each area. Profile is the third: the student's settings as four stubs stamped with their state (OFF, ON, LINKED) in the posters' own stamp, paper when a setting is on and dark on the wall when it is off, so a glance says how everything stands before a tap opens one. It must extend the same way, without new worlds, to the remaining planned surfaces: the reflection compiler, the optional award tracker, and admin. No components exist for those yet; build them from the wall, paper type, spot inks and the components below.",
     "keyCharacteristics": [
       "Near-black wall, warm off-white paper ink, one flat spot ink per area.",
       "The date line is the headline: Archivo 900, wdth 62, uppercase, tight leading.",
       "Posters are square-cornered ink blocks; controls are pills; text fields are gently rounded.",
       "Flat throughout: no gradients, textures or shadows.",
-      "Status is printed: angled FULL, CLOSED, GOING stamps.",
+      "Status is printed: angled FULL, CLOSED, GOING stamps; on Profile, OFF, ON and LINKED on settings stubs.",
       "Deciding facts at body size or larger, tabular numerals everywhere.",
       "Photos print as duotone in the area ink on the wall, and in natural colour inside panels and on the activity page.",
       "On the journal calendar, ink means logged and a dashed slot means still to log.",
-      "On the summary, type size is rank: four fixed billing sizes, set by hours."
+      "On the summary, type size is rank: four fixed billing sizes, set by hours.",
+      "On Profile, a paper stub means a setting is on; a dark stub with a dashed edge means it is off or absent."
     ],
     "rules": [
       {
@@ -658,12 +705,32 @@
       },
       {
         "name": "The Confirm Rule",
-        "body": "Motion may confirm an action the student just took, once, where they are looking. Joining presses the GOING stamp onto the poster (and the activity header): it drops from 1.7x to 0.95x and settles at 1x over 300ms, keeping its 7° tilt. Saving an entry from a ticket shows that ticket once more, fades it to 0.94x after 320ms, and slides the remaining tickets over the gap in 240ms (on phones the strip scrolls to it first). The saved day's ink and photo then wipe up from the bottom over 380ms, starting only once the day is on screen. Nothing repeats, nothing loops, and reduced motion removes all of it.",
+        "body": "Motion may confirm an action the student just took, once, where they are looking. Joining presses the GOING stamp onto the poster (and the activity header): it drops from 1.7x to 0.95x and settles at 1x over 300ms, keeping its 7° tilt. Saving an entry from a ticket shows that ticket once more, fades it to 0.94x after 320ms, and slides the remaining tickets over the gap in 240ms (on phones the strip scrolls to it first). The saved day's ink and photo then wipe up from the bottom over 380ms, starting only once the day is on screen. Changing a setting re-presses its stub's stamp with the same 300ms stamp-in, only when the stamp's word changes (OFF to ON, OFF to LINKED). Nothing repeats, nothing loops, and reduced motion removes all of it.",
         "section": "components"
       },
       {
         "name": "The Filled Or Dashed Rule",
         "body": "On the journal calendar a past day the student went to is either filled with its area's ink (logged) or a dashed empty slot marked Log (still to log). Ink on the calendar means logged and nothing else.",
+        "section": "components"
+      },
+      {
+        "name": "The Paper Is On Rule",
+        "body": "On Profile a stub is printed on Paper in Press Black when its setting is on or linked, and goes dark on the wall (Wall Shadow, paper type, a 2px dashed Paper Faint edge) when it is off or absent. Stubs never take an area ink; an area's ink appears on Profile only as the 11px dot on its area pill.",
+        "section": "colors"
+      },
+      {
+        "name": "The Long Name Rule",
+        "body": "The student's name on Profile is display type at 4.5rem (3.25rem on phones); a name over 18 characters steps down one size, to 3.25rem (2.25rem on phones). It wraps anywhere and balances, and never truncates.",
+        "section": "typography"
+      },
+      {
+        "name": "The Stamped State Rule",
+        "body": "Every Profile setting shows how it stands on its stub before any tap: the stamp's word, paper or dark, and a sub line in words. Never hide a setting's state behind a tap.",
+        "section": "components"
+      },
+      {
+        "name": "The Needs Telegram Rule",
+        "body": "While Telegram is unlinked, every reminder renders off and disabled under the Needs Telegram box, and the Reminders stub reads OFF, \"Needs Telegram\". The choices the student saved are kept and come back once Telegram is linked.",
         "section": "components"
       }
     ],
@@ -681,6 +748,9 @@
       "**Do** mark invalid photo zones, inputs and textareas with an Error Coral border plus a message, and summarise the errors above the form.",
       "**Do** bill areas on the summary by hours with the four fixed rank sizes, ties sharing a size, numbers at full size on the right.",
       "**Do** chart hours as flat stacked ink columns with 2px wall gaps, a total above and a label below a rule, and no axes chrome.",
+      "**Do** show each Profile setting's state on its stub, as a stamp, as paper or dark, and in words.",
+      "**Do** save each setting change at once, confirm it with Saved in Going Mint, and flip it back with a reason when the save fails.",
+      "**Do** set destructive actions as Error Coral outline pills, confirmed in place, and ask for DELETE to be typed before deleting an account.",
       "**Do** extend the reflection compiler, award tracker and admin from these tokens and components before inventing new ones."
     ],
     "donts": [
@@ -690,10 +760,11 @@
       "**Don't** round poster corners or square off buttons; posters are paper, controls are pills.",
       "**Don't** wrap the area filters onto several lines on phones.",
       "**Don't** hide a full or closed activity's button or signal its state by colour alone.",
-      "**Don't** animate anything beyond the paste-up, the two Confirm Rule moments and state transitions.",
+      "**Don't** animate anything beyond the paste-up, the Confirm Rule moments and state transitions.",
       "**Don't** use ink on the calendar for anything but a logged day.",
       "**Don't** print a spot ink as type on the wall for anything but an area's own name in billing type.",
-      "**Don't** shrink a line-up name below its rank size to fit a phone; let it wrap."
+      "**Don't** shrink a line-up name below its rank size to fit a phone; let it wrap.",
+      "**Don't** print an area ink on a settings stub; stubs are paper or wall."
     ]
   }
 }

@@ -101,6 +101,37 @@ The Telegram bot's `/web` command replies with a link to `https://<site>/index.h
 
 `PastActivity` has the same fields as `Activity` (at least `id`, `area`, `title`, `organiser`, `location`, `startsAt`, `endsAt`).
 
+## Profile and settings (signed in only)
+
+| Method and path | Body | Returns |
+|---|---|---|
+| `GET /me/settings` | | `{ "settings": Settings }` |
+| `PUT /me/settings` | Only the parts that changed, e.g. `{ "buddyMatching": true }` or `{ "reminders": { "closing": { "on": true } } }` | `{ "settings": Settings }` with everything after the change. Replace each top-level key you receive (`reminders.<name>` objects are replaced whole). |
+| `POST /me/telegram/link` | | `{ "url": "https://t.me/<bot>?start=<one-time code>" }`. The website opens it; when the student presses Start, the bot stores their Telegram ID against this student. Code valid 15 minutes, used once. |
+| `DELETE /me/telegram` | | `204` or `{}`. Clears the student's Telegram ID and username. Reminders stop. |
+| `GET /me/export` | | One JSON object with everything kept about the student: `student`, `settings`, `joinedActivities`, `journal` (with photo links). The website saves it as a file. |
+| `DELETE /me` | | `204` or `{}`. Deletes the student, their journal entries, photos (in storage too), sign-ups, buddy requests, codes and sessions. The website signs out afterwards. |
+
+`Settings`:
+
+```json
+{
+  "buddyMatching": false,
+  "reminders": {
+    "before": { "on": true, "dayBefore": true, "twoHours": true },
+    "afterwards": { "on": true },
+    "newInAreas": { "on": true, "areas": ["SL", "OA"] },
+    "closing": { "on": false }
+  },
+  "telegram": { "linked": true, "username": "alexlim" }
+}
+```
+
+- `buddyMatching` is `false` until the student turns it on (PDPA). When it is on, other students going to the same activity see their **first name only**.
+- `reminders.newInAreas.areas` is also the area list for `closing`: "sign-up closing" reminders are for activities in those areas. Don't track which activities a student looked at.
+- Reminders are sent by the Telegram bot, so they only go out while `telegram.linked` is true.
+- `telegram` is read-only through `PUT`; it changes only through link and unlink.
+
 ## Errors
 
 Any error responds with a 4xx or 5xx status and `{ "message": "A sentence the student can read." }`. The website shows that message as it is, so write it for students.
@@ -112,5 +143,6 @@ With `useSampleData: true`, add these to any page address:
 - `?simulate=slow`: a 6-second wait, which shows the "waking up the server" note
 - `?simulate=error`: the error screen
 - `?simulate=empty`: no activities
+- `?simulate=savefail` (Profile): saving a setting fails, so the switch flips back
 
 Sample sign-in: any email, code `123456`.

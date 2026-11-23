@@ -163,8 +163,11 @@ a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.2em
   background: var(--paper); color: var(--on-ink); font-size: var(--t-xs); font-weight: 800;
 }
 .who { margin-left: auto; display: flex; align-items: center; gap: 10px; }
-.who-name { display: inline-flex; align-items: center; gap: 6px; font-weight: 650; font-size: var(--t-md); }
+.who-name { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; font-weight: 650; font-size: var(--t-md); color: var(--paper); text-decoration: none; text-underline-offset: 4px; }
+.who-name:hover, .who-name[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 2px; }
 .who-name .icon { color: var(--paper-2); }
+.who .who-icon { display: none; }
+.who .who-icon[aria-current="page"] { background: var(--paper); color: var(--on-ink); }
 
 /* ---------------------------------------------------------------- buttons */
 
@@ -616,8 +619,8 @@ fieldset.field legend { font-weight: 700; font-size: var(--t-md); padding: 0; ma
   .nav a { padding: 0 7px; font-size: var(--t-sm); }
   .nav a[aria-current="page"]::after { left: 7px; right: 7px; }
   .who-name { display: none; }
-  .signout-text { display: none; }
-  .btn-signout { min-width: 40px; padding: 0 8px; }
+  .who .who-icon { display: inline-flex; }
+  .btn-signout { display: none; }
   .toast { top: 64px; }
   .nav a { padding: 0 8px; }
   .page { padding: 28px 16px 56px; }
@@ -825,6 +828,117 @@ button.act-name:hover, button.act-name[aria-pressed="true"] { text-decoration: u
 /* Four menu items: on small phones the menu replaces the name (Browse is home). */
 @media (max-width: 480px) {
   .brand { display: none; }
+}
+
+/* ---------------------------------------------------------------- profile */
+
+.page-profile { max-width: 1000px; }
+.profile-top { margin-bottom: 28px; }
+.profile-name { font-size: 4.5rem; overflow-wrap: anywhere; text-wrap: balance; }
+.profile-name.is-long { font-size: 3.25rem; }
+.profile-sub { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 10px; }
+.profile-mail { min-width: 0; color: var(--paper-2); overflow-wrap: anywhere; }
+/* Sign out sits in the header on laptops; on phones it moves here */
+.profile-signout { display: none; flex: none; }
+
+/* Stubs: one per setting, its state stamped on */
+.stubs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.stub {
+  position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 0;
+  min-height: 150px; padding: 16px 16px 14px; overflow: hidden; text-align: left;
+  font: inherit; color: var(--on-ink); background: var(--paper); border: 0; border-radius: 0; cursor: pointer;
+  outline: 3px solid transparent; outline-offset: 3px; transition: outline-color 150ms ease, background-color 150ms ease;
+}
+.stub-h {
+  position: relative; width: 100%; padding-bottom: 12px; margin-bottom: 10px; border-bottom: 2px dashed rgb(18 17 16 / 0.35);
+  font-weight: 900; font-stretch: var(--poster); text-transform: uppercase; font-size: 1.5rem; line-height: 0.95;
+}
+.stub-sub { margin-top: auto; max-width: 100%; font-weight: 650; font-size: var(--t-base); line-height: 1.25; overflow-wrap: anywhere; }
+/* The stamp sits in the flow, right-aligned above the line of text, so long names never run under it */
+.stub .stub-stamp { position: relative; top: auto; right: auto; align-self: flex-end; margin: 2px 2px 8px 0; font-size: 1.25rem; background: transparent; border-color: currentColor; color: inherit; }
+/* Ticket notches where the tear line meets the edges */
+.stub-h::before, .stub-h::after {
+  content: ""; position: absolute; bottom: -8px; width: 14px; height: 14px; border-radius: 50%; background: var(--ground);
+}
+.stub-h::before { left: -23px; }
+.stub-h::after { right: -23px; }
+.stub.is-off .stub-h::before, .stub.is-off .stub-h::after { display: none; }   /* notches only read on paper */
+.stub:hover { outline-color: var(--rule); }
+.stub[aria-expanded="true"] { outline-color: var(--paper); }
+.stub:focus-visible { outline-color: var(--focus); }
+/* A setting that is off: the stub is dark on the wall, its edge dashed */
+.stub.is-off { background: var(--ground-2); color: var(--paper); }
+.stub.is-off::after { content: ""; position: absolute; inset: 0; border: 2px dashed var(--paper-3); pointer-events: none; }
+.stub.is-off .stub-h { border-bottom-color: var(--rule); }
+.stub.is-off .stub-stamp { color: var(--paper-2); }
+.stub-skeleton { cursor: default; background: var(--ground-2); gap: 12px; }
+.stub-skeleton > span { display: block; height: 18px; width: 70%; background: var(--ground-3); animation: pulse 1.4s ease-in-out infinite; }
+.stub-skeleton > span + span { width: 45%; margin-top: auto; }
+
+/* The open stub's settings */
+.stub-panel { margin-top: 28px; }
+.stub-panel:empty { display: none; }
+.panel-h { font-size: 1.875rem; margin-bottom: 8px; }
+.panel-note, .panel-text { color: var(--paper-2); max-width: 62ch; text-wrap: pretty; }
+.panel-text b { color: var(--paper); }
+.panel-note { margin-bottom: 4px; }
+.panel-warn { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; padding: 14px 16px; margin: 4px 0 8px; border: 2px dashed var(--soon); color: var(--paper); }
+.panel-warn p { flex: 1 1 240px; }
+.panel-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 14px; }
+.confirm-text { flex-basis: 100%; font-weight: 700; }
+
+.set-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 20px; padding: 16px 0; border-top: 1px solid var(--rule); }
+.set-row:first-of-type { border-top: 0; }
+.panel-note + .set-row, .panel-warn + .set-row { border-top: 1px solid var(--rule); }
+.set-label { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 10px; font-weight: 750; font-size: var(--t-lg); }
+.set-desc { margin-top: 2px; color: var(--paper-2); font-size: var(--t-md); max-width: 58ch; text-wrap: pretty; }
+.set-extra { grid-column: 1 / -1; margin-top: 10px; }
+.set-row.is-disabled .set-label, .set-row.is-disabled .set-desc { opacity: 0.55; }
+.saved { font-size: var(--t-sm); font-weight: 750; color: var(--going); opacity: 0; transition: opacity 150ms ease; }
+.saved.is-shown { opacity: 1; }
+
+.pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.tab-sm { min-height: 38px; padding: 0 14px; font-size: var(--t-sm); }
+.tab[aria-pressed="true"] { background: var(--paper); border-color: var(--paper); color: var(--on-ink); }
+.tab:disabled { opacity: 0.4; cursor: not-allowed; }
+.tab .ink-dot { background: var(--ink); }
+
+/* On/off switch */
+.switch {
+  position: relative; flex: none; width: 56px; height: 32px; padding: 0;
+  border: 2px solid var(--paper-3); border-radius: var(--radius-pill); background: var(--ground-3); cursor: pointer;
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+.switch > span {
+  position: absolute; top: 4px; left: 4px; width: 20px; height: 20px; border-radius: 50%; background: var(--paper-2);
+  transition: transform 150ms var(--ease-out), background-color 150ms ease;
+}
+.switch[aria-checked="true"] { background: var(--paper); border-color: var(--paper); }
+.switch[aria-checked="true"] > span { transform: translateX(24px); background: var(--on-ink); }
+.switch:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* My data */
+.data-block { padding: 16px 0; }
+.data-block + .data-block { border-top: 1px solid var(--rule); }
+.data-h { font-weight: 750; font-size: var(--t-lg); margin-bottom: 2px; }
+.btn-danger { border-color: var(--error); color: var(--error); }
+.btn-danger:hover { background: var(--error-ground); }
+.btn-danger:disabled:hover { background: transparent; }
+.delete-confirm { display: grid; gap: 6px; max-width: 360px; margin-top: 14px; }
+.delete-confirm label { font-weight: 650; }
+
+@media (max-width: 760px) {
+  .profile-top { margin-bottom: 20px; }
+  .profile-name { font-size: 3.25rem; }
+  .profile-name.is-long { font-size: 2.25rem; }
+  .profile-signout { display: inline-flex; }
+  .stubs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .stub { min-height: 128px; padding: 14px 14px 12px; }
+  .stub-h { font-size: 1.375rem; padding-bottom: 10px; margin-bottom: 8px; }
+  .stub-sub { font-size: var(--t-md); }
+  .stub .stub-stamp { font-size: 1.125rem; margin-bottom: 6px; }
+  .stub-panel { margin-top: 22px; }
+  .panel-h { font-size: 1.625rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
