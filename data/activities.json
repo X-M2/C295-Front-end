@@ -1,27 +1,27 @@
 {
-  "generatedAt": "2026-11-20T04:15:37.569Z",
+  "generatedAt": "2026-11-24T01:19:22.477Z",
   "activities": [
     {
-      "id": "nss-e8016c00f4",
+      "id": "nss-54a0fe1dc6",
       "area": "OA",
-      "title": "Windsor Nature Park Exploration",
+      "title": "Windsor Nature Park Walk",
       "organiser": "Nature Society Singapore",
       "location": "Windsor Nature Park",
-      "startsAt": "2026-12-15T01:00:00.000Z",
-      "endsAt": "2026-12-15T03:00:00.000Z",
+      "startsAt": "2026-12-14T16:00:00.000Z",
+      "endsAt": "2026-12-14T18:00:00.000Z",
       "spotsTotal": 30,
       "spotsTaken": 0,
       "signupClosesAt": "2026-12-14T15:59:00.000Z",
-      "description": "Explore the wonders of Singapore’s secondary forest with our Nature Stewards volunteers.",
+      "description": "Open to the Public Join our Nature Stewards volunteers on a leisurely walk through Windsor Nature Park and explore the wonders of Singapore’s secondary forest. Keep your eyes peeled for wildlife such as long-tailed macaques, plantain squirrels, Sunda colugos, woodpeckers, and freshwater fishes. Along the way, learn about the importance of our forests in...",
       "photoUrl": null,
       "contact": {
         "type": "website",
-        "value": "http://nss.org.sg/"
+        "value": "https://nss.org.sg"
       },
       "joined": false,
       "friendsGoing": [],
       "source": "nss",
-      "externalUrl": "http://nss.org.sg/"
+      "externalUrl": "https://nss.org.sg"
     }
   ]
 }
