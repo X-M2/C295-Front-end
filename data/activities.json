@@ -1,6 +1,50 @@
 {
-  "generatedAt": "2026-11-24T01:34:58.722Z",
+  "generatedAt": "2026-11-24T07:56:02.599Z",
   "activities": [
+    {
+      "id": "volunteergovsg-b165cd2919",
+      "area": "CL",
+      "title": "Events Volunteer: PMBN Programme",
+      "organiser": "Not specified",
+      "location": "30 Yishun Street 81 Nee Soon",
+      "startsAt": "2026-11-28T01:30:00.000Z",
+      "endsAt": "2026-11-28T04:30:00.000Z",
+      "spotsTotal": 20,
+      "spotsTaken": 0,
+      "signupClosesAt": "2026-11-27T15:59:00.000Z",
+      "description": "Assist with the PMBN Programme activities and events.",
+      "photoUrl": null,
+      "contact": {
+        "type": "website",
+        "value": "https://www.volunteer.gov.sg/volunteer/opportunity/details/?id=2b05d734-dae7-f111-ac90-027d80ecb760"
+      },
+      "joined": false,
+      "friendsGoing": [],
+      "source": "volunteergovsg",
+      "externalUrl": "https://www.volunteer.gov.sg/volunteer/opportunity/details/?id=2b05d734-dae7-f111-ac90-027d80ecb760"
+    },
+    {
+      "id": "volunteergovsg-fe1271e6c8",
+      "area": "CL",
+      "title": "FIND OUT HOW TO BECOME A POLICE VOLUNTEER",
+      "organiser": "Singapore Police Force",
+      "location": "391 New Bridge Road #08 Police Headquarters",
+      "startsAt": "2026-12-01T11:30:00.000Z",
+      "endsAt": "2026-12-01T13:30:00.000Z",
+      "spotsTotal": 20,
+      "spotsTaken": 0,
+      "signupClosesAt": "2026-11-30T15:59:00.000Z",
+      "description": "Learn about the roles and responsibilities of police volunteers.",
+      "photoUrl": null,
+      "contact": {
+        "type": "website",
+        "value": "https://www.volunteer.gov.sg/event/eventdetail/?id=df40cdfb-d5d6-f111-ac90-027d80ecb760"
+      },
+      "joined": false,
+      "friendsGoing": [],
+      "source": "volunteergovsg",
+      "externalUrl": "https://www.volunteer.gov.sg/event/eventdetail/?id=df40cdfb-d5d6-f111-ac90-027d80ecb760"
+    },
     {
       "id": "nss-892021d424",
       "area": "OA",
@@ -44,6 +88,50 @@
       "friendsGoing": [],
       "source": "nss",
       "externalUrl": "https://www.nss.org.sg/events/nature-walk-at-pasir-ris-mangroves-3/"
+    },
+    {
+      "id": "volunteergovsg-5fb3128a04",
+      "area": "CL",
+      "title": "SAFRA Let's Gift For All",
+      "organiser": "Not specified",
+      "location": "2 Telok Blangah Way Singapore",
+      "startsAt": "2026-12-12T03:30:00.000Z",
+      "endsAt": "2026-12-12T05:30:00.000Z",
+      "spotsTotal": 20,
+      "spotsTaken": 0,
+      "signupClosesAt": "2026-12-11T15:59:00.000Z",
+      "description": "Support the event preparations and activities.",
+      "photoUrl": null,
+      "contact": {
+        "type": "website",
+        "value": "https://www.volunteer.gov.sg/volunteer/opportunity/details/?id=1dbb51f7-abe4-f111-ac90-027d80ecb760"
+      },
+      "joined": false,
+      "friendsGoing": [],
+      "source": "volunteergovsg",
+      "externalUrl": "https://www.volunteer.gov.sg/volunteer/opportunity/details/?id=1dbb51f7-abe4-f111-ac90-027d80ecb760"
+    },
+    {
+      "id": "volunteergovsg-da41d82b2f",
+      "area": "CL",
+      "title": "Merriment @ Boon Lay",
+      "organiser": "Not specified",
+      "location": "10 Boon Lay Place Boon Lay Community Centre",
+      "startsAt": "2026-12-12T10:00:00.000Z",
+      "endsAt": "2026-12-12T14:00:00.000Z",
+      "spotsTotal": 20,
+      "spotsTaken": 0,
+      "signupClosesAt": "2026-12-11T15:59:00.000Z",
+      "description": "Help organize activities to spread joy and festive cheer.",
+      "photoUrl": null,
+      "contact": {
+        "type": "website",
+        "value": "https://www.volunteer.gov.sg/volunteer/opportunity/details/?id=6d771593-b6e7-f111-ac90-027d80ecb760"
+      },
+      "joined": false,
+      "friendsGoing": [],
+      "source": "volunteergovsg",
+      "externalUrl": "https://www.volunteer.gov.sg/volunteer/opportunity/details/?id=6d771593-b6e7-f111-ac90-027d80ecb760"
     },
     {
       "id": "nss-cb85f3743a",
