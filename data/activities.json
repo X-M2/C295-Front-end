@@ -1,27 +1,71 @@
 {
-  "generatedAt": "2026-11-24T01:19:22.477Z",
+  "generatedAt": "2026-11-24T01:34:58.722Z",
   "activities": [
     {
-      "id": "nss-54a0fe1dc6",
+      "id": "nss-892021d424",
       "area": "OA",
-      "title": "TEST",
+      "title": "Butterfly and Birdwatching Walk at Woodlands Botanic Gardens",
       "organiser": "Nature Society Singapore",
-      "location": "Windsor Nature Park",
-      "startsAt": "2026-12-14T16:00:00.000Z",
-      "endsAt": "2026-12-14T18:00:00.000Z",
-      "spotsTotal": 30,
+      "location": "Woodlands Botanic Garden, 134 Marsiling Rd, 730134, Singapore",
+      "startsAt": "2026-12-05T00:00:00.000Z",
+      "endsAt": "2026-12-05T02:00:00.000Z",
+      "spotsTotal": 25,
       "spotsTaken": 0,
-      "signupClosesAt": "2026-12-14T15:59:00.000Z",
-      "description": "Open to the Public Join our Nature Stewards volunteers on a leisurely walk through Windsor Nature Park and explore the wonders of Singapore’s secondary forest. Keep your eyes peeled for wildlife such as long-tailed macaques, plantain squirrels, Sunda colugos, woodpeckers, and freshwater fishes. Along the way, learn about the importance of our forests in...",
+      "signupClosesAt": "2026-11-29T15:59:00.000Z",
+      "description": "Join our guides from the Butterfly & Insect Group and Bird Group to explore Woodlands Botanic Gardens. At least 15 resident butterflies have been recorded here including the Common Rose, Common Birdwing, Black-veined Tiger, Julia Longwing, Peacock Royal and Leopard Lacewing. In addition to butterflies, the many flowers and plants in this garden are also attractive to sunbirds, flowerpeckers and other garden birds like the Black-naped Oriole and Yellow-vented Bulbul. As this walk will take place during the migration season, sightings of migrant birds like the Brown Shrike or passing Oriental Honey Buzzard may be possible. This walk will start at 8 am. Details on the meeting point will be shared with confirmed participants. \n\nMaximum No. of Participants:25 pax \n\nClosing Date29 November 2026, Sunday \n\nThings to BringBring along a sun protection, water for hydration, rain gear, wear proper walking shoes and wear light appropriate clothing to prevent insect bites. \n\nEnquiriesFor any enquiries, please contact us at outreach@nss.org.sg \n\nNote:•⁠ ⁠Registration is on a first-come-first-serve basis.•⁠ ⁠Registration will close once the maximum number of participants is reached, or on closing date.•⁠ ⁠Only confirmed participants will be contacted by email, after the closing date, with details on the meeting time and place.",
       "photoUrl": null,
       "contact": {
         "type": "website",
-        "value": "https://nss.org.sg"
+        "value": "https://www.nss.org.sg/events/butterfly-and-birdwatching-walk-at-woodlands-botanic-gardens/"
       },
       "joined": false,
       "friendsGoing": [],
       "source": "nss",
-      "externalUrl": "https://nss.org.sg"
+      "externalUrl": "https://www.nss.org.sg/events/butterfly-and-birdwatching-walk-at-woodlands-botanic-gardens/"
+    },
+    {
+      "id": "nss-dbf1b401bb",
+      "area": "OA",
+      "title": "Nature Walk at Pasir Ris Mangroves",
+      "organiser": "Nature Society Singapore",
+      "location": "Pasir Ris Park",
+      "startsAt": "2026-12-06T01:00:00.000Z",
+      "endsAt": "2026-12-06T04:00:00.000Z",
+      "spotsTotal": 15,
+      "spotsTaken": 0,
+      "signupClosesAt": "2026-11-29T15:59:00.000Z",
+      "description": "Open to the Public \nJoin our Nature Stewards volunteers on a leisurely walk through the Pasir Ris Mangrove and uncover the secrets of this habitat. Keep your eyes peeled for wildlife such as monitor lizards, Oriental Pied Hornbills, spitting cobras, tent spiders, mudskippers and much more. Along the way, learn about the important role mangroves play in supporting biodiversity and protecting our coastlines. \nMaximum No. of Participants:15 pax \nClosing Date29 November 2026, Sunday \nThings to BringBring along a  sun protection, water for hydration, rain gear, wear proper walking shoes and wear light appropriate clothing to prevent insect bites. \nEnquiriesFor any enquiries, please contact us at outreach@nss.org.sg \nNote:•⁠ ⁠Registration is on a first-come-first-serve basis.•⁠ ⁠Registration will close once the maximum number of participants is reached, or on closing date.•⁠ ⁠Only confirmed participants will be contacted by email, after the closing date, with details on the meeting time and place.",
+      "photoUrl": null,
+      "contact": {
+        "type": "website",
+        "value": "https://www.nss.org.sg/events/nature-walk-at-pasir-ris-mangroves-3/"
+      },
+      "joined": false,
+      "friendsGoing": [],
+      "source": "nss",
+      "externalUrl": "https://www.nss.org.sg/events/nature-walk-at-pasir-ris-mangroves-3/"
+    },
+    {
+      "id": "nss-cb85f3743a",
+      "area": "OA",
+      "title": "Nature Walk at Windsor Nature Park",
+      "organiser": "Nature Society Singapore",
+      "location": "Windsor Nature Park, 30 Venus Dr, Singapore 573858, Singapore",
+      "startsAt": "2026-12-15T00:30:00.000Z",
+      "endsAt": "2026-12-15T03:00:00.000Z",
+      "spotsTotal": 15,
+      "spotsTaken": 0,
+      "signupClosesAt": "2026-11-01T15:59:00.000Z",
+      "description": "Open to the Public \n\nJoin our Nature Stewards volunteers on a leisurely walk through Windsor Nature Park and explore the wonders of Singapore’s secondary forest. Keep your eyes peeled for wildlife such as long-tailed macaques, plantain squirrels, Sunda colugos, woodpeckers, and freshwater fishes. Along the way, learn about the importance of our forests in supporting native biodiversity and the role they play in conserving Singapore’s natural heritage. \n\nMaximum No. of Participants:15 pax \n\nClosing Date1 November 2026, Sunday \n\nThings to BringBring along a  sun protection, water for hydration, rain gear, wear proper walking shoes and wear light appropriate clothing to prevent insect bites. \n\nEnquiriesFor any enquiries, please contact us at outreach@nss.org.sg \n\nNote:•⁠ ⁠Registration is on a first-come-first-serve basis.•⁠ ⁠Registration will close once the maximum number of participants is reached, or on closing date.•⁠ ⁠Only confirmed participants will be contacted by email, after the closing date, with details on the meeting time and place.",
+      "photoUrl": null,
+      "contact": {
+        "type": "website",
+        "value": "https://www.nss.org.sg/events/nature-walk-at-windsor-nature-park-4/"
+      },
+      "joined": false,
+      "friendsGoing": [],
+      "source": "nss",
+      "externalUrl": "https://www.nss.org.sg/events/nature-walk-at-windsor-nature-park-4/"
     }
   ]
 }
