@@ -7,8 +7,13 @@ window.APP_CONFIG = {
   // false: call the n8n API at apiBaseUrl (see docs/api.md).
   useSampleData: true,
 
-  // The project's Telegram bot, without @.
-  botUsername: "RPVolunteerBuddyDemoBot",
+  // Real activities scraped by the n8n workflow (committed daily to data/activities.json).
+  // Set this to "" to go back to the made-up activities in js/sample-data.js.
+  // Joining, sign-in and the Journal still use sample mode until the n8n API exists.
+  activitiesUrl: "data/activities.json",
+
+  // The project's Telegram bot, without @. Placeholder until the bot exists.
+  botUsername: "your_bot_username",
 
   // Base URL of the n8n webhooks, without a trailing slash,
   // e.g. "https://your-n8n-host/webhook/c295"

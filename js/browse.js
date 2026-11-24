@@ -174,7 +174,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const areaName = state.area === "all" ? null : AREAS[state.area].name;
     const n = list.length;
     resultLine.innerHTML = n
-      ? `${n} ${n === 1 ? "activity" : "activities"}${areaName ? ` in ${esc(areaName)}` : ""}${state.mine ? " you're going to" : ""}${api.isSample ? ` <span class="badge-sample" title="Made-up demo data">Sample data</span>` : ""}`
+      ? `${n} ${n === 1 ? "activity" : "activities"}${areaName ? ` in ${esc(areaName)}` : ""}${state.mine ? " you're going to" : ""}${api.activitiesAreSample ? ` <span class="badge-sample" title="Made-up demo data">Sample data</span>` : ""}`
       : "";
     if (!n) {
       const m = emptyMessage();

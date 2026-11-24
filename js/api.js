@@ -59,9 +59,39 @@
     return data;
   }
 
+  // ---- activities file (sample mode with cfg.activitiesUrl) -----------------
+  // Loads the activities the n8n workflow commits to data/activities.json.
+  // Without activitiesUrl, sample mode uses the made-up activities in js/sample-data.js.
+
+  let activitiesFile = null;
+  function loadActivities() {
+    if (!cfg.activitiesUrl) return Promise.resolve(window.SAMPLE_DATA.activities);
+    if (!activitiesFile) {
+      activitiesFile = (async () => {
+        let res;
+        try {
+          res = await fetch(cfg.activitiesUrl, { cache: "no-cache" });
+        } catch {
+          throw new ApiError("Couldn't load activities. Check your connection and try again.", 0);
+        }
+        if (!res.ok) throw new ApiError(`Couldn't load activities (${res.status}).`, res.status);
+        let data;
+        try { data = await res.json(); } catch { throw new ApiError("The activities file is broken.", 500); }
+        return Array.isArray(data?.activities) ? data.activities : [];
+      })();
+      activitiesFile.catch(() => { activitiesFile = null; }); // let the next call retry
+    }
+    return activitiesFile;
+  }
+  async function findActivity(id) {
+    const a = (await loadActivities()).find((x) => x.id === id);
+    if (!a) throw new ApiError("This activity doesn't exist or was removed.", 404);
+    return a;
+  }
+
   // ---- sample-mode state ----------------------------------------------------
 
-  const JOURNAL_KEY = "c295.sample.journal.v2";  // bump when the sample journal changes
+  const JOURNAL_KEY = "c295.sample.journal";
   // Sample journal: starts from SAMPLE_DATA.journal, then lives in this browser.
   function sampleJournal() {
     const stored = readJSON(JOURNAL_KEY, null);
@@ -84,52 +114,38 @@
     return copy;
   }
 
-  // ---- sample settings (Profile) ------------------------------------------------
-  const SETTINGS_KEY = "c295.sample.settings";
-  const DEFAULT_SETTINGS = {
-    buddyMatching: false,
-    reminders: {
-      before: { on: true, dayBefore: true, twoHours: true },
-      afterwards: { on: true },
-      newInAreas: { on: true, areas: ["SL", "OA"] },
-      closing: { on: false },
-    },
-    telegram: { linked: true, username: "alexlim_sample" },
-  };
-  const sampleSettings = () => {
-    const s = readJSON(SETTINGS_KEY, null);
-    return s ? { ...DEFAULT_SETTINGS, ...s, reminders: { ...DEFAULT_SETTINGS.reminders, ...s.reminders } } : structuredClone(DEFAULT_SETTINGS);
-  };
-
   // ---- public API ------------------------------------------------------------
 
   const api = {
     ApiError,
     session,
     isSample: cfg.useSampleData,
+    // Only the activities themselves are made up (shows the "Sample data" badge on Browse).
+    activitiesAreSample: cfg.useSampleData && !cfg.activitiesUrl,
 
     async listActivities() {
       if (cfg.useSampleData) {
-        return sample(() => (simulate === "empty" ? [] : window.SAMPLE_DATA.activities.map(withViewer)));
+        return sample(async () => {
+          if (simulate === "empty") return [];
+          const now = Date.now();
+          // The file is refreshed daily, so drop anything that has ended since.
+          return (await loadActivities()).filter((a) => new Date(a.endsAt).getTime() > now).map(withViewer);
+        });
       }
       return (await request("/activities")).activities;
     },
 
     async getActivity(id) {
       if (cfg.useSampleData) {
-        return sample(() => {
-          const a = window.SAMPLE_DATA.activities.find((x) => x.id === id);
-          if (!a) throw new ApiError("This activity doesn't exist or was removed.", 404);
-          return withViewer(a);
-        });
+        return sample(async () => withViewer(await findActivity(id)));
       }
       return (await request(`/activities/${encodeURIComponent(id)}`)).activity;
     },
 
     async join(id) {
       if (cfg.useSampleData) {
-        return sample(() => {
-          const a = window.SAMPLE_DATA.activities.find((x) => x.id === id);
+        return sample(async () => {
+          const a = await findActivity(id);
           const current = withViewer(a);
           if (new Date(current.signupClosesAt) < new Date()) throw new ApiError("Sign-up for this activity has closed.", 409);
           if (current.spotsTaken >= current.spotsTotal) throw new ApiError("Sorry, this activity just filled up.", 409);
@@ -142,9 +158,9 @@
 
     async leave(id) {
       if (cfg.useSampleData) {
-        return sample(() => {
+        return sample(async () => {
           const ids = joinedIds(); ids.delete(id); writeJSON(JOINED_KEY, [...ids]);
-          return withViewer(window.SAMPLE_DATA.activities.find((x) => x.id === id));
+          return withViewer(await findActivity(id));
         });
       }
       return (await request(`/activities/${encodeURIComponent(id)}/leave`, { method: "POST" })).activity;
@@ -255,75 +271,6 @@
         return sample(() => writeJSON(JOURNAL_KEY, sampleJournal().filter((x) => x.id !== id)));
       }
       await request(`/me/journal/${encodeURIComponent(id)}`, { method: "DELETE" });
-    },
-
-    // ---- profile and settings (signed in only) ----------------------------------
-    async getSettings() {
-      requireSession();
-      if (cfg.useSampleData) return sample(() => sampleSettings());
-      return (await request("/me/settings")).settings;
-    },
-
-    // Send only what changed, e.g. { buddyMatching: true } or { reminders: { closing: { on: true } } }.
-    async saveSettings(change) {
-      requireSession();
-      if (cfg.useSampleData) {
-        return sample(() => {
-          if (simulate === "savefail") throw new ApiError("Couldn't save that. Check your connection and try again.", 0);
-          const cur = sampleSettings();
-          const next = { ...cur, ...change, reminders: { ...cur.reminders, ...(change.reminders || {}) } };
-          writeJSON(SETTINGS_KEY, next);
-          return next;
-        });
-      }
-      return (await request("/me/settings", { method: "PUT", body: change })).settings;
-    },
-
-    // Returns a t.me link with a one-time code; opening it in Telegram links the account.
-    async startTelegramLink() {
-      requireSession();
-      if (cfg.useSampleData) {
-        return sample(() => {
-          writeJSON(SETTINGS_KEY, { ...sampleSettings(), telegram: { linked: true, username: "alexlim_sample" } });
-          return { url: `https://t.me/${cfg.botUsername}`, linkedNow: true };
-        });
-      }
-      return request("/me/telegram/link", { method: "POST" });
-    },
-
-    async unlinkTelegram() {
-      requireSession();
-      if (cfg.useSampleData) {
-        return sample(() => writeJSON(SETTINGS_KEY, { ...sampleSettings(), telegram: { linked: false, username: null } }));
-      }
-      await request("/me/telegram", { method: "DELETE" });
-    },
-
-    // Everything kept about the student, as one JSON object.
-    async exportData() {
-      requireSession();
-      if (cfg.useSampleData) {
-        return sample(() => ({
-          exportedAt: new Date().toISOString(),
-          student: session.get(),
-          settings: sampleSettings(),
-          joinedActivities: [...joinedIds()],
-          journal: sampleJournal(),
-        }));
-      }
-      return request("/me/export");
-    },
-
-    async deleteAccount() {
-      requireSession();
-      if (cfg.useSampleData) {
-        return sample(() => {
-          [SETTINGS_KEY, JOURNAL_KEY, JOINED_KEY].forEach((k) => { try { localStorage.removeItem(k); } catch {} });
-          session.clear();
-        });
-      }
-      await request("/me", { method: "DELETE" });
-      session.clear();
     },
 
     // Real mode uploads the (already shrunk) photo and returns its URL.
