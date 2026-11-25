@@ -12,8 +12,8 @@ window.APP_CONFIG = {
   // Joining, sign-in and the Journal still use sample mode until the n8n API exists.
   activitiesUrl: "data/activities.json",
 
-  // The project's Telegram bot, without @. Placeholder until the bot exists.
-  botUsername: "your_bot_username",
+  // The project's Telegram bot, without @.
+  botUsername: "RPVolunteerBuddyDemoBot",
 
   // Base URL of the n8n webhooks, without a trailing slash,
   // e.g. "https://your-n8n-host/webhook/c295"
